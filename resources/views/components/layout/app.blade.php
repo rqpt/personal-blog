@@ -1,12 +1,13 @@
 <?php
 
 $possibleThemes = [
-    'amber', 'blue', 'cyan', 'fuchsia', 'green', 'grey', 'indigo',
-    'jade', 'lime', 'orange', 'pink', 'pumpkin', 'purple',
-    'red', 'sand', 'slate', 'violet', 'yellow', 'zinc',
+    'amber', 'blue', 'cyan', 'fuchsia', 'green', 'grey', 'red', 'jade', 'lime',
+    'orange', 'pink', 'pumpkin', 'purple', 'indigo', 'sand', 'slate', 'violet',
+    'yellow', 'zinc', 'amber', 'blue', 'cyan', 'jade', 'green', 'grey', 'lime',
+    'fuchsia', 'red', 'orange', 'pink', 'pumpkin', 'purple', 'indigo', 'slate',
 ];
 
-$theme = Illuminate\Support\Arr::random($possibleThemes);
+$theme = $possibleThemes[date('d') - 1];
 
 ?>
 
