@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Embed\Embed;
 use App\Models\Post;
 use Illuminate\{
+    Support\Facades\Storage,
     Http\Request,
     Support\Str,
 };
-use Illuminate\Support\Facades\Storage;
 use League\CommonMark\Extension\{
+    Autolink\AutolinkExtension,
     Embed\Bridge\OscaroteroEmbedAdapter,
     Embed\EmbedExtension,
-    Autolink\AutolinkExtension,
 };
 
 class PostController
@@ -20,41 +20,9 @@ class PostController
     public function store(Request $request)
     {
         try {
-            $markdownFile = $request->file;
-
             $post = Post::create(['title' => $request->title]);
 
-            $markdownFileDestination = "pages/originals/{$post->title}.md";
-
-            Storage::put($markdownFileDestination, $markdownFile);
-
-            $embedLibrary = new Embed();
-
-            $embedLibrary->setSettings([
-                'oembed:query_parameters' => [
-                    'maxwidth' => 800,
-                    'maxheight' => 600,
-                ],
-            ]);
-
-            $markdown = file_get_contents(
-                storage_path("app/$markdownFileDestination")
-            );
-
-            $html = Str::markdown(
-                $markdown,
-                options: [
-                    'embed' => [
-                        'adapter' => new OscaroteroEmbedAdapter($embedLibrary),
-                    ],
-                ],
-                extensions: [
-                    new AutolinkExtension(),
-                    new EmbedExtension(),
-                ],
-            );
-
-            Storage::put("pages/processed/{$post->title}.html", $html);
+            $this->createPages($request, $post);
 
             return response()->json([
                 'message' => 'Post successfully published.',
@@ -66,7 +34,20 @@ class PostController
 
     public function update(Request $request, Post $post)
     {
-        //
+        try {
+            Storage::delete("pages/originals/{$post->title}.md");
+            Storage::delete("pages/processed/{$post->title}.html");
+
+            $post->update(['title' => $request->title]);
+
+            $this->createPages($request, $post);
+
+            return response()->json([
+                'message' => 'Post successfully updated.',
+            ]);
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
     }
 
     public function destroy(Post $post)
@@ -83,5 +64,42 @@ class PostController
         } catch (\Throwable $e) {
             return $e->getMessage();
         }
+    }
+
+    private function createPages(Request $request, Post $post)
+    {
+        $markdownFile = $request->file;
+
+        $markdownFileDestination = "pages/originals/{$post->title}.md";
+
+        Storage::put($markdownFileDestination, $markdownFile);
+
+        $embedLibrary = new Embed();
+
+        $embedLibrary->setSettings([
+            'oembed:query_parameters' => [
+                'maxwidth' => 800,
+                'maxheight' => 600,
+            ],
+        ]);
+
+        $markdown = file_get_contents(
+            storage_path("app/$markdownFileDestination")
+        );
+
+        $html = Str::markdown(
+            $markdown,
+            options: [
+                'embed' => [
+                    'adapter' => new OscaroteroEmbedAdapter($embedLibrary),
+                ],
+            ],
+            extensions: [
+                new AutolinkExtension(),
+                new EmbedExtension(),
+            ],
+        );
+
+        Storage::put("pages/processed/{$post->title}.html", $html);
     }
 }
