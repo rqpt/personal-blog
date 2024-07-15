@@ -14,6 +14,8 @@ use League\CommonMark\Extension\{
     Embed\Bridge\OscaroteroEmbedAdapter,
     Embed\EmbedExtension,
 };
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
+use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
 
 class PostController
 {
@@ -90,11 +92,19 @@ class PostController
         $html = Str::markdown(
             $markdown,
             options: [
+                'heading_permalink' => ['symbol' => ''],
+                'table_of_contents' => [
+                    'min_heading_level' => 2,
+                    'position' => 'placeholder',
+                    'placeholder' => '[TOC]',
+                ],
                 'embed' => [
                     'adapter' => new OscaroteroEmbedAdapter($embedLibrary),
                 ],
             ],
             extensions: [
+                new HeadingPermalinkExtension(),
+                new TableOfContentsExtension(),
                 new AutolinkExtension(),
                 new EmbedExtension(),
             ],
