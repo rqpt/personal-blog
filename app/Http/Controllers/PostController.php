@@ -29,10 +29,12 @@ class PostController
     public function update(Request $request, Post $post)
     {
         try {
-            Storage::delete("pages/originals/{$post->title}.md");
-            Storage::delete("pages/processed/{$post->title}.html");
+            $oldPostTitle = $post->title;
 
             $post->update(['title' => $request->title]);
+
+            Storage::delete("pages/originals/{$oldPostTitle}.md");
+            Storage::delete("pages/processed/{$oldPostTitle}.html");
 
             $this->createPages($request, $post);
 
@@ -47,10 +49,12 @@ class PostController
     public function destroy(Post $post)
     {
         try {
+            $postTitle = $post->title;
+
             $post->delete();
 
-            Storage::delete("pages/originals/{$post->title}.md");
-            Storage::delete("pages/processed/{$post->title}.html");
+            Storage::delete("pages/originals/{$postTitle}.md");
+            Storage::delete("pages/processed/{$postTitle}.html");
 
             return response()->json([
                 'message' => 'Post successfully deleted.',
