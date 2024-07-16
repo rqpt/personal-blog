@@ -26,7 +26,7 @@ render(fn ($view) => $view->with('posts', Post::all()));
             x-init="setTimeout(() => showFirstParagraph = true, 500)"
             >
                 <p>
-                    Oh no, it looks like we dont have any posts...🫤
+                    Oh no, it looks like we dont have any posts...
                 </p>
             </template>
 
