@@ -1,7 +1,7 @@
 <li>
     <a
     wire:navigate.hover
-    href="/posts/{{ $post->title }}"
+    href="/{{ $post->title }}"
     >
         {{ $post->title }}
     </a>
