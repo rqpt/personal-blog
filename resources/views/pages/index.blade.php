@@ -14,42 +14,54 @@ render(fn ($view) => $view->with('posts', Post::all()));
 
     @if(count($posts) == 0)
         <div
-        x-animate
         x-data="{
-            showFirstParagraph: false,
-            showSecondParagraph: false,
-            showHelp: false,
+            intro: true,
+            firstParagraph: false,
+            secondParagraph: false,
+            solutionButton: false,
+            help: false,
         }"
+        x-init="
+        setTimeout(() => firstParagraph = true, 1000);
+        setTimeout(() => secondParagraph = true, 3000);
+        setTimeout(() => solutionButton = true, 5000);
+        "
         >
-            <template
-            x-if="showFirstParagraph"
-            x-init="setTimeout(() => showFirstParagraph = true, 500)"
+            <div
+            x-show="intro"
+            x-transition
+            x-transition:leave.duration.0ms
             >
-                <p>
+                <p
+                x-cloak
+                x-show="firstParagraph"
+                x-transition
+                >
                     Oh no, it looks like we dont have any posts...
                 </p>
-            </template>
 
-            <template
-            x-if="showSecondParagraph"
-            x-init="setTimeout(() => showSecondParagraph = true, 1500)"
-            >
-                <div>
-                    <p>
-                        What ever shall we do? 🤔
-                    </p>
+                <p
+                x-cloak
+                x-show="secondParagraph"
+                x-transition
+                >
+                    What ever shall we do? 🤔
+                </p>
 
-                    <button
-                    @click="setTimeout(() => showHelp = true, 500); showSecondParagraph = false; showFirstParagraph = false"
-                    >
-                        💡
-                    </button>
-                </div>
-            </template>
+                <button
+                x-cloak
+                x-show="solutionButton"
+                x-transition
+                @click="intro = false; help = true"
+                >
+                    💡
+                </button>
+            </div>
 
             <div
             x-cloak
-            x-show="showHelp"
+            x-show="help"
+            x-transition
             >
                 <p>
                     Run the following command with '{filename}' substituted
