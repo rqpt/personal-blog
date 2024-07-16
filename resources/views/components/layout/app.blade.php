@@ -35,13 +35,9 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.{{ $theme }}.min.css"
         />
 
-        @livewireStyles
-
         <style>
             [x-cloak] { display: none !important; }
         </style>
-
-        @vite(['resources/js/app.js'])
 
         <title>
             rqpt's blog
@@ -74,8 +70,6 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
             {{ $slot }}
 
         </main>
-
-        @livewireScriptConfig
 
     </body>
 </html>
