@@ -19,6 +19,7 @@ return [
     'views' => false,
 
     'extensions' => [
+        League\CommonMark\Extension\DefaultAttributes\DefaultAttributesExtension::class,
         League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension::class,
         League\CommonMark\Extension\TableOfContents\TableOfContentsExtension::class,
         League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension::class,
@@ -26,6 +27,7 @@ return [
         League\CommonMark\Extension\GithubFlavoredMarkdownExtension::class,
         League\CommonMark\Extension\Autolink\AutolinkExtension::class,
         League\CommonMark\Extension\Embed\EmbedExtension::class,
+        App\Markdown\TableOfContentsAlpineAttributor::class,
     ],
 
     'heading_permalink' => ['symbol' => ''],

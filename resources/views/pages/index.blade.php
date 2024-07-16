@@ -8,7 +8,16 @@ render(fn ($view) => $view->with('posts', Post::all()));
 ?>
 
 <x-layout.app>
-    <ul>
+    <ul
+    x-data
+    x-init="$focus.first()"
+    @keydown.up="$focus.wrap().previous()"
+    @keydown.down="$focus.wrap().next()"
+    @keydown.k="$focus.wrap().previous()"
+    @keydown.j="$focus.wrap().next()"
+    @keydown.tab.prevent="$focus.wrap().next()"
+    @keydown.shift.tab.prevent="$focus.wrap().previous()"
+    >
         @each('components.post-link', $posts, 'post')
     </ul>
 

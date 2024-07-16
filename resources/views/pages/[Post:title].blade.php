@@ -18,5 +18,16 @@ render(function ($view, Post $post) {
 ?>
 
 <x-layout.app>
-    {!! $html !!}
+    <div
+    x-data
+    x-init="$focus.within($refs.toc).first()"
+    @keydown.up.prevent="$focus.within($refs.toc).wrap().previous()"
+    @keydown.down.prevent="$focus.within($refs.toc).wrap().next()"
+    @keydown.k="$focus.within($refs.toc).wrap().previous()"
+    @keydown.j="$focus.within($refs.toc).wrap().next()"
+    @keydown.tab.prevent="$focus.within($refs.toc).wrap().next()"
+    @keydown.shift.tab.prevent="$focus.within($refs.toc).wrap().previous()"
+    >
+        {!! $html !!}
+    </div>
 </x-layout.app>
