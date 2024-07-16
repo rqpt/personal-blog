@@ -14,7 +14,10 @@ class TableOfContentsAlpineAttributor implements ExtensionInterface
 {
     public function register(EnvironmentBuilderInterface $environment): void
     {
-        $environment->addEventListener(DocumentPreRenderEvent::class, [$this, 'onDocumentRendered']);
+        $environment->addEventListener(
+            DocumentPreRenderEvent::class,
+            [$this, 'onDocumentRendered'],
+        );
     }
 
     public function onDocumentRendered(DocumentPreRenderEvent $event)
