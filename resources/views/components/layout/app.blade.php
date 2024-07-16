@@ -59,7 +59,7 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
                 wire:navigate.hover
                 href="/"
                 >
-                    Home, aka your chatGPT article pile.
+                    Home
                 </a>
             </nav>
         </header>
