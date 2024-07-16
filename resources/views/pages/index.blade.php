@@ -52,8 +52,8 @@ render(fn ($view) => $view->with('posts', Post::all()));
             x-show="showHelp"
             >
                 <p>
-                    Run the following command in your terminal against a
-                    markdown file on your system, and refresh.
+                    Run the following command with '{filename}' substituted
+                    with a markdown filename, and hit refresh.
                 </p>
 
                 <pre><code>http -f POST :80/api/post title="{filename}" file=@{filename}.md</code></pre>
@@ -64,11 +64,6 @@ render(fn ($view) => $view->with('posts', Post::all()));
                 </p>
 
                 <pre><code>http DELETE :80/api/{the name of the post you wish to delete}</code></pre>
-
-                <p>
-                    This help will be accessible in the bottom right corner of
-                    the display.
-                </p>
             </div>
         </div>
     @endif
