@@ -36,6 +36,11 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
         />
 
         @livewireStyles
+
+        <style>
+            [x-cloak] { display: none !important; }
+        </style>
+
         @vite(['resources/js/app.js'])
 
         <title>
