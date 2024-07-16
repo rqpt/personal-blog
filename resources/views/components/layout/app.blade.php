@@ -32,35 +32,45 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
 
         <link
         rel="stylesheet"
-        href="pico/css/pico.classless.{{ $theme }}.min.css"
+        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.{{ $theme }}.min.css"
         />
+
+        @livewireStyles
+        @vite(['resources/js/app.js'])
 
         <title>
             rqpt's blog
         </title>
     </head>
+    <livewire:wire-nav />
+
     <body
     x-data="{hideHeader: @js(request()->is('/'))}"
     >
         <header
+        @if (request()->is('/'))
         x-cloak
+        @endif
         x-show="!hideHeader"
         >
             <!-- Workaround to get wire:navigate working for links. -->
-            <livewire:wire-nav />
             <nav>
                 <a
                 wire:navigate.hover
-                href="/"
+                href="/posts"
                 >
-                    Home
+                    Home, aka your chatGPT article pile.
                 </a>
             </nav>
         </header>
+
         <main>
 
             {{ $slot }}
 
         </main>
+
+        @livewireScriptConfig
+
     </body>
 </html>
