@@ -14,13 +14,13 @@ class PostController
     {
         try {
             $request->validate([
-                'title' => 'required',
+                'title' => ['required', 'unique:posts,title'],
                 'file' => 'required',
             ]);
 
-            $this->createPosts($request);
-
             Post::create($request->only('title'));
+
+            $this->createPosts($request);
 
             return response()->json([
                 'message' => 'Draft post successfully created.',

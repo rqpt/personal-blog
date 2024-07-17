@@ -1,18 +1,18 @@
 <?php
 
-use function Laravel\Folio\render;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
+
+use function Laravel\Folio\render;
 
 render(function ($view, Post $post) {
     try {
-        $html = file_get_contents(
-            storage_path("app/posts/published/{$post->title}.html")
-        );
+        $html = Storage::get("posts/published/{$post->title}.html");
     } catch (\Throwable) {
         abort(404);
     }
 
-    return  $view->with(compact('html'));
+    return $view->with(compact('html'));
 })
 
 ?>
