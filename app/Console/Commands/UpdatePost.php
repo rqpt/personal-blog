@@ -73,6 +73,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
                 $body = textarea(
                     label: 'Please write your post in markdown format.',
+                    default: Storage::get($draftPath),
                     required: true,
                     rows: 25,
                 );
