@@ -42,7 +42,7 @@ class CreatePost extends Command
         $textEditorChoice = select(
             label: 'Which text editor would you prefer for the post body?',
             options: TextEditor::getSelectLabels(),
-            scroll: 6,
+            scroll: 10,
         );
 
         if ($textEditorChoice == 'builtin') {
