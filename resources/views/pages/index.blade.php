@@ -3,7 +3,11 @@
 use function Laravel\Folio\render;
 use App\Models\Post;
 
-render(fn ($view) => $view->with('posts', Post::all()));
+render(function ($view) {
+    $posts = Post::where('published', true)->select('title')->get();
+
+    return $view->with(compact('posts'));
+});
 
 ?>
 

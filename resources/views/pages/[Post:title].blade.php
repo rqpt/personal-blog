@@ -6,7 +6,7 @@ use App\Models\Post;
 render(function ($view, Post $post) {
     try {
         $html = file_get_contents(
-            storage_path("app/pages/processed/{$post->title}.html")
+            storage_path("app/posts/published/{$post->title}.html")
         );
     } catch (\Throwable) {
         abort(404);

@@ -20,7 +20,7 @@ class TableOfContentsAlpineAttributor implements ExtensionInterface
         );
     }
 
-    public function onDocumentRendered(DocumentPreRenderEvent $event)
+    public function onDocumentRendered(DocumentPreRenderEvent $event): void
     {
         $document = $event->getDocument();
 
@@ -28,6 +28,6 @@ class TableOfContentsAlpineAttributor implements ExtensionInterface
             ->where(Query::type(TableOfContents::class))
             ->findOne($document);
 
-        $tableOfContents->data->append('attributes/x-ref', "toc");
+        $tableOfContents?->data->append('attributes/x-ref', "toc");
     }
 }

@@ -14,12 +14,17 @@ class PostController
     public function store(Request $request)
     {
         try {
-            $post = Post::create(['title' => $request->title]);
+            $request->validate([
+                'title' => 'required',
+                'file' => 'required',
+            ]);
 
-            $this->createPages($request, $post);
+            $this->createPosts($request);
+
+            Post::create($request->only('title'));
 
             return response()->json([
-                'message' => 'Post successfully published.',
+                'message' => 'Draft post successfully created.',
             ]);
         } catch (\Throwable $e) {
             return $e->getMessage();
@@ -29,17 +34,14 @@ class PostController
     public function update(Request $request, Post $post)
     {
         try {
-            $oldPostTitle = $post->title;
+            $post->update($request->except('file'));
 
-            $post->update(['title' => $request->title]);
+            $this->createPosts($request);
 
-            Storage::delete("pages/originals/{$oldPostTitle}.md");
-            Storage::delete("pages/processed/{$oldPostTitle}.html");
-
-            $this->createPages($request, $post);
+            $stateChange = $request->published ? 'published' : 'updated';
 
             return response()->json([
-                'message' => 'Post successfully updated.',
+                'message' => "Post successfully $stateChange.",
             ]);
         } catch (\Throwable $e) {
             return $e->getMessage();
@@ -49,12 +51,7 @@ class PostController
     public function destroy(Post $post)
     {
         try {
-            $postTitle = $post->title;
-
             $post->delete();
-
-            Storage::delete("pages/originals/{$postTitle}.md");
-            Storage::delete("pages/processed/{$postTitle}.html");
 
             return response()->json([
                 'message' => 'Post successfully deleted.',
@@ -64,20 +61,23 @@ class PostController
         }
     }
 
-    private function createPages(Request $request, Post $post)
+    private function createPosts(Request $request)
     {
-        $markdownFile = $request->file;
+        $draft = $request->file;
 
-        $markdownFileDestination = "pages/originals/{$post->title}.md";
+        $postsPath = 'posts';
 
-        Storage::put($markdownFileDestination, $markdownFile);
+        $draftPath = "$postsPath/drafts/{$request->title}.md";
+        $publishedPath = "$postsPath/published/{$request->title}.html";
 
-        $markdown = file_get_contents(
-            storage_path("app/$markdownFileDestination")
-        );
+        Storage::put($draftPath, $draft);
 
-        $html = Markdown::convert($markdown)->getContent();
+        if ($request->published) {
+            $markdown = Storage::get($draftPath);
 
-        Storage::put("pages/processed/{$post->title}.html", $html);
+            $html = Markdown::convert($markdown)->getContent();
+
+            Storage::put($publishedPath, $html);
+        }
     }
 }

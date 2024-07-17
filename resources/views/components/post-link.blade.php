@@ -3,6 +3,6 @@
     wire:navigate.hover
     href="/{{ $post->title }}"
     >
-        {{ $post->title }}
+        {{ $post->getPrettyTitle() }}
     </a>
 </li>
