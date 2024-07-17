@@ -27,6 +27,7 @@ class PostObserver
         }
 
         $postsPath = 'posts';
+
         $draftPath = "$postsPath/drafts/{$post->title}.md";
         $publishedPath = "$postsPath/published/{$post->title}.html";
 
@@ -47,20 +48,15 @@ class PostObserver
 
     public function deleted(Post $post): void
     {
-        $this->removeFiles($post->title);
-    }
-
-    private function removeFiles(string $title): void
-    {
         $postsPath = 'posts';
 
-        $draftPath = "$postsPath/drafts/{$title}.md";
+        $draftPath = "$postsPath/drafts/{$post->title}.md";
 
         if (Storage::exists($draftPath)) {
             Storage::delete($draftPath);
         }
 
-        $publishedPath = "$postsPath/published/{$title}.html";
+        $publishedPath = "$postsPath/published/{$post->title}.html";
 
         if (Storage::exists($publishedPath)) {
             Storage::delete($publishedPath);

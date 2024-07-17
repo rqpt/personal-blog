@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Support\Facades\{Storage, Process};
 use Illuminate\Support\Str;
 use App\{

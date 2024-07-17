@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\{
     Support\Facades\Storage,
     Http\Request,
@@ -68,16 +67,7 @@ class PostController
         $postsPath = 'posts';
 
         $draftPath = "$postsPath/drafts/{$request->title}.md";
-        $publishedPath = "$postsPath/published/{$request->title}.html";
 
         Storage::put($draftPath, $draft);
-
-        if ($request->published) {
-            $markdown = Storage::get($draftPath);
-
-            $html = Markdown::convert($markdown)->getContent();
-
-            Storage::put($publishedPath, $html);
-        }
     }
 }
