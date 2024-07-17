@@ -3,10 +3,14 @@
 use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 
-use function Laravel\Folio\render;
+use function Laravel\Folio\{render, middleware};
 
-render(function ($view, Post $post) {
+middleware('redirect-uppercase');
+
+render(function ($view, string $title) {
     try {
+        $post = Post::where('title', $title)->sole();
+
         $html = Storage::get("posts/published/{$post->title}.html");
     } catch (\Throwable) {
         abort(404);
