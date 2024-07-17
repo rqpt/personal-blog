@@ -35,12 +35,11 @@ class UpdatePost extends Command implements PromptsForMissingInput
         $postTitle = $this->argument('post');
 
         $post = Post::where('title', $postTitle)->sole();
+
         $postTitleSlug = $post->title;
 
         $postsPath = 'posts';
-
         $draftPath = "$postsPath/drafts/{$postTitleSlug}.md";
-        $publishedPath = "$postsPath/published/{$postTitleSlug}.html";
 
         $updateValues = [];
 
@@ -55,20 +54,6 @@ class UpdatePost extends Command implements PromptsForMissingInput
             );
 
             $postTitleSlug = Str::slug($newPostTitle);
-
-            $newDraftPath = "$postsPath/drafts/{$postTitleSlug}.md";
-            $newPublishedPath = "$postsPath/published/{$postTitleSlug}.html";
-
-            if (Storage::exists($draftPath)) {
-                Storage::move($draftPath, $newDraftPath);
-            }
-
-            if (Storage::exists($publishedPath)) {
-                Storage::move($publishedPath, $newPublishedPath);
-            }
-
-            $draftPath = $newDraftPath;
-            $publishedPath = $newPublishedPath;
 
             $updateValues['title'] = $postTitleSlug;
 
@@ -119,16 +104,13 @@ class UpdatePost extends Command implements PromptsForMissingInput
             outro("We've successfully edited a post!");
         }
 
-        if ($this->option("published")) {
-            $markdown = Storage::get($draftPath);
+        $url = url($post->title);
 
-            $html = Markdown::convert($markdown)->getContent();
+        $publishedState = $post->published ? 'published' : 'drafted';
 
-            Storage::put($publishedPath, $html);
+        outro("We've successfully $publishedState the post! 🍾");
 
-            $url = url($post->title);
-
-            outro("We've successfully published new post! 🍾");
+        if ($post->published) {
             outro("You can access it at $url");
         }
     }
@@ -163,7 +145,9 @@ class UpdatePost extends Command implements PromptsForMissingInput
         ));
 
         $input->setOption('published', confirm(
-            label: "Would you like to change it's published status?",
+            label: "Change it's published status?",
+            yes: "Publish",
+            no: "Draft",
             default: false,
         ));
     }

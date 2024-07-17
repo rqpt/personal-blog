@@ -3,24 +3,42 @@
 namespace App\Observers;
 
 use App\Models\Post;
-use Illuminate\Support\Facades\{DB, Storage};
+use GrahamCampbell\Markdown\Facades\Markdown;
+use Illuminate\Support\Facades\Storage;
 
 class PostObserver
 {
-    public function updating(Post $post): void
+    public function updated(Post $post): void
     {
-        $oldTitle = DB::table('posts')
-            ->find($post->id, 'title')
-            ->title;
+        $originalPost = $post->getOriginal();
 
-        if ($post->title != $oldTitle) {
-            $this->removeOldFiles($oldTitle);
+        $postWasRenamed = $post->wasChanged('title');
+
+        $postStatusWasChanged = $post->wasChanged('published');
+
+        $published = false;
+
+        if ($postStatusWasChanged) {
+            $published = $post->published;
         }
 
-        if (!$post->published) {
-            $postsPath = 'posts';
-            $publishedPath = "$postsPath/published/{$post->title}.html";
+        if ($postWasRenamed) {
+            $this->renameOriginalFiles($originalPost['title'], $post->title);
+        }
 
+        $postsPath = 'posts';
+        $draftPath = "$postsPath/drafts/{$post->title}.md";
+        $publishedPath = "$postsPath/published/{$post->title}.html";
+
+        if ($postStatusWasChanged && $published) {
+            $markdown = Storage::get($draftPath);
+
+            $html = Markdown::convert($markdown)->getContent();
+
+            Storage::put($publishedPath, $html);
+        }
+
+        if ($postStatusWasChanged && !$published) {
             if (Storage::exists($publishedPath)) {
                 Storage::delete($publishedPath);
             }
@@ -29,10 +47,10 @@ class PostObserver
 
     public function deleted(Post $post): void
     {
-        $this->removeOldFiles($post->title);
+        $this->removeFiles($post->title);
     }
 
-    private function removeOldFiles(string $title): void
+    private function removeFiles(string $title): void
     {
         $postsPath = 'posts';
 
@@ -46,6 +64,27 @@ class PostObserver
 
         if (Storage::exists($publishedPath)) {
             Storage::delete($publishedPath);
+        }
+    }
+
+    private function renameOriginalFiles(
+        string $originalTitle,
+        string $newTitle,
+    ): void {
+        $postsPath = 'posts';
+
+        $originalDraftPath = "$postsPath/drafts/{$originalTitle}.md";
+        $newDraftPath = "$postsPath/drafts/{$newTitle}.md";
+
+        if (Storage::exists($originalDraftPath)) {
+            Storage::move($originalDraftPath, $newDraftPath);
+        }
+
+        $originalPublishedPath = "$postsPath/published/{$originalTitle}.html";
+        $newPublishedPath = "$postsPath/published/{$newTitle}.html";
+
+        if (Storage::exists($originalPublishedPath)) {
+            Storage::move($originalPublishedPath, $newPublishedPath);
         }
     }
 }
