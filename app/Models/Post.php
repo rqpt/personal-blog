@@ -20,4 +20,16 @@ class Post extends Model
     {
         return Str::of($this->title)->replace('-', ' ')->title();
     }
+
+    public function getUrlSlug(): string
+    {
+        return $this->title . '-' . $this->id;
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $id = last(explode('-', $value));
+
+        return parent::resolveRouteBinding($id, $field);
+    }
 }

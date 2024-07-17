@@ -5,12 +5,10 @@ use App\Models\Post;
 
 use function Laravel\Folio\{render, middleware};
 
-middleware('redirect-uppercase');
+middleware('heal');
 
-render(function ($view, string $title) {
+render(function ($view, Post $post) {
     try {
-        $post = Post::where('title', $title)->sole();
-
         $html = Storage::get("posts/published/{$post->title}.html");
     } catch (\Throwable) {
         abort(404);

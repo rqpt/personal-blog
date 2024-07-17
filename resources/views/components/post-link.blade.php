@@ -1,7 +1,7 @@
 <li>
     <a
     wire:navigate.hover
-    href="/{{ $post->title }}"
+    href="/{{ $post->getUrlSlug() }}"
     >
         {{ $post->getPrettyTitle() }}
     </a>

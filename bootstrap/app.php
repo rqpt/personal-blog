@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\RedirectUppercase;
+use App\Http\Middleware\HealUrl;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\{Exceptions, Middleware};
 
@@ -11,7 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'redirect-uppercase' => RedirectUppercase::class,
+            'heal' => HealUrl::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
