@@ -2,10 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Facades\{
-    Storage,
-    Process
-};
+use Illuminate\Support\Facades\{Storage, Process};
 use Illuminate\{
     Support\Str,
     Console\Command,
@@ -51,6 +48,8 @@ class CreatePost extends Command
                 required: true,
                 rows: 25,
             );
+
+            Storage::disk('backup')->put($localBackupFilename, $body);
         } else {
             info("You will now enter your editor, and we won't see you again before you return to us with some content.");
 
@@ -58,8 +57,8 @@ class CreatePost extends Command
 
             info('Safe travels!');
 
-            $draftIsSaved = false;
-            $draftIsEmpty = true;
+            $localBackupIsSaved = false;
+            $localBackupIsEmpty = true;
 
             $fullDraftPath = Storage::disk('backup')
                 ->path($localBackupFilename);
@@ -69,20 +68,17 @@ class CreatePost extends Command
                     "{$formResponses['preferredTextEditor']} $fullDraftPath",
                 );
 
-                $draftIsSaved = Storage::disk('backup')
+                $localBackupIsSaved = Storage::disk('backup')
                     ->exists($localBackupFilename);
 
-                $draftIsEmpty = $draftIsSaved
+                $localBackupIsEmpty = $localBackupIsSaved
                     && Storage::disk('backup')
                     ->size($localBackupFilename) == 0;
-            } while (!$draftIsSaved || $draftIsEmpty);
-
-            $body = Storage::disk('backup')->get($localBackupFilename);
+            } while (!$localBackupIsSaved || $localBackupIsEmpty);
         }
 
         $post = Post::create([
             'title' => $formResponses['postTitle'],
-            'body' => $body,
         ]);
 
         outro("Nicely done! You've successfully created a draft post.");

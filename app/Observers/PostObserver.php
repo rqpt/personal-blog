@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Post;
 use GrahamCampbell\Markdown\Facades\Markdown;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class PostObserver
@@ -12,22 +13,21 @@ class PostObserver
     {
         $localBackupFilename = $post->getBackupFilename();
 
-        $this->backupOriginalAndStoreHtml($post, $localBackupFilename);
+        $this->fetchOriginalAndStoreHtml($localBackupFilename, $post);
     }
 
     public function updating(Post $post): void
     {
         $originalPost = $post->getOriginal();
+        $dirtyValues = $post->getDirty();
 
         $localBackupFilename = $post->getBackupFilename(
             $originalPost['title'],
         );
 
-        $this->backupOriginalAndStoreHtml($post, $localBackupFilename);
+        $this->fetchOriginalAndStoreHtml($localBackupFilename, $post);
 
-        $postWasRenamed = $post->wasChanged('title');
-
-        if ($postWasRenamed) {
+        if (Arr::has($dirtyValues, 'title')) {
             $newLocalBackupFilename = $post->getBackupFilename();
 
             Storage::disk('backup')->move(
@@ -44,17 +44,12 @@ class PostObserver
         Storage::disk('backup')->delete($localBackupFilename);
     }
 
-    private function backupOriginalAndStoreHtml(
-        Post $post,
+    private function fetchOriginalAndStoreHtml(
         string $localBackupFilename,
+        Post $post,
     ): void {
-        $markdown = $post->body;
+        $markdown = Storage::disk('backup')->get($localBackupFilename);
 
         $post->body = Markdown::convert($markdown)->getContent();
-
-        Storage::disk('backup')->put(
-            $localBackupFilename,
-            $markdown,
-        );
     }
 }

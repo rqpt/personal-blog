@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->text('body');
+            $table->longText('body');
             $table->tinyInteger('published')->default(0); // cast as bool
             $table->timestamps();
         });

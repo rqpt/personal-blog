@@ -55,6 +55,8 @@ class UpdatePost extends Command implements PromptsForMissingInput
                     required: true,
                     rows: 25,
                 );
+
+                Storage::disk('backup')->put($localBackupFilename, $body);
             } else {
                 info("You will now enter your editor, and we won't see you again before you return to us with some content.");
 
@@ -62,8 +64,8 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
                 info('Safe travels!');
 
-                $draftIsSaved = false;
-                $draftIsEmpty = true;
+                $localBackupIsSaved = false;
+                $localBackupIsEmpty = true;
 
                 $fullDraftPath = Storage::disk('backup')
                     ->path($localBackupFilename);
@@ -73,18 +75,14 @@ class UpdatePost extends Command implements PromptsForMissingInput
                         "$preferredTextEditor $fullDraftPath",
                     );
 
-                    $draftIsSaved = Storage::disk('backup')
+                    $localBackupIsSaved = Storage::disk('backup')
                         ->exists($localBackupFilename);
 
-                    $draftIsEmpty = $draftIsSaved
+                    $localBackupIsEmpty = $localBackupIsSaved
                         && Storage::disk('backup')
                         ->size($localBackupFilename) == 0;
-                } while (!$draftIsSaved || $draftIsEmpty);
-
-                $body = Storage::disk('backup')->get($localBackupFilename);
+                } while (!$localBackupIsSaved || $localBackupIsEmpty);
             }
-
-            $updateValues['body'] = $body;
 
             outro("We've successfully edited a post!");
         }
