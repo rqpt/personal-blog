@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Support\Facades\{Storage, Process};
-use Illuminate\Support\Str;
 use App\{
     Enums\TextEditor,
     Models\Post,
@@ -35,9 +34,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         $post = Post::where('title', $postTitle)->sole();
 
-        $postTitleSlug = Str::slug($post->title);
-
-        $localBackupFilename = $postTitleSlug . '.md';
+        $localBackupFilename = $post->getBackupFilename();
 
         $updateValues = [
             'published' => $this->option('published'),
@@ -58,8 +55,6 @@ class UpdatePost extends Command implements PromptsForMissingInput
                     required: true,
                     rows: 25,
                 );
-
-                Storage::disk('backup')->put($localBackupFilename, $body);
             } else {
                 info("You will now enter your editor, and we won't see you again before you return to us with some content.");
 
@@ -86,7 +81,6 @@ class UpdatePost extends Command implements PromptsForMissingInput
                         ->size($localBackupFilename) == 0;
                 } while (!$draftIsSaved || $draftIsEmpty);
 
-
                 $body = Storage::disk('backup')->get($localBackupFilename);
             }
 
@@ -99,20 +93,18 @@ class UpdatePost extends Command implements PromptsForMissingInput
             $newPostTitle = text(
                 label: 'What would you like the new post title to be?',
                 placeholder: 'E.g. I give myself very good advice, but I very seldom follow it.',
-                default: $postTitleSlug,
+                default: $post->title,
                 validate: ['postTitle' => ['required', 'unique:posts,title']],
             );
 
-            $postTitleSlug = Str::slug($newPostTitle);
-
-            $updateValues['title'] = $postTitleSlug;
+            $updateValues['title'] = $newPostTitle;
 
             outro("We've successfully renamed a post!");
         }
 
         $post->update($updateValues);
 
-        $url = url($post->title);
+        $url = $post->getUrl();
 
         $publishedState = $post->published ? 'published' : 'drafted';
 
