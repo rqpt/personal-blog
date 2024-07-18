@@ -51,8 +51,6 @@ class CreatePost extends Command
                 required: true,
                 rows: 25,
             );
-
-            Storage::disk('backup')->put($localBackupFilename, $body);
         } else {
             info("You will now enter your editor, and we won't see you again before you return to us with some content.");
 
@@ -99,7 +97,7 @@ class CreatePost extends Command
         if ($publishNow) {
             $post->update(['published' => true]);
 
-            $url = url($post->title);
+            $url = $post->getUrl();
 
             outro("We've successfully published the post! 🍾");
             outro("You can access it at $url");
