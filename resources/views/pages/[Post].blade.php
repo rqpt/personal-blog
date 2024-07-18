@@ -5,7 +5,7 @@ use App\Models\Post;
 
 use function Laravel\Folio\{render, middleware};
 
-middleware('heal');
+middleware('heal-url');
 
 render(function ($view, Post $post) {
     $html = Storage::disk('published')

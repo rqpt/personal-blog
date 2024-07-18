@@ -11,7 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'heal' => HealUrl::class,
+            'heal-url' => HealUrl::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
