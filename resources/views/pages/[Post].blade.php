@@ -17,6 +17,26 @@ render(function ($view, Post $post) {
 ?>
 
 <x-layout.app>
+    <style>
+        .heading-permalink {
+            font-size: .8em;
+            vertical-align: super;
+            text-decoration: none;
+            color: transparent;
+        }
+
+        h1:hover .heading-permalink,
+        h2:hover .heading-permalink,
+        h3:hover .heading-permalink,
+        h4:hover .heading-permalink,
+        h5:hover .heading-permalink,
+        h6:hover .heading-permalink,
+        .heading-permalink:hover {
+            text-decoration: none;
+            color: #777;
+        }
+    </style>
+
     <div
     x-data
     x-init="$focus.within($refs.toc).first()"

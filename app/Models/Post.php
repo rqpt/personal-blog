@@ -29,7 +29,9 @@ class Post extends Model
 
     public function scopePublished(Builder $query): void
     {
-        $query->where('published', true)->select(['id', 'title']);
+        $query->where('published', true)
+            ->orderBy('updated_at', 'desc')
+            ->select(['id', 'title']);
     }
 
     public function resolveRouteBinding($value, $field = null): Model|null
