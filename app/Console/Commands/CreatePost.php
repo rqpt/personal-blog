@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Facades\{Storage, Process};
+use App\Actions\Console\ComposePostBody;
 use Illuminate\{
     Support\Str,
     Console\Command,
@@ -12,7 +12,7 @@ use App\{
     Enums\TextEditor,
 };
 
-use function Laravel\Prompts\{confirm, form, textarea, info, pause, outro};
+use function Laravel\Prompts\{confirm, form, info, outro};
 
 class CreatePost extends Command
 {
@@ -40,42 +40,10 @@ class CreatePost extends Command
 
         $localBackupFilename = Str::slug($formResponses['postTitle']) . '.md';
 
-        if ($formResponses['preferredTextEditor'] == 'builtin') {
-            info("No worries, here's one for you.");
-
-            $body = textarea(
-                label: 'Please write your post in markdown format.',
-                required: true,
-                rows: 25,
-            );
-
-            Storage::disk('backup')->put($localBackupFilename, $body);
-        } else {
-            info("You will now enter your editor, and we won't see you again before you return to us with some content.");
-
-            pause('Are you ready to embark on your quest?');
-
-            info('Safe travels!');
-
-            $localBackupIsSaved = false;
-            $localBackupIsEmpty = true;
-
-            $fullDraftPath = Storage::disk('backup')
-                ->path($localBackupFilename);
-
-            do {
-                Process::forever()->tty()->run(
-                    "{$formResponses['preferredTextEditor']} $fullDraftPath",
-                );
-
-                $localBackupIsSaved = Storage::disk('backup')
-                    ->exists($localBackupFilename);
-
-                $localBackupIsEmpty = $localBackupIsSaved
-                    && Storage::disk('backup')
-                    ->size($localBackupFilename) == 0;
-            } while (!$localBackupIsSaved || $localBackupIsEmpty);
-        }
+        ComposePostBody::handle(
+            $formResponses['preferredTextEditor'],
+            $localBackupFilename,
+        );
 
         $post = Post::create([
             'title' => $formResponses['postTitle'],

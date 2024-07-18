@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Facades\{Storage, Process};
 use App\{
+    Actions\Console\ComposePostBody,
     Enums\TextEditor,
     Models\Post,
 };
@@ -16,7 +16,7 @@ use Symfony\Component\Console\{
     Input\InputInterface,
 };
 
-use function Laravel\Prompts\{form, outro, pause, search, select, text, textarea};
+use function Laravel\Prompts\{form, outro, search, select, text};
 
 class UpdatePost extends Command implements PromptsForMissingInput
 {
@@ -46,43 +46,10 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 options: TextEditor::selectLabels(),
             );
 
-            if ($preferredTextEditor == 'builtin') {
-                info("No worries, here's one for you.");
-
-                $body = textarea(
-                    label: 'Please write your post in markdown format.',
-                    default: Storage::disk('backup')->get($localBackupFilename),
-                    required: true,
-                    rows: 25,
-                );
-
-                Storage::disk('backup')->put($localBackupFilename, $body);
-            } else {
-                info("You will now enter your editor, and we won't see you again before you return to us with some content.");
-
-                pause('Are you ready to embark on your quest?');
-
-                info('Safe travels!');
-
-                $localBackupIsSaved = false;
-                $localBackupIsEmpty = true;
-
-                $fullDraftPath = Storage::disk('backup')
-                    ->path($localBackupFilename);
-
-                do {
-                    Process::forever()->tty()->run(
-                        "$preferredTextEditor $fullDraftPath",
-                    );
-
-                    $localBackupIsSaved = Storage::disk('backup')
-                        ->exists($localBackupFilename);
-
-                    $localBackupIsEmpty = $localBackupIsSaved
-                        && Storage::disk('backup')
-                        ->size($localBackupFilename) == 0;
-                } while (!$localBackupIsSaved || $localBackupIsEmpty);
-            }
+            ComposePostBody::handle(
+                $preferredTextEditor,
+                $localBackupFilename,
+            );
 
             outro("We've successfully edited a post!");
         }
