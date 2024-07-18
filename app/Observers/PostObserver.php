@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PostObserver
 {
-    public function created(Post $post): void
+    public function creating(Post $post): void
     {
         $markdown = $post->body;
 
