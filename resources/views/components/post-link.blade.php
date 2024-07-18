@@ -1,8 +1,8 @@
 <li>
     <a
     wire:navigate.hover
-    href="/{{ $post->getUrlSlug() }}"
+    href="/{{ $post->urlSlug() }}"
     >
-        {{ $post->getPrettyTitle() }}
+        {{ $post->prettyTitle() }}
     </a>
 </li>

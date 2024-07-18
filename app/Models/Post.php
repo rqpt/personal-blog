@@ -17,12 +17,12 @@ class Post extends Model
         'published' => 'boolean',
     ];
 
-    public function getPrettyTitle(): string
+    public function prettyTitle(): string
     {
         return Str::of($this->title)->replace('-', ' ')->title();
     }
 
-    public function getUrlSlug(): string
+    public function urlSlug(): string
     {
         return $this->title . '-' . $this->id;
     }
