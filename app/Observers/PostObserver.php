@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Models\Post;
 use GrahamCampbell\Markdown\Facades\Markdown;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class PostObserver
@@ -19,7 +18,6 @@ class PostObserver
     public function updating(Post $post): void
     {
         $originalPost = $post->getOriginal();
-        $dirtyValues = $post->getDirty();
 
         $localBackupFilename = $post->getBackupFilename(
             $originalPost['title'],
@@ -27,7 +25,7 @@ class PostObserver
 
         $this->fetchOriginalAndStoreHtml($localBackupFilename, $post);
 
-        if (Arr::has($dirtyValues, 'title')) {
+        if ($post->isDirty('title')) {
             $newLocalBackupFilename = $post->getBackupFilename();
 
             Storage::disk('backup')->move(
