@@ -13,7 +13,7 @@ use League\CommonMark\Extension\{
     ExtensionInterface,
 };
 
-class HeadingTabIndexModifier implements ExtensionInterface
+class NodeFocusDisablerExtension implements ExtensionInterface
 {
     public function register(EnvironmentBuilderInterface $environment): void
     {

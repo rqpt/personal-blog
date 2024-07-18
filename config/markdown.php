@@ -27,8 +27,9 @@ return [
         League\CommonMark\Extension\GithubFlavoredMarkdownExtension::class,
         League\CommonMark\Extension\Autolink\AutolinkExtension::class,
         League\CommonMark\Extension\Embed\EmbedExtension::class,
-        App\Markdown\TableOfContentsAlpineAttributor::class,
-        App\Markdown\HeadingTabIndexModifier::class,
+        App\Markdown\TableOfContentsAlpineAttributeExtension::class,
+        App\Markdown\NodeFocusDisablerExtension::class,
+        App\Markdown\EmbedWrapperExtension::class,
     ],
 
     'heading_permalink' => [

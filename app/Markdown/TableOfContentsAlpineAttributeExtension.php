@@ -9,11 +9,11 @@ use League\CommonMark\{
 };
 use League\CommonMark\Extension\{
     TableOfContents\Node\TableOfContents,
+    CommonMark\Node\Inline\Link,
     ExtensionInterface,
 };
-use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 
-class TableOfContentsAlpineAttributor implements ExtensionInterface
+class TableOfContentsAlpineAttributeExtension implements ExtensionInterface
 {
     public function register(EnvironmentBuilderInterface $environment): void
     {
