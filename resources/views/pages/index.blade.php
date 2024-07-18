@@ -13,8 +13,8 @@ render(function ($view) {
 
 <x-layout.app>
     <ul
-    x-data
-    x-init="$focus.first()"
+    x-data="{ lastFocusedLink: localStorage.getItem('lastFocusedLink') }"
+    x-init="document.getElementById(lastFocusedLink).focus()"
     @keydown.up="$focus.wrap().previous()"
     @keydown.down="$focus.wrap().next()"
     @keydown.k="$focus.wrap().previous()"
@@ -22,7 +22,19 @@ render(function ($view) {
     @keydown.tab.prevent="$focus.wrap().next()"
     @keydown.shift.tab.prevent="$focus.wrap().previous()"
     >
-        @each('components.post-link', $posts, 'post')
+        @foreach ($posts as $post)
+            <li>
+                <a
+                id="link-{{ $loop->iteration }}"
+                @click="localStorage.setItem('lastFocusedLink', 'link-{{$loop->iteration}}')"
+                @keydown.enter="localStorage.setItem('lastFocusedLink', 'link-{{$loop->iteration}}')"
+                wire:navigate.hover
+                href="/{{ $post->getUrlSlug() }}"
+                >
+                    {{ $post->title }}
+                </a>
+            </li>
+        @endforeach
     </ul>
 
     @if(count($posts) == 0)
