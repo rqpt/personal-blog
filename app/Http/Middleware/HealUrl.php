@@ -7,7 +7,6 @@ use App\Models\Post;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\{
     Http\Request,
-    Support\Str,
 };
 
 class HealUrl
@@ -20,7 +19,7 @@ class HealUrl
 
         $post = Post::findOrFail($postId);
 
-        $trueUrl = Str::slug($post->title) . '-' . $postId;
+        $trueUrl = $post->getUrlSlug();
 
         if ($trueUrl !== $path) {
             $trueUrl = url()->query($trueUrl, $request->query());
