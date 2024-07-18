@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Observers\PostObserver;
-use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\{
     Attributes\ObservedBy,
@@ -18,14 +17,14 @@ class Post extends Model
         'published' => 'boolean',
     ];
 
+    public function getUrl(): string
+    {
+        return url($this->getUrlSlug());
+    }
+
     public function getUrlSlug(): string
     {
         return $this->asSlug() . '-' . $this->id;
-    }
-
-    public function getBackupFilename(?string $originalTitle = null): string
-    {
-        return $this->asSlug($originalTitle) . '.md';
     }
 
     public function asSlug(?string $title = null): string
@@ -33,9 +32,9 @@ class Post extends Model
         return Str::slug($title ?? $this->title);
     }
 
-    public function getUrl(): string
+    public function getBackupFilename(?string $originalTitle = null): string
     {
-        return url($this->getUrlSlug());
+        return $this->asSlug($originalTitle) . '.md';
     }
 
     public function scopePublished(Builder $query): void
@@ -47,8 +46,8 @@ class Post extends Model
 
     public function resolveRouteBinding($value, $field = null): Model|null
     {
-        $id = last(explode('-', $value));
+        $postId = last(explode('-', $value));
 
-        return parent::resolveRouteBinding($id, $field);
+        return parent::resolveRouteBinding($postId, $field);
     }
 }

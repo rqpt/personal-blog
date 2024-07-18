@@ -10,14 +10,9 @@ class PostObserver
 {
     public function creating(Post $post): void
     {
-        $markdown = $post->body;
+        $localBackupFilename = $post->getBackupFilename();
 
-        $post->body = Markdown::convert($markdown)->getContent();
-
-        Storage::disk('backup')->put(
-            $post->getBackupFilename(),
-            $markdown,
-        );
+        $this->backupOriginalAndStoreHtml($post, $localBackupFilename);
     }
 
     public function updating(Post $post): void
@@ -28,16 +23,7 @@ class PostObserver
             $originalPost['title'],
         );
 
-        $originalMarkdown = $post->body;
-
-        $html = Markdown::convert($post->body)->getContent();
-
-        $post->body = $html;
-
-        Storage::disk('backup')->put(
-            $localBackupFilename,
-            $originalMarkdown,
-        );
+        $this->backupOriginalAndStoreHtml($post, $localBackupFilename);
 
         $postWasRenamed = $post->wasChanged('title');
 
@@ -59,14 +45,16 @@ class PostObserver
     }
 
     private function backupOriginalAndStoreHtml(
-        string $localBackupFilename,
         Post $post,
+        string $localBackupFilename,
     ): void {
+        $markdown = $post->body;
+
+        $post->body = Markdown::convert($markdown)->getContent();
+
         Storage::disk('backup')->put(
             $localBackupFilename,
-            $post->body,
+            $markdown,
         );
-
-        $post->body = Markdown::convert($post->body)->getContent();
     }
 }
