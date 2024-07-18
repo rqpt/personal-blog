@@ -30,7 +30,7 @@ return [
         App\Markdown\TableOfContentsAlpineAttributor::class,
     ],
 
-    'heading_permalink' => ['symbol' => '#'],
+    'heading_permalink' => ['symbol' => ''],
 
     'table_of_contents' => [
         'min_heading_level' => 2,
