@@ -60,6 +60,7 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
             <nav>
                 <a
                 wire:navigate.hover
+                @mouseenter="$focus.focus($el)"
                 href="/"
                 >
                     Home

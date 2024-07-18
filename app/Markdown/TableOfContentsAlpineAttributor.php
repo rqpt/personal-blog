@@ -4,11 +4,14 @@ namespace App\Markdown;
 
 use League\CommonMark\{
     Environment\EnvironmentBuilderInterface,
-    Extension\TableOfContents\Node\TableOfContents,
-    Extension\ExtensionInterface,
     Event\DocumentPreRenderEvent,
     Node\Query,
 };
+use League\CommonMark\Extension\{
+    TableOfContents\Node\TableOfContents,
+    ExtensionInterface,
+};
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 
 class TableOfContentsAlpineAttributor implements ExtensionInterface
 {
@@ -29,5 +32,13 @@ class TableOfContentsAlpineAttributor implements ExtensionInterface
             ->findOne($document);
 
         $tableOfContents?->data->append('attributes/x-ref', "toc");
+
+        $links = (new Query())
+            ->where(Query::type(Link::class))
+            ->findAll($document);
+
+        foreach ($links as $link) {
+            $link->data->set('attributes/@mouseenter', '$focus.focus($el)');
+        }
     }
 }

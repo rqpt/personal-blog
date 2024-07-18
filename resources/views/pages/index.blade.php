@@ -14,7 +14,7 @@ render(function ($view) {
 <x-layout.app>
     <ul
     x-data="{ lastFocusedLink: localStorage.getItem('lastFocusedLink') }"
-    x-init="document.getElementById(lastFocusedLink).focus()"
+    x-init="document.getElementById(lastFocusedLink)?.focus()"
     @keydown.up="$focus.wrap().previous()"
     @keydown.down="$focus.wrap().next()"
     @keydown.k="$focus.wrap().previous()"
@@ -23,11 +23,14 @@ render(function ($view) {
     @keydown.shift.tab.prevent="$focus.wrap().previous()"
     >
         @foreach ($posts as $post)
+        @php $linkRef = "link-{$loop->iteration}"; @endphp
             <li>
                 <a
-                id="link-{{ $loop->iteration }}"
-                @click="localStorage.setItem('lastFocusedLink', 'link-{{$loop->iteration}}')"
-                @keydown.enter="localStorage.setItem('lastFocusedLink', 'link-{{$loop->iteration}}')"
+                id="{{ $linkRef }}"
+                x-ref="{{ $linkRef }}"
+                @click="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                @keydown.enter="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                @mouseenter="$focus.focus($el)"
                 wire:navigate.hover
                 href="/{{ $post->getUrlSlug() }}"
                 >

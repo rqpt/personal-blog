@@ -18,6 +18,7 @@ class ComposePostBody
             $body = textarea(
                 label: 'Please write your post in markdown format.',
                 required: true,
+                default: Storage::disk('backup')->get($storageLocation) ?? '',
                 rows: 25,
             );
 
