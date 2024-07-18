@@ -41,10 +41,7 @@ class CreatePost extends Command
             )
             ->submit();
 
-        $postTitleSlug = Str::slug($formResponses['postTitle']);
-
-        $draftFile = "{$postTitleSlug}.md";
-
+        $localBackupFilename = Str::slug($formResponses['postTitle']) . '.md';
 
         if ($formResponses['preferredTextEditor'] == 'builtin') {
             info("No worries, here's one for you.");
@@ -55,7 +52,7 @@ class CreatePost extends Command
                 rows: 25,
             );
 
-            Storage::disk('drafts')->put($draftFile, $body);
+            Storage::disk('backup')->put($localBackupFilename, $body);
         } else {
             info("You will now enter your editor, and we won't see you again before you return to us with some content.");
 
@@ -66,19 +63,29 @@ class CreatePost extends Command
             $draftIsSaved = false;
             $draftIsEmpty = true;
 
-            $fullDraftPath = Storage::disk('drafts')->path($draftFile);
+            $fullDraftPath = Storage::disk('backup')
+                ->path($localBackupFilename);
 
             do {
                 Process::forever()->tty()->run(
                     "{$formResponses['preferredTextEditor']} $fullDraftPath",
                 );
 
-                $draftIsSaved = Storage::disk('drafts')->exists($draftFile);
-                $draftIsEmpty = $draftIsSaved && Storage::disk('drafts')->size($draftFile) == 0;
+                $draftIsSaved = Storage::disk('backup')
+                    ->exists($localBackupFilename);
+
+                $draftIsEmpty = $draftIsSaved
+                    && Storage::disk('backup')
+                    ->size($localBackupFilename) == 0;
             } while (!$draftIsSaved || $draftIsEmpty);
+
+            $body = Storage::disk('backup')->get($localBackupFilename);
         }
 
-        $post = Post::create(['title' => $postTitleSlug]);
+        $post = Post::create([
+            'title' => $formResponses['postTitle'],
+            'body' => $body,
+        ]);
 
         outro("Nicely done! You've successfully created a draft post.");
 

@@ -4,8 +4,11 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\{
+    Http\Request,
+    Support\Str,
+};
 
 class HealUrl
 {
@@ -17,7 +20,7 @@ class HealUrl
 
         $post = Post::findOrFail($postId);
 
-        $trueUrl = $post->title . '-' . $postId;
+        $trueUrl = Str::slug($post->title) . '-' . $postId;
 
         if ($trueUrl !== $path) {
             $trueUrl = url()->query($trueUrl, $request->query());

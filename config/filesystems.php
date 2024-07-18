@@ -12,21 +12,9 @@ return [
             'throw' => false,
         ],
 
-        'posts' => [
+        'backup' => [
             'driver' => 'local',
-            'root' => storage_path('app/posts'),
-            'throw' => false,
-        ],
-
-        'drafts' => [
-            'driver' => 'local',
-            'root' => storage_path('app/posts/drafts'),
-            'throw' => false,
-        ],
-
-        'published' => [
-            'driver' => 'local',
-            'root' => storage_path('app/posts/published'),
+            'root' => storage_path('app/backups'),
             'throw' => false,
         ],
 

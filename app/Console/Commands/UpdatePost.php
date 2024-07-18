@@ -8,7 +8,6 @@ use App\{
     Enums\TextEditor,
     Models\Post,
 };
-use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\{
     Contracts\Console\PromptsForMissingInput,
     Console\Command,
@@ -36,28 +35,31 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         $post = Post::where('title', $postTitle)->sole();
 
-        $postTitleSlug = $post->title;
+        $postTitleSlug = Str::slug($post->title);
 
-        $draftFile = "{$postTitleSlug}.md";
-        $publishedFile = "{$postTitleSlug}.html";
+        $localBackupFilename = $postTitleSlug . '.md';
+
+        $updateValues = [
+            'published' => $this->option('published'),
+        ];
 
         if ($this->option('edit')) {
-            $textEditorChoice = select(
+            $preferredTextEditor = select(
                 label: 'Which text editor would you prefer for the post body?',
                 options: TextEditor::selectLabels(),
             );
 
-            if ($textEditorChoice == 'builtin') {
+            if ($preferredTextEditor == 'builtin') {
                 info("No worries, here's one for you.");
 
                 $body = textarea(
                     label: 'Please write your post in markdown format.',
-                    default: Storage::disk('drafts')->get($draftFile),
+                    default: Storage::disk('backup')->get($localBackupFilename),
                     required: true,
                     rows: 25,
                 );
 
-                Storage::disk('drafts')->put($draftFile, $body);
+                Storage::disk('backup')->put($localBackupFilename, $body);
             } else {
                 info("You will now enter your editor, and we won't see you again before you return to us with some content.");
 
@@ -68,31 +70,30 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 $draftIsSaved = false;
                 $draftIsEmpty = true;
 
-                $fullDraftPath = Storage::disk('drafts')->path($draftFile);
+                $fullDraftPath = Storage::disk('backup')
+                    ->path($localBackupFilename);
 
                 do {
                     Process::forever()->tty()->run(
-                        "$textEditorChoice $fullDraftPath",
+                        "$preferredTextEditor $fullDraftPath",
                     );
 
-                    $draftIsSaved = Storage::disk('drafts')->exists($draftFile);
-                    $draftIsEmpty = $draftIsSaved && Storage::disk('drafts')->size($draftFile) == 0;
+                    $draftIsSaved = Storage::disk('backup')
+                        ->exists($localBackupFilename);
+
+                    $draftIsEmpty = $draftIsSaved
+                        && Storage::disk('backup')
+                        ->size($localBackupFilename) == 0;
                 } while (!$draftIsSaved || $draftIsEmpty);
+
+
+                $body = Storage::disk('backup')->get($localBackupFilename);
             }
 
-            if ($post->published) {
-                $markdown = Storage::disk('drafts')->get($draftFile);
-                $html = Markdown::convert($markdown)->getContent();
-
-                Storage::disk('published')->put($publishedFile, $html);
-            }
+            $updateValues['body'] = $body;
 
             outro("We've successfully edited a post!");
         }
-
-        $updateValues = [
-            'published' => $this->option('published'),
-        ];
 
         if ($this->option('rename')) {
             $newPostTitle = text(

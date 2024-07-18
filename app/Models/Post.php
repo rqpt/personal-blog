@@ -17,14 +17,9 @@ class Post extends Model
         'published' => 'boolean',
     ];
 
-    public function prettyTitle(): string
-    {
-        return Str::of($this->title)->replace('-', ' ')->title();
-    }
-
     public function urlSlug(): string
     {
-        return $this->title . '-' . $this->id;
+        return Str::slug($this->title) . '-' . $this->id;
     }
 
     public function scopePublished(Builder $query): void

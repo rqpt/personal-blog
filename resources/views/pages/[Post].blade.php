@@ -3,16 +3,9 @@
 use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 
-use function Laravel\Folio\{render, middleware};
+use function Laravel\Folio\middleware;
 
 middleware('heal-url');
-
-render(function ($view, Post $post) {
-    $html = Storage::disk('published')
-        ->get("{$post->title}.html");
-
-    return $view->with(compact('html'));
-})
 
 ?>
 
@@ -29,6 +22,6 @@ render(function ($view, Post $post) {
     @keydown.k="$focus.within($refs.toc).wrap().previous()"
     @keydown.j="$focus.within($refs.toc).wrap().next()"
     >
-        {!! $html !!}
+        {!! $post->body !!}
     </div>
 </x-layout.app>

@@ -4,65 +4,60 @@ namespace App\Observers;
 
 use App\Models\Post;
 use GrahamCampbell\Markdown\Facades\Markdown;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\{
+    Facades\Storage,
+    Str,
+};
 
 class PostObserver
 {
-    public function updated(Post $post): void
+    public function creating(Post $post): void
+    {
+        $localBackupFilename = Str::slug($post->title) . '.md';
+
+        Storage::disk('backup')->put(
+            $localBackupFilename,
+            $post->body,
+        );
+
+        $post->body = Markdown::convert($post->body)->getContent();
+    }
+
+    public function updating(Post $post): void
     {
         $originalPost = $post->getOriginal();
 
+        $localBackupFilename = Str::slug($originalPost['title']) . '.md';
+
         $postWasRenamed = $post->wasChanged('title');
-        $postStatusWasChanged = $post->wasChanged('published');
-
-        $published = false;
-
-        if ($postStatusWasChanged) {
-            $published = $post->published;
-        }
 
         if ($postWasRenamed) {
-            $this->renameOriginalFiles($originalPost['title'], $post->title);
+            $newLocalBackupFilename = Str::slug($post->title) . '.md';
+
+            Storage::disk('backup')->move(
+                $localBackupFilename,
+                $newLocalBackupFilename,
+            );
+
+            $localBackupFilename = $newLocalBackupFilename;
         }
 
-        $draftFile = "{$post->title}.md";
-        $publishedFile = "{$post->title}.html";
+        $postBodyWasChanged = $post->wasChanged('body');
 
-        if ($postStatusWasChanged && $published) {
-            $markdown = Storage::disk('drafts')->get($draftFile);
-            $html = Markdown::convert($markdown)->getContent();
+        if ($postBodyWasChanged) {
+            Storage::disk('backup')->put(
+                $localBackupFilename,
+                $post->body,
+            );
 
-            Storage::disk('published')->put($publishedFile, $html);
-        }
-
-        if ($postStatusWasChanged && !$published) {
-            Storage::disk('published')->delete($publishedFile);
+            $post->body = Markdown::convert($post->body)->getContent();
         }
     }
 
     public function deleted(Post $post): void
     {
-        $draftFile = "{$post->title}.md";
-        $publishedFile = "{$post->title}.html";
+        $localBackupFilename = Str::slug($post->title) . '.md';
 
-        Storage::disk('drafts')->delete($draftFile);
-        Storage::disk('published')->delete($publishedFile);
-    }
-
-    private function renameOriginalFiles(
-        string $originalTitle,
-        string $newTitle,
-    ): void {
-        $originalDraftFile = "{$originalTitle}.md";
-        $newDraftFile = "{$newTitle}.md";
-
-        Storage::disk('drafts')
-            ->move($originalDraftFile, $newDraftFile);
-
-        $originalPublishedFile = "{$originalTitle}.html";
-        $newPublishedFile = "{$newTitle}.html";
-
-        Storage::disk('published')
-            ->move($originalPublishedFile, $newPublishedFile);
+        Storage::disk('backup')->delete($localBackupFilename);
     }
 }

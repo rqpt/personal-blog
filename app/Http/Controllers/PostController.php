@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\{
-    Support\Facades\Storage,
-    Http\Request,
-};
+use Illuminate\Http\Request;
 
 class PostController
 {
@@ -15,12 +12,11 @@ class PostController
         try {
             $request->validate([
                 'title' => ['required', 'unique:posts,title'],
-                'file' => 'required',
+                'body' => ['required'],
+                'published' => 'bool',
             ]);
 
-            Post::create($request->only('title'));
-
-            $this->createPosts($request);
+            Post::create($request->validated());
 
             return response()->json([
                 'message' => 'Draft post successfully created.',
@@ -33,9 +29,12 @@ class PostController
     public function update(Request $request, Post $post)
     {
         try {
-            $post->update($request->except('file'));
+            $request->validate([
+                'title' => ['required', 'unique:posts,title'],
+                'published' => 'bool',
+            ]);
 
-            $this->createPosts($request);
+            $post->update($request->all());
 
             $stateChange = $request->published ? 'published' : 'updated';
 
@@ -58,13 +57,5 @@ class PostController
         } catch (\Throwable $e) {
             return $e->getMessage();
         }
-    }
-
-    private function createPosts(Request $request)
-    {
-        $draft = $request->file;
-        $draftFile = "{$request->title}.md";
-
-        Storage::disk('drafts')->put($draftFile, $draft);
     }
 }
