@@ -15,7 +15,7 @@ use App\{
     Enums\TextEditor,
 };
 
-use function Laravel\Prompts\{textarea, text, select, info, pause, outro};
+use function Laravel\Prompts\{confirm, textarea, text, select, info, pause, outro};
 
 class CreatePost extends Command
 {
@@ -74,8 +74,24 @@ class CreatePost extends Command
             } while (!$draftIsSaved || $draftIsEmpty);
         }
 
-        Post::create(['title' => $postTitleSlug]);
+        $post = Post::create(['title' => $postTitleSlug]);
 
         outro("Nicely done! You've successfully created a draft post.");
+
+        $publishNow = confirm(
+            label: "Would you like to go ahead and publish the post now?",
+            default: false,
+            yes: "Sure, why not?",
+            no: "Nah, I think I'll sleep on it.",
+        );
+
+        if ($publishNow) {
+            $post->update(['published' => true]);
+
+            $url = url($post->title);
+
+            outro("We've successfully published the post! 🍾");
+            outro("You can access it at $url");
+        }
     }
 }
