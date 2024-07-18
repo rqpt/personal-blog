@@ -39,6 +39,8 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
             [x-cloak] { display: none !important; }
         </style>
 
+        @stack('styles')
+
         <title>
             rqpt's blog
         </title>

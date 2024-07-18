@@ -17,26 +17,9 @@ render(function ($view, Post $post) {
 ?>
 
 <x-layout.app>
-    <style>
-        .heading-permalink {
-            font-size: .8em;
-            vertical-align: super;
-            text-decoration: none;
-            color: transparent;
-        }
-
-        h1:hover .heading-permalink,
-        h2:hover .heading-permalink,
-        h3:hover .heading-permalink,
-        h4:hover .heading-permalink,
-        h5:hover .heading-permalink,
-        h6:hover .heading-permalink,
-        .heading-permalink:hover,
-        .heading-permalink:focus {
-            text-decoration: none;
-            color: #777;
-        }
-    </style>
+    @push('styles')
+        @vite('resources/css/app.css')
+    @endpush
 
     <div
     x-data
