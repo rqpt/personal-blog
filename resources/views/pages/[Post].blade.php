@@ -31,7 +31,8 @@ render(function ($view, Post $post) {
         h4:hover .heading-permalink,
         h5:hover .heading-permalink,
         h6:hover .heading-permalink,
-        .heading-permalink:hover {
+        .heading-permalink:hover,
+        .heading-permalink:focus {
             text-decoration: none;
             color: #777;
         }
@@ -44,8 +45,6 @@ render(function ($view, Post $post) {
     @keydown.down.prevent="$focus.within($refs.toc).wrap().next()"
     @keydown.k="$focus.within($refs.toc).wrap().previous()"
     @keydown.j="$focus.within($refs.toc).wrap().next()"
-    @keydown.tab.prevent="$focus.within($refs.toc).wrap().next()"
-    @keydown.shift.tab.prevent="$focus.within($refs.toc).wrap().previous()"
     >
         {!! $html !!}
     </div>
