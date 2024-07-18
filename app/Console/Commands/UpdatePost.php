@@ -43,7 +43,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
         if ($this->option('edit')) {
             $textEditorChoice = select(
                 label: 'Which text editor would you prefer for the post body?',
-                options: TextEditor::getSelectLabels(),
+                options: TextEditor::selectLabels(),
             );
 
             if ($textEditorChoice == 'builtin') {

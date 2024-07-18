@@ -10,7 +10,7 @@ enum TextEditor: string
     case VI = 'vi';
     case NANO = 'nano';
 
-    public static function getSelectLabels(): array
+    public static function selectLabels(): array
     {
         $labels = [];
 
