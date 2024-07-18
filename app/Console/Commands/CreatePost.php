@@ -15,7 +15,7 @@ use App\{
     Enums\TextEditor,
 };
 
-use function Laravel\Prompts\{confirm, textarea, text, select, info, pause, outro};
+use function Laravel\Prompts\{confirm, form, textarea, info, pause, outro};
 
 class CreatePost extends Command
 {
@@ -27,22 +27,26 @@ class CreatePost extends Command
     {
         info('Welcome to the post creation wizard!');
 
-        $postTitle = text(
-            label: 'What would you like the post to be titled?',
-            placeholder: 'E.g. Are humans able to live off of tubby custard?',
-            validate: ['postTitle' => ['required', 'unique:posts,title']],
-        );
+        $formResponses = form()
+            ->text(
+                label: 'What would you like the post to be titled?',
+                placeholder: 'E.g. Are humans able to live off of tubby custard?',
+                validate: ['postTitle' => ['required', 'unique:posts,title']],
+                name: 'postTitle',
+            )
+            ->select(
+                label: 'Which text editor would you prefer for the post body?',
+                options: TextEditor::selectLabels(),
+                name: 'preferredTextEditor',
+            )
+            ->submit();
 
-        $postTitleSlug = Str::slug($postTitle);
+        $postTitleSlug = Str::slug($formResponses['postTitle']);
 
         $draftFile = "{$postTitleSlug}.md";
 
-        $textEditorChoice = select(
-            label: 'Which text editor would you prefer for the post body?',
-            options: TextEditor::selectLabels(),
-        );
 
-        if ($textEditorChoice == 'builtin') {
+        if ($formResponses['preferredTextEditor'] == 'builtin') {
             info("No worries, here's one for you.");
 
             $body = textarea(
@@ -66,7 +70,7 @@ class CreatePost extends Command
 
             do {
                 Process::forever()->tty()->run(
-                    "$textEditorChoice $fullDraftPath",
+                    "{$formResponses['preferredTextEditor']} $fullDraftPath",
                 );
 
                 $draftIsSaved = Storage::disk('drafts')->exists($draftFile);
@@ -79,10 +83,10 @@ class CreatePost extends Command
         outro("Nicely done! You've successfully created a draft post.");
 
         $publishNow = confirm(
-            label: "Would you like to go ahead and publish the post now?",
-            default: false,
+            label: "Would you like to publish the post now?",
             yes: "Sure, why not?",
-            no: "Nah, I think I'll sleep on it.",
+            no: "No, maybe later.",
+            default: false,
         );
 
         if ($publishNow) {

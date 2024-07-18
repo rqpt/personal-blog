@@ -18,7 +18,7 @@ use Symfony\Component\Console\{
     Input\InputInterface,
 };
 
-use function Laravel\Prompts\{confirm, outro, pause, search, select, text, textarea};
+use function Laravel\Prompts\{form, outro, pause, search, select, text, textarea};
 
 class UpdatePost extends Command implements PromptsForMissingInput
 {
@@ -37,6 +37,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
         $post = Post::where('title', $postTitle)->sole();
 
         $postTitleSlug = $post->title;
+
         $draftFile = "{$postTitleSlug}.md";
         $publishedFile = "{$postTitleSlug}.html";
 
@@ -140,21 +141,27 @@ class UpdatePost extends Command implements PromptsForMissingInput
         InputInterface $input,
         OutputInterface $output,
     ): void {
-        $input->setOption('rename', confirm(
-            label: 'Would you like to rename your post?',
-            default: $this->option('rename')
-        ));
+        $formResponses = form()
+            ->confirm(
+                label: 'Rename your post?',
+                default: $this->option('rename'),
+                name: 'rename',
+            )
+            ->confirm(
+                label: 'Edit the body of the post?',
+                default: $this->option('edit'),
+                name: 'edit',
+            )
+            ->confirm(
+                label: "Change the published/draft status?",
+                yes: "Publish",
+                no: "Draft",
+                name: 'published',
+            )
+            ->submit();
 
-        $input->setOption('edit', confirm(
-            label: 'Would you like to edit the body of the post?',
-            default: $this->option('edit')
-        ));
-
-        $input->setOption('published', confirm(
-            label: "Change it's published status?",
-            yes: "Publish",
-            no: "Draft",
-            default: false,
-        ));
+        foreach ($formResponses as $option => $response) {
+            $input->setOption($option, $response);
+        }
     }
 }
