@@ -13,7 +13,6 @@ class PostObserver
         $originalPost = $post->getOriginal();
 
         $postWasRenamed = $post->wasChanged('title');
-
         $postStatusWasChanged = $post->wasChanged('published');
 
         $published = false;

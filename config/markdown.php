@@ -28,6 +28,7 @@ return [
         League\CommonMark\Extension\Autolink\AutolinkExtension::class,
         League\CommonMark\Extension\Embed\EmbedExtension::class,
         App\Markdown\TableOfContentsAlpineAttributor::class,
+        App\Markdown\HeadingTabIndexModifier::class,
     ],
 
     'heading_permalink' => [

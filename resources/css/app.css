@@ -11,8 +11,7 @@ h3:hover .heading-permalink,
 h4:hover .heading-permalink,
 h5:hover .heading-permalink,
 h6:hover .heading-permalink,
-.heading-permalink:hover,
-.heading-permalink:focus {
+.heading-permalink:hover {
     text-decoration: none;
     color: #777;
 }
