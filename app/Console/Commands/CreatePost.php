@@ -35,9 +35,7 @@ class CreatePost extends Command
 
         $postTitleSlug = Str::slug($postTitle);
 
-        $postsPath = 'posts';
-
-        $draftPath = "$postsPath/drafts/{$postTitleSlug}.md";
+        $draftFile = "{$postTitleSlug}.md";
 
         $textEditorChoice = select(
             label: 'Which text editor would you prefer for the post body?',
@@ -54,7 +52,7 @@ class CreatePost extends Command
                 rows: 25,
             );
 
-            Storage::put($draftPath, $body);
+            Storage::disk('drafts')->put($draftFile, $body);
         } else {
             info("You will now enter your editor, and we won't see you again before you return to us with some content.");
 
@@ -65,15 +63,15 @@ class CreatePost extends Command
             $draftIsSaved = false;
             $draftIsEmpty = true;
 
-            $fullDraftPath = Storage::path($draftPath);
+            $fullDraftPath = Storage::disk('drafts')->path($draftFile);
 
             do {
                 Process::forever()->tty()->run(
                     "$textEditorChoice $fullDraftPath",
                 );
 
-                $draftIsSaved = Storage::exists($draftPath);
-                $draftIsEmpty = $draftIsSaved && Storage::size($draftPath) == 0;
+                $draftIsSaved = Storage::disk('drafts')->exists($draftFile);
+                $draftIsEmpty = $draftIsSaved && Storage::disk('drafts')->size($draftFile) == 0;
             } while (!$draftIsSaved || $draftIsEmpty);
         }
 

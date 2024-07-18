@@ -8,6 +8,7 @@ use App\{
     Enums\TextEditor,
     Models\Post,
 };
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\{
     Contracts\Console\PromptsForMissingInput,
     Console\Command,
@@ -36,13 +37,62 @@ class UpdatePost extends Command implements PromptsForMissingInput
         $post = Post::where('title', $postTitle)->sole();
 
         $postTitleSlug = $post->title;
+        $draftFile = "{$postTitleSlug}.md";
+        $publishedFile = "{$postTitleSlug}.html";
 
-        $postsPath = 'posts';
-        $draftPath = "$postsPath/drafts/{$postTitleSlug}.md";
+        if ($this->option('edit')) {
+            $textEditorChoice = select(
+                label: 'Which text editor would you prefer for the post body?',
+                options: TextEditor::getSelectLabels(),
+                scroll: 10,
+            );
 
-        $updateValues = [];
+            if ($textEditorChoice == 'builtin') {
+                info("No worries, here's one for you.");
 
-        $updateValues['published'] = $this->option('published');
+                $body = textarea(
+                    label: 'Please write your post in markdown format.',
+                    default: Storage::disk('drafts')->get($draftFile),
+                    required: true,
+                    rows: 25,
+                );
+
+                Storage::disk('drafts')->put($draftFile, $body);
+            } else {
+                info("You will now enter your editor, and we won't see you again before you return to us with some content.");
+
+                pause('Are you ready to embark on your quest?');
+
+                info('Safe travels!');
+
+                $draftIsSaved = false;
+                $draftIsEmpty = true;
+
+                $fullDraftPath = Storage::disk('drafts')->path($draftFile);
+
+                do {
+                    Process::forever()->tty()->run(
+                        "$textEditorChoice $fullDraftPath",
+                    );
+
+                    $draftIsSaved = Storage::disk('drafts')->exists($draftFile);
+                    $draftIsEmpty = $draftIsSaved && Storage::disk('drafts')->size($draftFile) == 0;
+                } while (!$draftIsSaved || $draftIsEmpty);
+            }
+
+            if ($post->published) {
+                $markdown = Storage::disk('drafts')->get($draftFile);
+                $html = Markdown::convert($markdown)->getContent();
+
+                Storage::disk('published')->put($publishedFile, $html);
+            }
+
+            outro("We've successfully edited a post!");
+        }
+
+        $updateValues = [
+            'published' => $this->option('published'),
+        ];
 
         if ($this->option('rename')) {
             $newPostTitle = text(
@@ -60,49 +110,6 @@ class UpdatePost extends Command implements PromptsForMissingInput
         }
 
         $post->update($updateValues);
-
-        if ($this->option('edit')) {
-            $textEditorChoice = select(
-                label: 'Which text editor would you prefer for the post body?',
-                options: TextEditor::getSelectLabels(),
-                scroll: 10,
-            );
-
-            if ($textEditorChoice == 'builtin') {
-                info("No worries, here's one for you.");
-
-                $body = textarea(
-                    label: 'Please write your post in markdown format.',
-                    default: Storage::get($draftPath),
-                    required: true,
-                    rows: 25,
-                );
-
-                Storage::put($draftPath, $body);
-            } else {
-                info("You will now enter your editor, and we won't see you again before you return to us with some content.");
-
-                pause('Are you ready to embark on your quest?');
-
-                info('Safe travels!');
-
-                $draftIsSaved = false;
-                $draftIsEmpty = true;
-
-                $fullDraftPath = Storage::path($draftPath);
-
-                do {
-                    Process::forever()->tty()->run(
-                        "$textEditorChoice $fullDraftPath",
-                    );
-
-                    $draftIsSaved = Storage::exists($draftPath);
-                    $draftIsEmpty = $draftIsSaved && Storage::size($draftPath) == 0;
-                } while (!$draftIsSaved || $draftIsEmpty);
-            }
-
-            outro("We've successfully edited a post!");
-        }
 
         $url = url($post->title);
 

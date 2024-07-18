@@ -8,11 +8,8 @@ use function Laravel\Folio\{render, middleware};
 middleware('heal');
 
 render(function ($view, Post $post) {
-    try {
-        $html = Storage::get("posts/published/{$post->title}.html");
-    } catch (\Throwable) {
-        abort(404);
-    }
+    $html = Storage::disk('published')
+        ->get("{$post->title}.html");
 
     return $view->with(compact('html'));
 })

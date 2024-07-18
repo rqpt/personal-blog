@@ -63,11 +63,8 @@ class PostController
     private function createPosts(Request $request)
     {
         $draft = $request->file;
+        $draftFile = "{$request->title}.md";
 
-        $postsPath = 'posts';
-
-        $draftPath = "$postsPath/drafts/{$request->title}.md";
-
-        Storage::put($draftPath, $draft);
+        Storage::disk('drafts')->put($draftFile, $draft);
     }
 }

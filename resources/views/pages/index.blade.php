@@ -4,7 +4,7 @@ use function Laravel\Folio\render;
 use App\Models\Post;
 
 render(function ($view) {
-    $posts = Post::where('published', true)->select(['id', 'title'])->get();
+    $posts = Post::published()->get();
 
     return $view->with(compact('posts'));
 });

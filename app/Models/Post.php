@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Observers\PostObserver;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\{
     Attributes\ObservedBy,
+    Builder,
     Model,
 };
-use Illuminate\Support\Str;
 
 #[ObservedBy([PostObserver::class])]
 class Post extends Model
@@ -26,7 +27,12 @@ class Post extends Model
         return $this->title . '-' . $this->id;
     }
 
-    public function resolveRouteBinding($value, $field = null)
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('published', true)->select(['id', 'title']);
+    }
+
+    public function resolveRouteBinding($value, $field = null): Model|null
     {
         $id = last(explode('-', $value));
 

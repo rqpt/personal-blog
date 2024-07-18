@@ -26,61 +26,44 @@ class PostObserver
             $this->renameOriginalFiles($originalPost['title'], $post->title);
         }
 
-        $postsPath = 'posts';
-
-        $draftPath = "$postsPath/drafts/{$post->title}.md";
-        $publishedPath = "$postsPath/published/{$post->title}.html";
+        $draftFile = "{$post->title}.md";
+        $publishedFile = "{$post->title}.html";
 
         if ($postStatusWasChanged && $published) {
-            $markdown = Storage::get($draftPath);
-
+            $markdown = Storage::disk('drafts')->get($draftFile);
             $html = Markdown::convert($markdown)->getContent();
 
-            Storage::put($publishedPath, $html);
+            Storage::disk('published')->put($publishedFile, $html);
         }
 
         if ($postStatusWasChanged && !$published) {
-            if (Storage::exists($publishedPath)) {
-                Storage::delete($publishedPath);
-            }
+            Storage::disk('published')->delete($publishedFile);
         }
     }
 
     public function deleted(Post $post): void
     {
-        $postsPath = 'posts';
+        $draftFile = "{$post->title}.md";
+        $publishedFile = "{$post->title}.html";
 
-        $draftPath = "$postsPath/drafts/{$post->title}.md";
-
-        if (Storage::exists($draftPath)) {
-            Storage::delete($draftPath);
-        }
-
-        $publishedPath = "$postsPath/published/{$post->title}.html";
-
-        if (Storage::exists($publishedPath)) {
-            Storage::delete($publishedPath);
-        }
+        Storage::disk('drafts')->delete($draftFile);
+        Storage::disk('published')->delete($publishedFile);
     }
 
     private function renameOriginalFiles(
         string $originalTitle,
         string $newTitle,
     ): void {
-        $postsPath = 'posts';
+        $originalDraftFile = "{$originalTitle}.md";
+        $newDraftFile = "{$newTitle}.md";
 
-        $originalDraftPath = "$postsPath/drafts/{$originalTitle}.md";
-        $newDraftPath = "$postsPath/drafts/{$newTitle}.md";
+        Storage::disk('drafts')
+            ->move($originalDraftFile, $newDraftFile);
 
-        if (Storage::exists($originalDraftPath)) {
-            Storage::move($originalDraftPath, $newDraftPath);
-        }
+        $originalPublishedFile = "{$originalTitle}.html";
+        $newPublishedFile = "{$newTitle}.html";
 
-        $originalPublishedPath = "$postsPath/published/{$originalTitle}.html";
-        $newPublishedPath = "$postsPath/published/{$newTitle}.html";
-
-        if (Storage::exists($originalPublishedPath)) {
-            Storage::move($originalPublishedPath, $newPublishedPath);
-        }
+        Storage::disk('published')
+            ->move($originalPublishedFile, $newPublishedFile);
     }
 }

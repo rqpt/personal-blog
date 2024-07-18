@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Post;
 use Closure;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +15,7 @@ class HealUrl
 
         $postId = last(explode('-', $path));
 
-        $post = Post::findOrFail($postId)->select('title')->sole();
+        $post = Post::findOrFail($postId);
 
         $trueUrl = $post->title . '-' . $postId;
 
