@@ -12,9 +12,13 @@ class PostFactory extends Factory
 {
     public function definition(): array
     {
+        $initialMarkdown = Http::getRandomMarkdown();
+
+        $markdown = preg_replace('/^(# .*)/m', "$1\n\n[TOC]", $initialMarkdown);
+
         return [
             'title' => fake()->sentence(),
-            'markdown' => Http::getRandomMarkdown(),
+            'markdown' => $markdown,
             'status' => fake()->randomElement(PostStatus::cases()),
         ];
     }
@@ -33,14 +37,6 @@ class PostFactory extends Factory
     {
         return $this->state(function (array $attributes) use ($status) {
             return compact('status');
-        });
-    }
-
-    public function withTableOfContents(): Factory
-    {
-        return $this->state(function (array $attributes) {
-            $markdown = preg_replace('/^(# .*)/m', "$1\n\n[TOC]", $attributes['markdown']);
-            return compact('markdown');
         });
     }
 

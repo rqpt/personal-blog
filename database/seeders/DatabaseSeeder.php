@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $uniquePostsRequired = 3;
+        $uniquePostsRequired = 2;
 
         $markdownResponses = Http::pool(function (Pool $pool) use ($uniquePostsRequired) {
             $ocean = [];
@@ -32,11 +32,7 @@ class DatabaseSeeder extends Seeder
 
             Post::factory(state: [
                 'markdown' => $markdownResponses[$i],
-            ])->published()->withTableOfContents()->create();
-
-            Post::factory(state: [
-                'markdown' => $markdownResponses[$i],
-            ])->published()->withTableOfContents()->withAnEmbeddedVideo()->create();
+            ])->published()->withAnEmbeddedVideo()->create();
         }
     }
 }

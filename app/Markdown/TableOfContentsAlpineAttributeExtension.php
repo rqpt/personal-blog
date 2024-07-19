@@ -31,7 +31,7 @@ class TableOfContentsAlpineAttributeExtension implements ExtensionInterface
             ->where(Query::type(TableOfContents::class))
             ->findOne($document);
 
-        $tableOfContents?->data->append('attributes/x-ref', "toc");
+        $tableOfContents?->data->set('attributes/x-ref', "toc");
 
         $links = (new Query())
             ->where(Query::type(Link::class))

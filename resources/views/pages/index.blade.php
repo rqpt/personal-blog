@@ -28,9 +28,9 @@ render(function ($view) {
                 <a
                 id="{{ $linkRef }}"
                 x-ref="{{ $linkRef }}"
-                @click="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-                @keydown.enter="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-                @mouseenter="$focus.focus($el)"
+                @keydown.capture.enter="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                @mouseenter="$focus.focus($el); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
                 wire:navigate.hover
                 href="/{{ $post->getUrlSlug() }}"
                 >

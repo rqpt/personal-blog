@@ -19,8 +19,8 @@ middleware('heal-url');
     x-init="$focus.within($refs.toc).first()"
     @keydown.up.prevent="$focus.within($refs.toc).wrap().previous()"
     @keydown.down.prevent="$focus.within($refs.toc).wrap().next()"
-    @keydown.k="$focus.within($refs.toc).wrap().previous()"
-    @keydown.j="$focus.within($refs.toc).wrap().next()"
+    @keydown.k="$focus.within($refs.toc).previous()"
+    @keydown.j="$focus.within($refs.toc).next()"
     >
         {!! $post->html !!}
     </div>
