@@ -15,11 +15,15 @@ class DatabaseSeeder extends Seeder
     {
         $bodiesRequired = 3;
 
-        $markdownResponses = Http::pool(fn(Pool $pool) => [
-            $pool->get(config('third-party-api.random_markdown')),
-            $pool->get(config('third-party-api.random_markdown')),
-            $pool->get(config('third-party-api.random_markdown')),
-        ]);
+        $markdownResponses = Http::pool(function (Pool $pool) use ($bodiesRequired) {
+            $ocean = [];
+
+            for ($i = 0; $i < $bodiesRequired; $i++) {
+                $ocean[] = $pool->get(config('third-party-api.random_markdown'));
+            }
+
+            return $ocean;
+        });
 
         Post::factory($bodiesRequired, [
             'markdown' => $markdownResponses[0],
