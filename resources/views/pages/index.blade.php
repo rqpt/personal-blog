@@ -103,11 +103,11 @@ render(function ($view) {
                 </p>
 
                 <p>
-                    You should be provided with the postID by the output of the
+                    You should be provided with the postId by the output of the
                     previous command.
                 </p>
 
-                <pre><code>http DELETE :80/api/{postID}</code></pre>
+                <pre><code>http DELETE :80/api/{postId}</code></pre>
             </div>
         </div>
     @endif
