@@ -7,6 +7,7 @@ use App\{
     Enums\TextEditor,
     Models\Post,
 };
+use App\Enums\PostStatus;
 use Illuminate\{
     Contracts\Console\PromptsForMissingInput,
     Console\Command,
@@ -38,7 +39,9 @@ class UpdatePost extends Command implements PromptsForMissingInput
         $bodyTmpFilename = Str::slug($post->title) . '.md';
 
         $updateValues = [
-            'published' => $this->option('published'),
+            'status' => $this->option('published')
+                ? PostStatus::PUBLISHED
+                : PostStatus::DRAFT,
         ];
 
         if ($this->option('edit')) {
@@ -73,11 +76,13 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         $url = $post->getUrl();
 
-        $publishedState = $post->published ? 'published' : 'drafted';
+        $status = $post->status == PostStatus::PUBLISHED
+            ? 'published'
+            : 'drafted';
 
-        outro("We've successfully $publishedState the post! 🍾");
+        outro("We've successfully $status the post! 🍾");
 
-        if ($post->published) {
+        if ($post->status == PostStatus::PUBLISHED) {
             outro("You can access it at $url");
         }
     }

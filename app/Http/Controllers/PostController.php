@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PostStatus;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -22,13 +23,15 @@ class PostController
 
         $post = Post::create($updateValues);
 
-        $stateChange = $post->published ? 'published' : 'drafted';
+        $status = $post->status == PostStatus::PUBLISHED
+            ? 'published'
+            : 'drafted';
 
         return response()->json([
-            'message' => "Post $post->id successfully created and $stateChange.",
+            'message' => "Post $post->id successfully created and $status.",
             'id' => $post->id,
             'title' => $post->title,
-            'published' => $post->published,
+            'status' => $status,
         ]);
     }
 
@@ -47,15 +50,17 @@ class PostController
 
             $post->update($updateValues);
 
-            $stateChange = $post->published ? 'published' : 'updated';
+            $status = $post->status == PostStatus::PUBLISHED
+                ? 'published'
+                : 'drafted';
 
             return response()->json([
-                'message' => "Post $post->id successfully $stateChange.",
+                'message' => "Post $post->id successfully $status.",
                 'post_id' => $post->id,
                 'original_title' => $post->getOriginal('title'),
                 'current_title' => $post->title,
-                'original_status' => $post->getOriginal('published'),
-                'current_status' => $post->published,
+                'original_status' => $post->getOriginal('status'),
+                'current_status' => $status,
             ]);
         } catch (\Throwable $e) {
             return $e->getMessage();
@@ -69,11 +74,15 @@ class PostController
 
             $post->delete();
 
+            $status = $post->status == PostStatus::PUBLISHED
+                ? 'published'
+                : 'drafted';
+
             return response()->json([
                 'message' => "Post $post->id successfully deleted.",
                 'post_id' => $post->id,
                 'title' => $post->title,
-                'status_prior_to_deletion' => $post->published,
+                'status_prior_to_deletion' => $status,
             ]);
         } catch (\Throwable $e) {
             return $e->getMessage();

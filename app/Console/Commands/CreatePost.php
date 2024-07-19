@@ -11,6 +11,7 @@ use App\{
     Models\Post,
     Enums\TextEditor,
 };
+use App\Enums\PostStatus;
 
 use function Laravel\Prompts\{confirm, form, info, outro};
 
@@ -59,7 +60,7 @@ class CreatePost extends Command
         );
 
         if ($publishNow) {
-            $post->update(['published' => true]);
+            $post->update(['status' => PostStatus::PUBLISHED]);
 
             $url = $post->getUrl();
 

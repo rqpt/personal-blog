@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->longText('html')->default('');
             $table->longText('markdown')->default('');
-            $table->tinyInteger('published')->default(0); // cast as bool
+            $table->tinyInteger('status')->default(0); // cast as bool
             $table->timestamps();
         });
     }

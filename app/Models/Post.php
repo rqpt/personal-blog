@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PostStatus;
 use Illuminate\Support\Str;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\{Builder, Model};
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\{Builder, Model};
 class Post extends Model
 {
     protected $casts = [
-        'published' => 'boolean',
+        'status' => PostStatus::class,
     ];
 
     protected static function booted(): void
@@ -30,7 +31,7 @@ class Post extends Model
 
     public function scopePublished(Builder $query): void
     {
-        $query->where('published', true)
+        $query->where('status', PostStatus::PUBLISHED)
             ->orderBy('updated_at', 'desc')
             ->select(['id', 'title']);
     }
