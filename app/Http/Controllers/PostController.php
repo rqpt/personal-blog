@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PostStatus;
+use App\Http\Resources\PostResource;
+use App\Models\Post;
 use Illuminate\Http\Request;
-use App\{
-    Http\Resources\PostResource,
-    Enums\PostStatus,
-    Models\Post,
-};
 
 class PostController
 {

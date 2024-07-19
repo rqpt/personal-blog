@@ -4,12 +4,10 @@ namespace App\Models;
 
 use App\Enums\PostStatus;
 use GrahamCampbell\Markdown\Facades\Markdown;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\{
-    Factories\HasFactory,
-    Builder,
-    Model,
-};
 
 class Post extends Model
 {
@@ -26,7 +24,7 @@ class Post extends Model
         });
     }
 
-    public function resolveRouteBinding($value, $field = null): Model|null
+    public function resolveRouteBinding($value, $field = null): ?Model
     {
         $postId = last(explode('-', $value));
 
@@ -51,7 +49,7 @@ class Post extends Model
 
     public function getUrlSlug(): string
     {
-        return $this->asSlug() . '-' . $this->id;
+        return $this->asSlug().'-'.$this->id;
     }
 
     public function asSlug(?string $title = null): string

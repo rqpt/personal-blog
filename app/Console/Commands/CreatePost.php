@@ -3,17 +3,16 @@
 namespace App\Console\Commands;
 
 use App\Actions\Console\ComposePostMarkdown as ComposePostMarkdown;
-use Illuminate\{
-    Support\Str,
-    Console\Command,
-};
-use App\{
-    Models\Post,
-    Enums\TextEditor,
-};
 use App\Enums\PostStatus;
+use App\Enums\TextEditor;
+use App\Models\Post;
+use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
-use function Laravel\Prompts\{confirm, form, info, outro};
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\form;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\outro;
 
 class CreatePost extends Command
 {
@@ -21,7 +20,7 @@ class CreatePost extends Command
 
     protected $description = 'Create a draft post';
 
-    public function handle()
+    public function handle(): void
     {
         info('Welcome to the post creation wizard!');
 
@@ -41,7 +40,7 @@ class CreatePost extends Command
 
         $title = $formResponses['title'];
 
-        $bodyTmpFilename = Str::slug($title) . '.md';
+        $bodyTmpFilename = Str::slug($title).'.md';
 
         $markdown = ComposePostMarkdown::handle(
             $formResponses['preferredTextEditor'],
@@ -53,9 +52,9 @@ class CreatePost extends Command
         outro("Nicely done! You've successfully created a draft post.");
 
         $publishNow = confirm(
-            label: "Would you like to publish the post now?",
-            yes: "Sure, why not?",
-            no: "No, maybe later.",
+            label: 'Would you like to publish the post now?',
+            yes: 'Sure, why not?',
+            no: 'No, maybe later.',
             default: false,
         );
 

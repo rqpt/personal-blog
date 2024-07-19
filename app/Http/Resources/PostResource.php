@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
-use Illuminate\Http\{
-    Resources\Json\JsonResource,
-    Request,
-};
 
 class PostResource extends JsonResource
 {

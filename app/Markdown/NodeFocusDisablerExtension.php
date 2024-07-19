@@ -2,16 +2,12 @@
 
 namespace App\Markdown;
 
-use League\CommonMark\{
-    Environment\EnvironmentBuilderInterface,
-    Event\DocumentPreRenderEvent,
-    Node\Query,
-};
-use League\CommonMark\Extension\{
-    HeadingPermalink\HeadingPermalink,
-    CommonMark\Node\Block\Heading,
-    ExtensionInterface,
-};
+use League\CommonMark\Environment\EnvironmentBuilderInterface;
+use League\CommonMark\Event\DocumentPreRenderEvent;
+use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
+use League\CommonMark\Extension\ExtensionInterface;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalink;
+use League\CommonMark\Node\Query;
 
 class NodeFocusDisablerExtension implements ExtensionInterface
 {
@@ -33,7 +29,7 @@ class NodeFocusDisablerExtension implements ExtensionInterface
             ->findAll($document);
 
         foreach ($headingLinks as $link) {
-            $link->data->append('attributes/tabindex', "-1");
+            $link->data->append('attributes/tabindex', '-1');
         }
     }
 }

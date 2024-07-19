@@ -2,23 +2,21 @@
 
 namespace App\Console\Commands;
 
-use App\{
-    Actions\Console\ComposePostMarkdown,
-    Enums\TextEditor,
-    Models\Post,
-};
+use App\Actions\Console\ComposePostMarkdown;
 use App\Enums\PostStatus;
-use Illuminate\{
-    Contracts\Console\PromptsForMissingInput,
-    Console\Command,
-};
+use App\Enums\TextEditor;
+use App\Models\Post;
+use Illuminate\Console\Command;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\{
-    Output\OutputInterface,
-    Input\InputInterface,
-};
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-use function Laravel\Prompts\{form, outro, search, select, text};
+use function Laravel\Prompts\form;
+use function Laravel\Prompts\outro;
+use function Laravel\Prompts\search;
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\text;
 
 class UpdatePost extends Command implements PromptsForMissingInput
 {
@@ -36,7 +34,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         $post = Post::where('title', $postTitle)->sole();
 
-        $bodyTmpFilename = Str::slug($post->title) . '.md';
+        $bodyTmpFilename = Str::slug($post->title).'.md';
 
         $updateValues = [
             'status' => $this->option('published')
@@ -92,13 +90,13 @@ class UpdatePost extends Command implements PromptsForMissingInput
         $titles = Post::select('title')->pluck('title')->all();
 
         return [
-            'post' => fn() => search(
+            'post' => fn () => search(
                 label: 'Search for a post:',
-                options: fn($value) => strlen($value) > 0
+                options: fn ($value) => strlen($value) > 0
                     ? Post::where('title', 'like', "%{$value}%")->pluck('title')->all()
                     : $titles,
                 required: true,
-            )
+            ),
         ];
     }
 
@@ -118,9 +116,9 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 name: 'edit',
             )
             ->confirm(
-                label: "Change the published/draft status?",
-                yes: "Publish",
-                no: "Draft",
+                label: 'Change the published/draft status?',
+                yes: 'Publish',
+                no: 'Draft',
                 name: 'published',
             )
             ->submit();

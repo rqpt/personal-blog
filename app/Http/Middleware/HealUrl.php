@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\Post;
-use Symfony\Component\HttpFoundation\Response;
+use Closure;
 use Illuminate\{
     Http\Request,
 };
+use Symfony\Component\HttpFoundation\Response;
 
 class HealUrl
 {

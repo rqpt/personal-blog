@@ -3,11 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Post;
-use Illuminate\{
-    Support\Facades\Http,
-    Http\Client\Pool,
-    Database\Seeder,
-};
+use Illuminate\Database\Seeder;
+use Illuminate\Http\Client\Pool;
+use Illuminate\Support\Facades\Http;
 
 class DatabaseSeeder extends Seeder
 {

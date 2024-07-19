@@ -3,10 +3,8 @@
 namespace Database\Factories;
 
 use App\Enums\PostStatus;
-use Illuminate\{
-    Database\Eloquent\Factories\Factory,
-    Support\Facades\Http,
-};
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Http;
 
 class PostFactory extends Factory
 {
@@ -49,7 +47,8 @@ class PostFactory extends Factory
 
             $videoSection = "\n\n## {$videoSectionHeading}\n\n{$video}";
 
-            $markdown = $attributes['markdown'] . $videoSection;
+            $markdown = $attributes['markdown'].$videoSection;
+
             return compact('markdown');
         });
     }

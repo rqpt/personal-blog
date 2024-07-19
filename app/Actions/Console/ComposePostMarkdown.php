@@ -2,9 +2,11 @@
 
 namespace App\Actions\Console;
 
-use Illuminate\Support\Facades\{Process, Storage};
+use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Storage;
 
-use function Laravel\Prompts\{pause, textarea};
+use function Laravel\Prompts\pause;
+use function Laravel\Prompts\textarea;
 
 class ComposePostMarkdown
 {
@@ -12,7 +14,7 @@ class ComposePostMarkdown
         string $preferredTextEditor,
         string $bodyTmpFilename,
         string $defaultBody = '',
-    ): string {
+    ): ?string {
         if ($preferredTextEditor == 'builtin') {
             info("No worries, here's one for you.");
 
@@ -42,7 +44,7 @@ class ComposePostMarkdown
 
             $bodyTmpFileIsEmpty = $bodyTmpFileIsSaved
                 && Storage::size($bodyTmpFilename) == 0;
-        } while (!$bodyTmpFileIsSaved || $bodyTmpFileIsEmpty);
+        } while (! $bodyTmpFileIsSaved || $bodyTmpFileIsEmpty);
 
         $markdown = Storage::get($bodyTmpFilename);
 

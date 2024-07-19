@@ -3,12 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Models\Post;
-use Illuminate\{
-    Contracts\Console\PromptsForMissingInput,
-    Console\Command,
-};
+use Illuminate\Console\Command;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
 
-use function Laravel\Prompts\{outro, search};
+use function Laravel\Prompts\outro;
+use function Laravel\Prompts\search;
 
 class DeletePost extends Command implements PromptsForMissingInput
 {
@@ -16,7 +15,7 @@ class DeletePost extends Command implements PromptsForMissingInput
 
     protected $description = 'Delete a post';
 
-    public function handle()
+    public function handle(): void
     {
         $postTitle = $this->argument('post');
 
@@ -24,7 +23,7 @@ class DeletePost extends Command implements PromptsForMissingInput
 
         $post->delete();
 
-        outro("Successfully deleted a post");
+        outro('Successfully deleted a post');
     }
 
     protected function promptForMissingArgumentsUsing(): array
@@ -32,13 +31,13 @@ class DeletePost extends Command implements PromptsForMissingInput
         $titles = Post::select('title')->pluck('title')->all();
 
         return [
-            'post' => fn() => search(
+            'post' => fn () => search(
                 label: 'Search for a post:',
-                options: fn($value) => strlen($value) > 0
+                options: fn ($value) => strlen($value) > 0
                     ? Post::where('title', 'like', "%{$value}%")->pluck('title')->all()
                     : $titles,
                 required: true,
-            )
+            ),
         ];
     }
 }

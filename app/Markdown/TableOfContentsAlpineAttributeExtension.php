@@ -2,16 +2,12 @@
 
 namespace App\Markdown;
 
-use League\CommonMark\{
-    Environment\EnvironmentBuilderInterface,
-    Event\DocumentPreRenderEvent,
-    Node\Query,
-};
-use League\CommonMark\Extension\{
-    TableOfContents\Node\TableOfContents,
-    CommonMark\Node\Inline\Link,
-    ExtensionInterface,
-};
+use League\CommonMark\Environment\EnvironmentBuilderInterface;
+use League\CommonMark\Event\DocumentPreRenderEvent;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
+use League\CommonMark\Extension\ExtensionInterface;
+use League\CommonMark\Extension\TableOfContents\Node\TableOfContents;
+use League\CommonMark\Node\Query;
 
 class TableOfContentsAlpineAttributeExtension implements ExtensionInterface
 {
@@ -31,7 +27,7 @@ class TableOfContentsAlpineAttributeExtension implements ExtensionInterface
             ->where(Query::type(TableOfContents::class))
             ->findOne($document);
 
-        $tableOfContents?->data->set('attributes/x-ref', "toc");
+        $tableOfContents?->data->set('attributes/x-ref', 'toc');
 
         $links = (new Query())
             ->where(Query::type(Link::class))

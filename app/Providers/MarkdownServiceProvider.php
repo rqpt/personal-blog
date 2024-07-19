@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\{
-    ServiceProvider,
-    Facades\Http,
-};
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\ServiceProvider;
 
 class MarkdownServiceProvider extends ServiceProvider
 {
