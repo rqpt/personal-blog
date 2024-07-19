@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 class Post extends Model
 {
+    /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
-    protected array $casts = [
+    protected $casts = [
         'status' => PostStatus::class,
     ];
 
@@ -31,16 +33,17 @@ class Post extends Model
         return parent::resolveRouteBinding($postId, $field);
     }
 
-    // Scopes
-
+    /**
+     * @param  Builder<Post>  $query
+     *
+     * @throws InvalidArgumentException
+     */
     public function scopePublished(Builder $query): void
     {
         $query->where('status', PostStatus::PUBLISHED)
             ->orderBy('updated_at', 'desc')
             ->select(['id', 'title']);
     }
-
-    // Helpers
 
     public function getUrl(): string
     {

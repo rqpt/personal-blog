@@ -6,6 +6,7 @@ use App\Enums\PostStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Http;
 
+/** @extends Factory<\App\Models\Post> */
 class PostFactory extends Factory
 {
     public function definition(): array
@@ -17,16 +18,19 @@ class PostFactory extends Factory
         ];
     }
 
+    /** @return Factory<\App\Models\Post>  */
     public function published(): Factory
     {
         return $this->withState(PostStatus::PUBLISHED);
     }
 
+    /** @return Factory<\App\Models\Post>  */
     public function drafted(): Factory
     {
         return $this->withState(PostStatus::DRAFT);
     }
 
+    /** @return Factory<\App\Models\Post>  */
     private function withState(PostStatus $status): Factory
     {
         return $this->state(function (array $attributes) use ($status) {
@@ -34,6 +38,7 @@ class PostFactory extends Factory
         });
     }
 
+    /** @return Factory<\App\Models\Post>  */
     public function withAnEmbeddedVideo(): Factory
     {
         return $this->state(function (array $attributes) {

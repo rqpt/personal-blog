@@ -49,7 +49,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
             );
 
             $updateValues['markdown'] = ComposePostMarkdown::handle(
-                $preferredTextEditor,
+                (string) $preferredTextEditor,
                 $bodyTmpFilename,
                 $post->markdown,
             );
@@ -85,7 +85,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
         }
     }
 
-    /** @return array{post: Closure(): (int|string)}  */
+    /** @return array<string, mixed>  */
     protected function promptForMissingArgumentsUsing(): array
     {
         $titles = Post::select('title')->pluck('title')->all();

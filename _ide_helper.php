@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 11.15.0.
+ * Generated for Laravel 11.16.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -8966,7 +8966,7 @@ namespace Illuminate\Support\Facades {
          * Assert if a mailable was sent based on a truth-test callback.
          *
          * @param string|\Closure $mailable
-         * @param callable|int|null $callback
+         * @param callable|array|string|int|null $callback
          * @return void 
          * @static 
          */        public static function assertSent($mailable, $callback = null)
@@ -8990,7 +8990,7 @@ namespace Illuminate\Support\Facades {
          * Determine if a mailable was not sent based on a truth-test callback.
          *
          * @param string|\Closure $mailable
-         * @param callable|null $callback
+         * @param callable|array|string|null $callback
          * @return void 
          * @static 
          */        public static function assertNotSent($mailable, $callback = null)
@@ -9022,7 +9022,7 @@ namespace Illuminate\Support\Facades {
          * Assert if a mailable was queued based on a truth-test callback.
          *
          * @param string|\Closure $mailable
-         * @param callable|int|null $callback
+         * @param callable|array|string|int|null $callback
          * @return void 
          * @static 
          */        public static function assertQueued($mailable, $callback = null)
@@ -9034,7 +9034,7 @@ namespace Illuminate\Support\Facades {
          * Determine if a mailable was not queued based on a truth-test callback.
          *
          * @param string|\Closure $mailable
-         * @param callable|null $callback
+         * @param callable|array|string|null $callback
          * @return void 
          * @static 
          */        public static function assertNotQueued($mailable, $callback = null)
@@ -14386,6 +14386,39 @@ namespace Illuminate\Support\Facades {
                         $instance->dropAllViews();
         }
                     /**
+         * Set the busy timeout.
+         *
+         * @param int $milliseconds
+         * @return bool 
+         * @static 
+         */        public static function setBusyTimeout($milliseconds)
+        {
+                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+                        return $instance->setBusyTimeout($milliseconds);
+        }
+                    /**
+         * Set the journal mode.
+         *
+         * @param string $mode
+         * @return bool 
+         * @static 
+         */        public static function setJournalMode($mode)
+        {
+                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+                        return $instance->setJournalMode($mode);
+        }
+                    /**
+         * Set the synchronous mode.
+         *
+         * @param int $mode
+         * @return bool 
+         * @static 
+         */        public static function setSynchronous($mode)
+        {
+                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
+                        return $instance->setSynchronous($mode);
+        }
+                    /**
          * Empty the database file.
          *
          * @return void 
@@ -19683,7 +19716,7 @@ namespace  {
              *
              * @param string|\Illuminate\Contracts\Database\Query\Expression $column
              * @param string|null $key
-             * @return \Illuminate\Support\Collection<int|string, mixed> 
+             * @return \Illuminate\Support\Collection<array-key, mixed> 
              * @static 
              */            public static function pluck($column, $key = null)
             {
