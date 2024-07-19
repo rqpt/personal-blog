@@ -4,58 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\{
+    Facades\Storage,
+    Str,
+};
 
 class PostController
 {
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'title' => ['required', 'unique:posts,title'],
-                'body' => ['required'],
-                'published' => 'bool',
-            ]);
+        $request->validate([
+            'title' => ['required', 'unique:posts,title'],
+            'body' => ['required'],
+            'published' => 'bool',
+        ]);
 
-            Post::create($request->validated());
+        $localBackupFilename = Str::slug($request->title) . '.md';
 
-            return response()->json([
-                'message' => 'Draft post successfully created.',
-            ]);
-        } catch (\Throwable $e) {
-            return $e->getMessage();
-        }
+        Storage::put($localBackupFilename, $request->body);
+
+        $post = Post::create($request->only(['title', 'published']));
+
+        $stateChange = $post->published ? 'published' : 'drafted';
+
+        return response()->json([
+            'message' => "Post successfully created and $stateChange.",
+        ]);
     }
 
     public function update(Request $request, Post $post)
     {
-        try {
-            $request->validate([
-                'title' => ['required', 'unique:posts,title'],
-                'published' => 'bool',
-            ]);
+        $post->update($request->all());
 
-            $post->update($request->all());
+        $stateChange = $post->published ? 'published' : 'updated';
 
-            $stateChange = $request->published ? 'published' : 'updated';
-
-            return response()->json([
-                'message' => "Post successfully $stateChange.",
-            ]);
-        } catch (\Throwable $e) {
-            return $e->getMessage();
-        }
+        return response()->json([
+            'message' => "Post successfully $stateChange.",
+        ]);
     }
 
     public function destroy(Post $post)
     {
-        try {
-            $post->delete();
+        $post->delete();
 
-            return response()->json([
-                'message' => 'Post successfully deleted.',
-            ]);
-        } catch (\Throwable $e) {
-            return $e->getMessage();
-        }
+        return response()->json([
+            'message' => 'Post successfully deleted.',
+        ]);
     }
 }
