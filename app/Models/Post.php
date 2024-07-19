@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enums\PostStatus;
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\{Builder, Model};
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use GrahamCampbell\Markdown\Facades\Markdown;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\{
+    Factories\HasFactory,
+    Builder,
+    Model,
+};
 
 class Post extends Model
 {
