@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\PostStatus;
-use App\Models\Post;
 use Illuminate\Http\Request;
+use App\{
+    Enums\PostStatus,
+    Models\Post,
+};
 
 class PostController
 {
