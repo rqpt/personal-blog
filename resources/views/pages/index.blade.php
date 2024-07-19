@@ -95,7 +95,7 @@ render(function ($view) {
                     Run the following command, and hit refresh.
                 </p>
 
-                <pre><code>http :80/api/post title="{filename}" body="# Hello World" published:=true</code></pre>
+                <pre><code>http :80/api/post title="{title}" body="# Hello World" published:=true</code></pre>
 
                 <p>
                     No worries if you made a mistake - simply run the next
