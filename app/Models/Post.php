@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use App\Observers\PostObserver;
 use Illuminate\Support\Str;
+use App\Observers\PostObserver;
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\{
     Attributes\ObservedBy,
+    Casts\Attribute,
     Builder,
     Model,
 };
@@ -16,6 +18,13 @@ class Post extends Model
     protected $casts = [
         'published' => 'boolean',
     ];
+
+    protected function body(): Attribute
+    {
+        return Attribute::set(function (string $markdown) {
+            return Markdown::convert($markdown)->getContent();
+        });
+    }
 
     public function getUrl(): string
     {

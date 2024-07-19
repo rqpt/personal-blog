@@ -23,7 +23,7 @@ class PostController
 
         Storage::put($localBackupFilename, $request->body);
 
-        $post = Post::create($request->only(['title', 'published']));
+        $post = Post::create($request->all());
 
         $stateChange = $post->published ? 'published' : 'drafted';
 
@@ -34,6 +34,13 @@ class PostController
 
     public function update(Request $request, Post $post)
     {
+        if ($request->has('body')) {
+            Storage::put(
+                $post->getBackupFilename(),
+                $request->body,
+            );
+        }
+
         $post->update($request->all());
 
         $stateChange = $post->published ? 'published' : 'updated';

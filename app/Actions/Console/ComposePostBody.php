@@ -15,7 +15,7 @@ class ComposePostBody
         if ($preferredTextEditor == 'builtin') {
             info("No worries, here's one for you.");
 
-            return textarea(
+            $body = textarea(
                 label: 'Please write your post in markdown format.',
                 required: true,
                 default: Storage::fileExists($storageLocation)
@@ -23,6 +23,10 @@ class ComposePostBody
                     : '',
                 rows: 25,
             );
+
+            Storage::put($storageLocation, $body);
+
+            return $body;
         }
 
         pause('Are you ready to embark on this quest?');
