@@ -3,20 +3,34 @@
 namespace Database\Seeders;
 
 use App\Models\Post;
-use Illuminate\Database\Seeder;
+use Illuminate\{
+    Support\Facades\Http,
+    Http\Client\Pool,
+    Database\Seeder,
+};
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Post::factory()->create();
+        $bodiesRequired = 3;
 
-        Post::factory(3)->published()->create();
-        Post::factory(3)->published()->withTableOfContents()->create();
-        Post::factory(3)->published()->withTableOfContents()->withAnEmbeddedVideo()->create();
+        $markdownResponses = Http::pool(fn(Pool $pool) => [
+            $pool->get(config('third-party-api.random_markdown')),
+            $pool->get(config('third-party-api.random_markdown')),
+            $pool->get(config('third-party-api.random_markdown')),
+        ]);
 
-        // Post::factory()->drafted()->create();
-        // Post::factory()->drafted()->withTableOfContents()->create();
-        // Post::factory()->drafted()->withTableOfContents()->withAnEmbeddedVideo()->create();
+        Post::factory($bodiesRequired, [
+            'markdown' => $markdownResponses[0],
+        ])->published()->create();
+
+        Post::factory($bodiesRequired, [
+            'markdown' => $markdownResponses[1],
+        ])->published()->withTableOfContents()->create();
+
+        Post::factory($bodiesRequired, [
+            'markdown' => $markdownResponses[2],
+        ])->published()->withTableOfContents()->withAnEmbeddedVideo()->create();
     }
 }
