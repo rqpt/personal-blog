@@ -17,7 +17,8 @@ class PostController
         ]);
 
         $updateValues = [
-            ...$request->only(['title', 'published']),
+            'title' => $request->title,
+            'status' => PostStatus::tryFrom((int) $request->published),
             'markdown' => $request->body,
         ];
 
@@ -41,14 +42,22 @@ class PostController
             $post = $this->determinePostFromSlug($postSlugOrID);
 
             $updateValues = [
-                ...$request->only(['title', 'published']),
+                'status' => PostStatus::tryFrom((int) $request->published),
             ];
+
+            if ($request->has('title')) {
+                $updateValues['title'] = $request->title;
+            }
 
             if ($request->has('body')) {
                 $updateValues['markdown'] = $request->body;
             }
 
             $post->update($updateValues);
+
+            $originalStatus = $post->getOriginal() == PostStatus::PUBLISHED
+                ? 'published'
+                : 'drafted';
 
             $status = $post->status == PostStatus::PUBLISHED
                 ? 'published'
@@ -59,7 +68,7 @@ class PostController
                 'post_id' => $post->id,
                 'original_title' => $post->getOriginal('title'),
                 'current_title' => $post->title,
-                'original_status' => $post->getOriginal('status'),
+                'original_status' => $originalStatus,
                 'current_status' => $status,
             ]);
         } catch (\Throwable $e) {
