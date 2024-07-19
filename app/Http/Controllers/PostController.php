@@ -26,13 +26,16 @@ class PostController
 
         return response()->json([
             'message' => "Post $post->id successfully created and $stateChange.",
+            'id' => $post->id,
+            'title' => $post->title,
+            'published' => $post->published,
         ]);
     }
 
-    public function update(Request $request, int $postID)
+    public function update(Request $request, string $postSlugOrID)
     {
         try {
-            $post = Post::findOrFail($postID);
+            $post = $this->determinePostFromSlug($postSlugOrID);
 
             $updateValues = [
                 ...$request->only(['title', 'published']),
@@ -48,24 +51,39 @@ class PostController
 
             return response()->json([
                 'message' => "Post $post->id successfully $stateChange.",
+                'post_id' => $post->id,
+                'original_title' => $post->getOriginal('title'),
+                'current_title' => $post->title,
+                'original_status' => $post->getOriginal('published'),
+                'current_status' => $post->published,
             ]);
         } catch (\Throwable $e) {
             return $e->getMessage();
         }
     }
 
-    public function destroy(int $postID)
+    public function destroy(string $postSlugOrID)
     {
         try {
-            $post = Post::findOrFail($postID);
+            $post = $this->determinePostFromSlug($postSlugOrID);
 
             $post->delete();
 
             return response()->json([
                 'message' => "Post $post->id successfully deleted.",
+                'post_id' => $post->id,
+                'title' => $post->title,
+                'status_prior_to_deletion' => $post->published,
             ]);
         } catch (\Throwable $e) {
             return $e->getMessage();
         }
+    }
+
+    private function determinePostFromSlug(string $postSlug): Post
+    {
+        $postID = last(explode('-', $postSlug));
+
+        return Post::findOrFail($postID);
     }
 }
