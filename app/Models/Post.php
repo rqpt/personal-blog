@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Enums\PostStatus;
 use Illuminate\Support\Str;
-use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\{Builder, Model};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 class Post extends Model
 {
