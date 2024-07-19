@@ -48,7 +48,14 @@ class PostFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             $videoSectionHeading = fake()->sentence();
-            $videoSection = "\n\n## {$videoSectionHeading}\n\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayBhc3RsZXk%3D";
+
+            $video = fake()->randomElement([
+                'https://www.youtube.com/watch?v=3co1Wo9sAc8&pp=ygULa2lkIGhlYWRidXQ%3D',
+                'https://www.youtube.com/watch?v=UtfkrGRK8wA&pp=ygUOaG9sbHl3b29kIGJhYnk%3D',
+                'https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayBhc3RsZXk%3D',
+            ]);
+
+            $videoSection = "\n\n## {$videoSectionHeading}\n\n{$video}";
 
             $markdown = $attributes['markdown'] . $videoSection;
             return compact('markdown');
