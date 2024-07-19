@@ -12,13 +12,9 @@ class PostFactory extends Factory
 {
     public function definition(): array
     {
-        $initialMarkdown = Http::getRandomMarkdown();
-
-        $markdown = preg_replace('/^(# .*)/m', "$1\n\n[TOC]", $initialMarkdown);
-
         return [
             'title' => fake()->sentence(),
-            'markdown' => $markdown,
+            'markdown' => Http::getRandomMarkdown(),
             'status' => fake()->randomElement(PostStatus::cases()),
         ];
     }

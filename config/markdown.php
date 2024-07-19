@@ -38,8 +38,6 @@ return [
 
     'table_of_contents' => [
         'min_heading_level' => 2,
-        'position' => 'placeholder',
-        'placeholder' => '[TOC]',
     ],
 
     'embed' => [
