@@ -46,7 +46,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 options: TextEditor::selectLabels(),
             );
 
-            ComposePostBody::handle(
+            $updateValues['body'] = ComposePostBody::handle(
                 $preferredTextEditor,
                 $localBackupFilename,
             );

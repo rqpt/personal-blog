@@ -29,7 +29,7 @@ class CreatePost extends Command
                 label: 'What would you like the post to be titled?',
                 placeholder: 'E.g. Are humans able to live off of tubby custard?',
                 validate: ['postTitle' => ['required', 'unique:posts,title']],
-                name: 'postTitle',
+                name: 'title',
             )
             ->select(
                 label: 'Which text editor would you prefer for the post body?',
@@ -38,16 +38,16 @@ class CreatePost extends Command
             )
             ->submit();
 
-        $localBackupFilename = Str::slug($formResponses['postTitle']) . '.md';
+        $title = $formResponses['title'];
 
-        ComposePostBody::handle(
+        $localBackupFilename = Str::slug($title) . '.md';
+
+        $body = ComposePostBody::handle(
             $formResponses['preferredTextEditor'],
             $localBackupFilename,
         );
 
-        $post = Post::create([
-            'title' => $formResponses['postTitle'],
-        ]);
+        $post = Post::create(compact('title', 'body'));
 
         outro("Nicely done! You've successfully created a draft post.");
 
