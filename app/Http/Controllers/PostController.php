@@ -11,19 +11,24 @@ use App\{
 
 class PostController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return PostResource::collection(Post::all());
+        if ($request->has('published')) {
+            $statusType = PostStatus::from($request->published);
+
+            $posts = Post::where('status', $statusType)->get();
+        } else {
+            $posts = Post::all();
+        }
+
+        return PostResource::collection($posts);
     }
 
     public function show(string $postSlugOrID)
     {
-        try {
-            $post = $this->determinePostFromSlug($postSlugOrID);
-            return new PostResource($post);
-        } catch (\Throwable $e) {
-            return $e->getMessage();
-        }
+        $post = $this->determinePostFromSlug($postSlugOrID);
+
+        return new PostResource($post);
     }
 
     public function store(Request $request)
@@ -47,40 +52,32 @@ class PostController
 
     public function update(Request $request, string $postSlugOrID)
     {
-        try {
-            $post = $this->determinePostFromSlug($postSlugOrID);
+        $post = $this->determinePostFromSlug($postSlugOrID);
 
-            $updateValues = [
-                'status' => PostStatus::tryFrom((int) $request->published),
-            ];
+        $updateValues = [
+            'status' => PostStatus::tryFrom((int) $request->published),
+        ];
 
-            if ($request->has('title')) {
-                $updateValues['title'] = $request->title;
-            }
-
-            if ($request->has('body')) {
-                $updateValues['markdown'] = $request->body;
-            }
-
-            $post->update($updateValues);
-
-            return new PostResource($post);
-        } catch (\Throwable $e) {
-            return $e->getMessage();
+        if ($request->has('title')) {
+            $updateValues['title'] = $request->title;
         }
+
+        if ($request->has('body')) {
+            $updateValues['markdown'] = $request->body;
+        }
+
+        $post->update($updateValues);
+
+        return new PostResource($post);
     }
 
     public function destroy(string $postSlugOrID)
     {
-        try {
-            $post = $this->determinePostFromSlug($postSlugOrID);
+        $post = $this->determinePostFromSlug($postSlugOrID);
 
-            $post->delete();
+        $post->delete();
 
-            return new PostResource($post);
-        } catch (\Throwable $e) {
-            return $e->getMessage();
-        }
+        return new PostResource($post);
     }
 
     private function determinePostFromSlug(string $postSlug): Post
