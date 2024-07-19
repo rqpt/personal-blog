@@ -92,18 +92,22 @@ render(function ($view) {
             x-transition
             >
                 <p>
-                    Run the following command with '{filename}' substituted
-                    with a markdown filename, and hit refresh.
+                    Run the following command, and hit refresh.
                 </p>
 
-                <pre><code>http -f POST :80/api/post title="{filename}" file=@{filename}.md</code></pre>
+                <pre><code>http :80/api/post title="{filename}" body="# Hello World" published:=true</code></pre>
 
                 <p>
                     No worries if you made a mistake - simply run the next
                     command to delete the post and try again.
                 </p>
 
-                <pre><code>http DELETE :80/api/{the name of the post you wish to delete}</code></pre>
+                <p>
+                    You should be provided with the postID by the output of the
+                    previous command.
+                </p>
+
+                <pre><code>http DELETE :80/api/{postID}</code></pre>
             </div>
         </div>
     @endif

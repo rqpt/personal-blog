@@ -11,36 +11,61 @@ class PostController
     {
         $request->validate([
             'title' => ['required', 'unique:posts,title'],
-            'markdown' => ['required'],
+            'body' => ['required'],
             'published' => 'bool',
         ]);
 
-        $post = Post::create($request->all());
+        $updateValues = [
+            ...$request->only(['title', 'published']),
+            'markdown' => $request->body,
+        ];
+
+        $post = Post::create($updateValues);
 
         $stateChange = $post->published ? 'published' : 'drafted';
 
         return response()->json([
-            'message' => "Post successfully created and $stateChange.",
+            'message' => "Post $post->id successfully created and $stateChange.",
         ]);
     }
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, int $postID)
     {
-        $post->update($request->all());
+        try {
+            $post = Post::findOrFail($postID);
 
-        $stateChange = $post->published ? 'published' : 'updated';
+            $updateValues = [
+                ...$request->only(['title', 'published']),
+            ];
 
-        return response()->json([
-            'message' => "Post successfully $stateChange.",
-        ]);
+            if ($request->has('body')) {
+                $updateValues['markdown'] = $request->body;
+            }
+
+            $post->update($updateValues);
+
+            $stateChange = $post->published ? 'published' : 'updated';
+
+            return response()->json([
+                'message' => "Post $post->id successfully $stateChange.",
+            ]);
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
     }
 
-    public function destroy(Post $post)
+    public function destroy(int $postID)
     {
-        $post->delete();
+        try {
+            $post = Post::findOrFail($postID);
 
-        return response()->json([
-            'message' => 'Post successfully deleted.',
-        ]);
+            $post->delete();
+
+            return response()->json([
+                'message' => "Post $post->id successfully deleted.",
+            ]);
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
     }
 }
