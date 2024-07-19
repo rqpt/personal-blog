@@ -22,6 +22,6 @@ middleware('heal-url');
     @keydown.k="$focus.within($refs.toc).wrap().previous()"
     @keydown.j="$focus.within($refs.toc).wrap().next()"
     >
-        {!! $post->body !!}
+        {!! $post->html !!}
     </div>
 </x-layout.app>

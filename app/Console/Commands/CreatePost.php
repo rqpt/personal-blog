@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\Console\ComposePostBody;
+use App\Actions\Console\ComposePostMarkdown as ComposePostMarkdown;
 use Illuminate\{
     Support\Str,
     Console\Command,
@@ -40,14 +40,14 @@ class CreatePost extends Command
 
         $title = $formResponses['title'];
 
-        $localBackupFilename = Str::slug($title) . '.md';
+        $bodyTmpFilename = Str::slug($title) . '.md';
 
-        $body = ComposePostBody::handle(
+        $markdown = ComposePostMarkdown::handle(
             $formResponses['preferredTextEditor'],
-            $localBackupFilename,
+            $bodyTmpFilename,
         );
 
-        $post = Post::create(compact('title', 'body'));
+        $post = Post::create(compact('title', 'markdown'));
 
         outro("Nicely done! You've successfully created a draft post.");
 

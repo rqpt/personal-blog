@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\{
-    Actions\Console\ComposePostBody,
+    Actions\Console\ComposePostMarkdown,
     Enums\TextEditor,
     Models\Post,
 };
@@ -11,6 +11,7 @@ use Illuminate\{
     Contracts\Console\PromptsForMissingInput,
     Console\Command,
 };
+use Illuminate\Support\Str;
 use Symfony\Component\Console\{
     Output\OutputInterface,
     Input\InputInterface,
@@ -34,7 +35,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         $post = Post::where('title', $postTitle)->sole();
 
-        $localBackupFilename = $post->getBackupFilename();
+        $bodyTmpFilename = Str::slug($post->title) . '.md';
 
         $updateValues = [
             'published' => $this->option('published'),
@@ -46,9 +47,10 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 options: TextEditor::selectLabels(),
             );
 
-            $updateValues['body'] = ComposePostBody::handle(
+            $updateValues['markdown'] = ComposePostMarkdown::handle(
                 $preferredTextEditor,
-                $localBackupFilename,
+                $bodyTmpFilename,
+                $post->markdown,
             );
 
             outro("We've successfully edited a post!");

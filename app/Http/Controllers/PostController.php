@@ -4,10 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\{
-    Facades\Storage,
-    Str,
-};
 
 class PostController
 {
@@ -15,13 +11,9 @@ class PostController
     {
         $request->validate([
             'title' => ['required', 'unique:posts,title'],
-            'body' => ['required'],
+            'markdown' => ['required'],
             'published' => 'bool',
         ]);
-
-        $localBackupFilename = Str::slug($request->title) . '.md';
-
-        Storage::put($localBackupFilename, $request->body);
 
         $post = Post::create($request->all());
 
@@ -34,13 +26,6 @@ class PostController
 
     public function update(Request $request, Post $post)
     {
-        if ($request->has('body')) {
-            Storage::put(
-                $post->getBackupFilename(),
-                $request->body,
-            );
-        }
-
         $post->update($request->all());
 
         $stateChange = $post->published ? 'published' : 'updated';

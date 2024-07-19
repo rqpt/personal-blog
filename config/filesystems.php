@@ -12,9 +12,9 @@ return [
             'throw' => true,
         ],
 
-        'backup' => [
+        'tmp' => [
             'driver' => 'local',
-            'root' => storage_path('app/backups'),
+            'root' => storage_path('app/tmp'),
             'throw' => true,
         ],
 
