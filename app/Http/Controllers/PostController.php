@@ -100,8 +100,8 @@ class PostController
 
     private function determinePostFromSlug(string $postSlug): Post
     {
-        $postID = last(explode('-', $postSlug));
+        $postId = last(explode('-', $postSlug));
 
-        return Post::findOrFail($postID);
+        return Post::findOrFail($postId);
     }
 }
