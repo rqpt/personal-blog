@@ -4,12 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\{
+    Http\Resources\PostResource,
     Enums\PostStatus,
     Models\Post,
 };
 
 class PostController
 {
+    public function index()
+    {
+        return PostResource::collection(Post::all());
+    }
+
+    public function show(string $postSlugOrID)
+    {
+        try {
+            $post = $this->determinePostFromSlug($postSlugOrID);
+            return new PostResource($post);
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -26,16 +42,7 @@ class PostController
 
         $post = Post::create($updateValues);
 
-        $status = $post->status == PostStatus::PUBLISHED
-            ? 'published'
-            : 'drafted';
-
-        return response()->json([
-            'message' => "Post $post->id successfully created and $status.",
-            'id' => $post->id,
-            'title' => $post->title,
-            'status' => $status,
-        ]);
+        return new PostResource($post);
     }
 
     public function update(Request $request, string $postSlugOrID)
@@ -57,22 +64,7 @@ class PostController
 
             $post->update($updateValues);
 
-            $originalStatus = $post->getOriginal() == PostStatus::PUBLISHED
-                ? 'published'
-                : 'drafted';
-
-            $status = $post->status == PostStatus::PUBLISHED
-                ? 'published'
-                : 'drafted';
-
-            return response()->json([
-                'message' => "Post $post->id successfully $status.",
-                'post_id' => $post->id,
-                'original_title' => $post->getOriginal('title'),
-                'current_title' => $post->title,
-                'original_status' => $originalStatus,
-                'current_status' => $status,
-            ]);
+            return new PostResource($post);
         } catch (\Throwable $e) {
             return $e->getMessage();
         }
@@ -85,16 +77,7 @@ class PostController
 
             $post->delete();
 
-            $status = $post->status == PostStatus::PUBLISHED
-                ? 'published'
-                : 'drafted';
-
-            return response()->json([
-                'message' => "Post $post->id successfully deleted.",
-                'post_id' => $post->id,
-                'title' => $post->title,
-                'status_prior_to_deletion' => $status,
-            ]);
+            return new PostResource($post);
         } catch (\Throwable $e) {
             return $e->getMessage();
         }

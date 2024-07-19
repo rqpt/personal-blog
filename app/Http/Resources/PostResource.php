@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\{
     Resources\Json\JsonResource,
     Request,
@@ -9,8 +10,28 @@ use Illuminate\Http\{
 
 class PostResource extends JsonResource
 {
+    public $preserveKeys = true;
+
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $response = [
+            'id' => $this->id,
+            'title' => $this->title,
+            'status' => $this->status->forHumans(),
+        ];
+
+        if ($request->has('include_body')) {
+            $returnMarkdown = ['markdown' => $this->markdown];
+            $returnHtml = ['html' => $this->html];
+
+            $response[] = match (Str::lower($request->include_body)) {
+                'markdown' => $returnMarkdown,
+                'md' => $returnMarkdown,
+                'html' => $returnHtml,
+                default => [...$returnMarkdown, ...$returnHtml],
+            };
+        }
+
+        return $response;
     }
 }
