@@ -28,7 +28,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
     protected $description = 'Update a post';
 
-    public function handle()
+    public function handle(): void
     {
         $postTitle = $this->argument('post');
 
@@ -85,6 +85,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
         }
     }
 
+    /** @return array{post: Closure(): (int|string)}  */
     protected function promptForMissingArgumentsUsing(): array
     {
         $titles = Post::select('title')->pluck('title')->all();
@@ -92,7 +93,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
         return [
             'post' => fn () => search(
                 label: 'Search for a post:',
-                options: fn ($value) => strlen($value) > 0
+                options: fn (string $value) => strlen($value) > 0
                     ? Post::where('title', 'like', "%{$value}%")->pluck('title')->all()
                     : $titles,
                 required: true,

@@ -10,6 +10,7 @@ enum TextEditor: string
     case VI = 'vi';
     case NANO = 'nano';
 
+    /** @return array<int|string, string>  */
     public static function selectLabels(): array
     {
         $labels = [];
@@ -18,9 +19,9 @@ enum TextEditor: string
 
         foreach ($textEditors as $editor) {
             $labels[$editor] = match ($editor) {
-                self::BUILTIN->value => 'ehm...wut? 😕',
                 self::VI->value => 'Vi 😎',
                 self::NANO->value => 'Nano ⚛️',
+                default => 'ehm...wut? 😕',
             };
         }
 

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Post;
+use Closure;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 
@@ -26,6 +27,7 @@ class DeletePost extends Command implements PromptsForMissingInput
         outro('Successfully deleted a post');
     }
 
+    /** @return array{post: Closure(): (int|string)}  */
     protected function promptForMissingArgumentsUsing(): array
     {
         $titles = Post::select('title')->pluck('title')->all();
@@ -33,7 +35,7 @@ class DeletePost extends Command implements PromptsForMissingInput
         return [
             'post' => fn () => search(
                 label: 'Search for a post:',
-                options: fn ($value) => strlen($value) > 0
+                options: fn (string $value) => strlen($value) > 0
                     ? Post::where('title', 'like', "%{$value}%")->pluck('title')->all()
                     : $titles,
                 required: true,

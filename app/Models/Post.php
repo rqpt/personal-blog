@@ -13,7 +13,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $casts = [
+    protected array $casts = [
         'status' => PostStatus::class,
     ];
 

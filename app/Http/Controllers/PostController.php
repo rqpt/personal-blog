@@ -6,10 +6,11 @@ use App\Enums\PostStatus;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PostController
 {
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
         if ($request->has('published')) {
             $statusType = PostStatus::from($request->published);
@@ -22,14 +23,14 @@ class PostController
         return PostResource::collection($posts);
     }
 
-    public function show(string $postSlugOrID)
+    public function show(string $postSlugOrID): PostResource
     {
         $post = $this->determinePostFromSlug($postSlugOrID);
 
         return new PostResource($post);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): PostResource
     {
         $request->validate([
             'title' => ['required', 'unique:posts,title'],
@@ -48,7 +49,7 @@ class PostController
         return new PostResource($post);
     }
 
-    public function update(Request $request, string $postSlugOrID)
+    public function update(Request $request, string $postSlugOrID): PostResource
     {
         $post = $this->determinePostFromSlug($postSlugOrID);
 
@@ -69,7 +70,7 @@ class PostController
         return new PostResource($post);
     }
 
-    public function destroy(string $postSlugOrID)
+    public function destroy(string $postSlugOrID): PostResource
     {
         $post = $this->determinePostFromSlug($postSlugOrID);
 
