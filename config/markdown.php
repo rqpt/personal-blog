@@ -24,6 +24,10 @@ return [
         'symbol' => '¶',
     ],
 
+    'table_of_contents' => [
+        'min_heading_level' => 2,
+    ],
+
     'renderer' => [
         'block_separator' => "\n",
         'inner_separator' => "\n",

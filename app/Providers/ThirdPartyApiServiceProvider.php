@@ -30,7 +30,9 @@ class ThirdPartyApiServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Http::macro('getRandomMarkdown', function () {
-            return Http::get(config('third-party-api.random_markdown.url'));
+            return Http::get(config('third-party-api.random_markdown.url'), [
+                'no-code' => 'on',
+            ]);
         });
 
         Http::macro('chatWithAI', function (string $prompt) {

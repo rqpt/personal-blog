@@ -27,7 +27,9 @@ class DatabaseSeeder extends Seeder
                 EOD;
 
                 $ocean[] = $pool->as("md-$i")
-                    ->get(config('third-party-api.random_markdown.url'));
+                    ->get(config('third-party-api.random_markdown.url'), [
+                        'no-code' => 'on',
+                    ]);
 
                 $ocean[] = $pool->as("api-$i")
                     ->withToken(config('third-party-api.openai.api_key'))
