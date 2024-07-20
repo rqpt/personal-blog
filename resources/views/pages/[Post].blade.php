@@ -19,10 +19,6 @@ middleware('heal-url');
     @keydown.k="$focus.previous()"
     @keydown.j="$focus.next()"
     >
-        <h1>
-            {{ $post->title}}
-        </h1>
-
         {!! $post->html !!}
     </div>
 </x-layout.app>
