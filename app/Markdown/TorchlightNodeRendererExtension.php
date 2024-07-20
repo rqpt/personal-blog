@@ -22,16 +22,16 @@ class TorchlightNodeRendererExtension implements ExtensionInterface, NodeRendere
     {
         $lang = $node->getInfo();
 
-        if (is_null($lang)) {
-            $langAttribute = '';
-        } else {
-            $langAttribute = " language='$lang'";
-        }
+        $langAttribute = is_null($lang) ? '' : " language='$lang";
 
         $torchlightOpeningTag = "<pre><x-torchlight-code{$langAttribute}>\n";
 
         $torchlightClosingTag = '</x-torchlight-code></pre>';
 
-        return BladeManager::renderContent(Blade::render($torchlightOpeningTag.$node->getLiteral().$torchlightClosingTag));
+        return BladeManager::renderContent(
+            Blade::render(
+                $torchlightOpeningTag.$node->getLiteral().$torchlightClosingTag,
+            ),
+        );
     }
 }
