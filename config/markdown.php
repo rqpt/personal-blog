@@ -2,18 +2,6 @@
 
 declare(strict_types=1);
 
-use Embed\Embed;
-use League\CommonMark\Extension\Embed\Bridge\OscaroteroEmbedAdapter;
-
-$embedLibrary = new Embed();
-
-$embedLibrary->setSettings([
-    'oembed:query_parameters' => [
-        'maxwidth' => 800,
-        'maxheight' => 600,
-    ],
-]);
-
 return [
 
     'views' => false,
@@ -38,10 +26,6 @@ return [
 
     'table_of_contents' => [
         'min_heading_level' => 2,
-    ],
-
-    'embed' => [
-        'adapter' => new OscaroteroEmbedAdapter($embedLibrary),
     ],
 
     'renderer' => [
