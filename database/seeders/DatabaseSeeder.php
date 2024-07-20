@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $apiResponses = Http::pool(function (Pool $pool) use ($uniquePostsRequired) {
             $ocean = [];
 
-            $languages = ['python', 'c', 'rust', 'lua', 'haskell', 'ruby', 'html', 'curl', 'shell'];
+            $languages = ['python', 'c', 'rust', 'lua', 'haskell', 'ruby'];
 
             for ($i = 0; $i < $uniquePostsRequired; $i++) {
                 $prompt = <<<EOD
@@ -26,7 +26,9 @@ class DatabaseSeeder extends Seeder
                 Prepend a heading 2 before it, please.";
                 EOD;
 
-                $ocean[] = $pool->as("md-$i")->get(config('third-party-api.random_markdown.url'));
+                $ocean[] = $pool->as("md-$i")
+                    ->get(config('third-party-api.random_markdown.url'));
+
                 $ocean[] = $pool->as("api-$i")
                     ->withToken(config('third-party-api.openai.api_key'))
                     ->withHeaders(['Content-Type' => 'application/json'])
@@ -46,11 +48,13 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 0; $i < $uniquePostsRequired; $i++) {
             Post::factory(state: [
-                'markdown' => $apiResponses["md-$i"].$apiResponses["api-$i"]->json('choices.0.message.content'),
+                'markdown' => $apiResponses["md-$i"].$apiResponses["api-$i"]
+                    ->json('choices.0.message.content'),
             ])->published()->create();
 
             Post::factory(state: [
-                'markdown' => $apiResponses["md-$i"].$apiResponses["api-$i"]->json('choices.0.message.content'),
+                'markdown' => $apiResponses["md-$i"].$apiResponses["api-$i"]
+                    ->json('choices.0.message.content'),
             ])->published()->withAnEmbeddedVideo()->create();
         }
     }

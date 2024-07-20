@@ -51,7 +51,8 @@ class PostFactory extends Factory
             Prepend a heading 2 before it, please.";
             EOD;
 
-            $snippet = Http::chatWithAI($prompt)->json('choices.message.content');
+            $snippet = Http::chatWithAI($prompt)
+                ->json('choices.message.content');
 
             $markdown = $attributes['markdown'].$snippet;
 
