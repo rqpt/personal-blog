@@ -11,7 +11,7 @@ middleware('heal-url');
 
 <x-layout.app>
     @push('styles')
-        @vite('resources/css/app.css')
+        @vite(['resources/css/app.css', 'resources/css/torchlite.css'])
     @endpush
 
     <div

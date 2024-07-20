@@ -16,6 +16,7 @@ return [
         League\CommonMark\Extension\Autolink\AutolinkExtension::class,
         League\CommonMark\Extension\Embed\EmbedExtension::class,
         App\Markdown\TableOfContentsAlpineAttributeExtension::class,
+        App\Markdown\TorchlightNodeRendererExtension::class,
         App\Markdown\NodeFocusDisablerExtension::class,
     ],
 
