@@ -8,8 +8,7 @@ return [
 
     'openai' => [
         'url' => 'https://api.openai.com/v1/chat/completions',
-
         'api_key' => env('OPENAI_TOKEN'),
-    ]
+    ],
 
 ];
