@@ -2,6 +2,7 @@
 
 namespace App\Actions\Console;
 
+use App\Enums\TextEditor;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,7 +16,7 @@ class ComposePostMarkdown
         string $bodyTmpFilename,
         string $defaultBody = '',
     ): ?string {
-        if ($preferredTextEditor == 'builtin') {
+        if ($preferredTextEditor == TextEditor::BUILTIN->value) {
             info("No worries, here's one for you.");
 
             return textarea(
@@ -35,9 +36,13 @@ class ComposePostMarkdown
 
         $bodyTmpFilePath = Storage::path($bodyTmpFilename);
 
+        $textEditor = TextEditor::from($preferredTextEditor);
+
+        $sensibleEditorDefaults = $textEditor->sensibleDefaultSettings();
+
         do {
             Process::forever()->tty()->run(
-                "$preferredTextEditor $bodyTmpFilePath",
+                "$preferredTextEditor '$sensibleEditorDefaults' $bodyTmpFilePath", // Remove these single quotes, and you'll hate your life
             );
 
             $bodyTmpFileIsSaved = Storage::exists($bodyTmpFilename);
