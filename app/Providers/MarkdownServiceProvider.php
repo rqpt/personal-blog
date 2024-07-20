@@ -30,7 +30,7 @@ class MarkdownServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Http::macro('getRandomMarkdown', function () {
-            return Http::get(config('third-party-api.random_markdown'));
+            return Http::get(config('third-party-api.random_markdown.url'));
         });
     }
 }

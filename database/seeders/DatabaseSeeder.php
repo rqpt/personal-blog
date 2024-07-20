@@ -13,11 +13,27 @@ class DatabaseSeeder extends Seeder
     {
         $uniquePostsRequired = 2;
 
-        $markdownResponses = Http::pool(function (Pool $pool) use ($uniquePostsRequired) {
+        $apiResponses = Http::pool(function (Pool $pool) use ($uniquePostsRequired) {
             $ocean = [];
 
+            $languages = ['python', 'c', 'rust', 'lua'];
+
             for ($i = 0; $i < $uniquePostsRequired; $i++) {
-                $ocean[] = $pool->get(config('third-party-api.random_markdown'));
+                $prompt = "Please write a medium sized $languages[$i] snippet, wrapped in markdown fencing, with $languages[$i] annotated next to the opening fence. Prepend a heading 2 before it, please.";
+
+                $ocean[] = $pool->as("md-$i")->get(config('third-party-api.random_markdown.url'));
+                $ocean[] = $pool->as("api-$i")
+                    ->withToken(config('third-party-api.openai.api_key'))
+                    ->withHeaders(['Content-Type' => 'application/json'])
+                    ->post(config('third-party-api.openai.url'), [
+                        'model' => 'gpt-4o-mini',
+                        'messages' => [
+                            [
+                                'role' => 'system',
+                                'content' => $prompt,
+                            ],
+                        ],
+                    ]);
             }
 
             return $ocean;
@@ -25,11 +41,11 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 0; $i < $uniquePostsRequired; $i++) {
             Post::factory(state: [
-                'markdown' => $markdownResponses[$i],
+                'markdown' => $apiResponses["md-$i"].$apiResponses["api-$i"]->json('choices.0.message.content'),
             ])->published()->create();
 
             Post::factory(state: [
-                'markdown' => $markdownResponses[$i],
+                'markdown' => $apiResponses["md-$i"].$apiResponses["api-$i"]->json('choices.0.message.content'),
             ])->published()->withAnEmbeddedVideo()->create();
         }
     }

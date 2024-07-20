@@ -39,15 +39,32 @@ class PostFactory extends Factory
     }
 
     /** @return Factory<\App\Models\Post>  */
+    public function withARealCodeSnippet(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            $language = fake()->randomElement(['python', 'php', 'c', 'rust']);
+
+            $prompt = "Please write me a long $language script wraped in markdown fencing with $language annotated next to the opening fence.";
+
+            $snippet = Http::chatWithAI($prompt)->json('choices.message.content');
+
+            $markdown = $attributes['markdown'].$snippet;
+
+            return compact('markdown');
+        });
+    }
+
+    /** @return Factory<\App\Models\Post>  */
     public function withAnEmbeddedVideo(): Factory
     {
         return $this->state(function (array $attributes) {
             $videoSectionHeading = fake()->sentence();
+            $youtubeUrl = 'https://www.youtube.com/watch?v=';
 
             $video = fake()->randomElement([
-                'https://www.youtube.com/watch?v=3co1Wo9sAc8&pp=ygULa2lkIGhlYWRidXQ%3D',
-                'https://www.youtube.com/watch?v=UtfkrGRK8wA&pp=ygUOaG9sbHl3b29kIGJhYnk%3D',
-                'https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygULcmljayBhc3RsZXk%3D',
+                "{$youtubeUrl}3co1Wo9sAc8&pp=ygULa2lkIGhlYWRidXQ%3D",
+                "{$youtubeUrl}UtfkrGRK8wA&pp=ygUOaG9sbHl3b29kIGJhYnk%3D",
+                "{$youtubeUrl}dQw4w9WgXcQ&pp=ygULcmljayBhc3RsZXk%3D",
             ]);
 
             $videoSection = "\n\n## {$videoSectionHeading}\n\n{$video}";
