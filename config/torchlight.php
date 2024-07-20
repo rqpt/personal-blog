@@ -24,7 +24,7 @@ return [
     ],
 
     'options' => [
-        'lineNumbers' => false,
+        'lineNumbers' => true,
     ],
 
 ];

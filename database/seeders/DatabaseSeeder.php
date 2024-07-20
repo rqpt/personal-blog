@@ -5,24 +5,30 @@ namespace Database\Seeders;
 use App\Models\Post;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\Client\Pool;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $uniquePostsRequired = 3;
+        $uniquePostsRequired = 2;
 
         $apiResponses = Http::pool(function (Pool $pool) use ($uniquePostsRequired) {
             $ocean = [];
 
-            $languages = ['python', 'c', 'rust', 'lua', 'haskell', 'ruby'];
+            $languages = [
+                'python', 'c', 'rust', 'lua', 'haskell', 'ruby', 'alpine',
+                'css', 'julia', 'ocaml', 'go', 'elixir', 'cpp', 'dockerfile',
+            ];
 
             for ($i = 0; $i < $uniquePostsRequired; $i++) {
+                $language = Arr::random($languages);
+
                 $prompt = <<<EOD
-                Please write a medium sized $languages[$i] snippet,
+                Please write a medium sized $language snippet,
                 wrapped in markdown fencing,
-                with $languages[$i] annotated next to the opening fence.
+                with $language annotated next to the opening fence.
                 Prepend a heading 2 before it, please.";
                 EOD;
 
