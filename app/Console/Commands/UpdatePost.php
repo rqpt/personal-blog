@@ -44,8 +44,8 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         if ($this->option('edit')) {
             $preferredTextEditor = select(
-                label: 'Which text editor would you prefer for the post body?',
-                options: TextEditor::selectLabels(),
+                TextEditor::selectLabel(),
+                TextEditor::selectOptions(),
             );
 
             $updateValues['markdown'] = ComposePostMarkdown::handle(

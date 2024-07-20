@@ -7,11 +7,11 @@ use Illuminate\Support\Arr;
 enum TextEditor: string
 {
     case BUILTIN = 'builtin';
-    case VI = 'vi';
+    case VIM = 'vim';
     case NANO = 'nano';
 
     /** @return array<int|string, string>  */
-    public static function selectLabels(): array
+    public static function selectOptions(): array
     {
         $labels = [];
 
@@ -19,12 +19,17 @@ enum TextEditor: string
 
         foreach ($textEditors as $editor) {
             $labels[$editor] = match ($editor) {
-                self::VI->value => 'Vi 😎',
+                self::VIM->value => 'Vim 😎',
                 self::NANO->value => 'Nano ⚛️',
-                default => 'ehm...wut? 😕',
+                default => $editor,
             };
         }
 
         return $labels;
+    }
+
+    public static function selectLabel(): string
+    {
+        return 'Select your preferred text editor for the post body.';
     }
 }

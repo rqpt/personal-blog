@@ -26,14 +26,14 @@ class CreatePost extends Command
 
         $formResponses = form()
             ->text(
-                label: 'What would you like the post to be titled?',
+                label: 'Please provide a post title.',
                 placeholder: 'E.g. Are humans able to live off of tubby custard?',
                 validate: ['postTitle' => ['required', 'unique:posts,title']],
                 name: 'title',
             )
             ->select(
-                label: 'Which text editor would you prefer for the post body?',
-                options: TextEditor::selectLabels(),
+                TextEditor::selectLabel(),
+                TextEditor::selectOptions(),
                 name: 'preferredTextEditor',
             )
             ->submit();
@@ -55,7 +55,7 @@ class CreatePost extends Command
             label: 'Would you like to publish the post now?',
             yes: 'Sure, why not?',
             no: 'No, maybe later.',
-            default: false,
+            default: true,
         );
 
         if ($publishNow) {

@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Storage;
-use App\Models\Post;
-
 use function Laravel\Folio\middleware;
 
 middleware('heal-url');
@@ -22,6 +19,10 @@ middleware('heal-url');
     @keydown.k="$focus.previous()"
     @keydown.j="$focus.next()"
     >
+        <h1>
+            {{ $post->title}}
+        </h1>
+
         {!! $post->html !!}
     </div>
 </x-layout.app>
