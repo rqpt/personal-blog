@@ -16,7 +16,7 @@ middleware('heal-url');
 
     <div
     x-data
-    x-init="$focus.within($refs.toc).first()"
+    x-init="$refs.toc.getElementsByTagName('a')[0].focus()"
     @keydown.up.prevent="$focus.next()"
     @keydown.down.prevent="$focus.previous()"
     @keydown.k="$focus.previous()"
