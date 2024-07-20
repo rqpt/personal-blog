@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use League\CommonMark\Extension\Embed\Bridge\OscaroteroEmbedAdapter;
 
-class MarkdownServiceProvider extends ServiceProvider
+class ThirdPartyApiServiceProvider extends ServiceProvider
 {
     public function register()
     {
@@ -31,6 +31,21 @@ class MarkdownServiceProvider extends ServiceProvider
     {
         Http::macro('getRandomMarkdown', function () {
             return Http::get(config('third-party-api.random_markdown.url'));
+        });
+
+        Http::macro('chatWithAI', function (string $prompt) {
+            return Http::withToken(config('third-party-api.openai.api_key'))
+                ->withHeaders([
+                    'Content-Type' => 'application/json',
+                ])->post(config('third-party-api.openai.url'), [
+                    'model' => 'gpt-4o-mini',
+                    'messages' => [
+                        [
+                            'role' => 'system',
+                            'content' => $prompt,
+                        ],
+                    ],
+                ]);
         });
     }
 }
