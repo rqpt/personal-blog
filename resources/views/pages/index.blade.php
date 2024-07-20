@@ -19,8 +19,8 @@ render(function ($view) {
     <ul
     x-data="{ lastFocusedLink: localStorage.getItem('lastFocusedLink') }"
     x-init="document.getElementById(lastFocusedLink)?.focus()"
-    @keydown.up="$focus.wrap().next()"
-    @keydown.down="$focus.wrap().previous()"
+    @keydown.up="$focus.wrap().previous()"
+    @keydown.down="$focus.wrap().next()"
     @keydown.k="$focus.wrap().previous()"
     @keydown.j="$focus.wrap().next()"
     @keydown.tab.prevent="$focus.wrap().next()"
