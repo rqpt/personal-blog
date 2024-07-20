@@ -44,7 +44,12 @@ class PostFactory extends Factory
         return $this->state(function (array $attributes) {
             $language = fake()->randomElement(['python', 'php', 'c', 'rust']);
 
-            $prompt = "Please write me a long $language script wraped in markdown fencing with $language annotated next to the opening fence.";
+            $prompt = <<<EOD
+            Please write a medium sized $language snippet,
+            wrapped in markdown fencing,
+            with $language annotated next to the opening fence.
+            Prepend a heading 2 before it, please.";
+            EOD;
 
             $snippet = Http::chatWithAI($prompt)->json('choices.message.content');
 

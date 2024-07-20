@@ -11,15 +11,20 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $uniquePostsRequired = 2;
+        $uniquePostsRequired = 4;
 
         $apiResponses = Http::pool(function (Pool $pool) use ($uniquePostsRequired) {
             $ocean = [];
 
-            $languages = ['python', 'c', 'rust', 'lua'];
+            $languages = ['python', 'c', 'rust', 'lua', 'haskell', 'ruby', 'html', 'curl', 'shell'];
 
             for ($i = 0; $i < $uniquePostsRequired; $i++) {
-                $prompt = "Please write a medium sized $languages[$i] snippet, wrapped in markdown fencing, with $languages[$i] annotated next to the opening fence. Prepend a heading 2 before it, please.";
+                $prompt = <<<EOD
+                Please write a medium sized $languages[$i] snippet,
+                wrapped in markdown fencing,
+                with $languages[$i] annotated next to the opening fence.
+                Prepend a heading 2 before it, please.";
+                EOD;
 
                 $ocean[] = $pool->as("md-$i")->get(config('third-party-api.random_markdown.url'));
                 $ocean[] = $pool->as("api-$i")
