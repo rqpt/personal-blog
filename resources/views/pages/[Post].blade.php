@@ -17,10 +17,10 @@ middleware('heal-url');
     <div
     x-data
     x-init="$focus.within($refs.toc).first()"
-    @keydown.up.prevent="$focus.within($refs.toc).wrap().previous()"
-    @keydown.down.prevent="$focus.within($refs.toc).wrap().next()"
-    @keydown.k="$focus.within($refs.toc).previous()"
-    @keydown.j="$focus.within($refs.toc).next()"
+    @keydown.up.prevent="$focus.previous()"
+    @keydown.down.prevent="$focus.next()"
+    @keydown.k="$focus.previous()"
+    @keydown.j="$focus.next()"
     >
         {!! $post->html !!}
     </div>
