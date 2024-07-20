@@ -7,7 +7,7 @@ export default defineConfig({
             input: [
                 "resources/js/app.js",
                 "resources/css/app.css",
-                "resources/css/torchlite.css",
+                "resources/css/torchlight.css",
             ],
         }),
     ],

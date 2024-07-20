@@ -13,7 +13,7 @@ render(function ($view) {
 
 <x-layout.app>
     @push('styles')
-        @vite('resources/css/torchlite.css')
+        @vite('resources/css/torchlight.css')
     @endpush
 
     <ul
