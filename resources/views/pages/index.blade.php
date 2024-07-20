@@ -12,6 +12,10 @@ render(function ($view) {
 ?>
 
 <x-layout.app>
+    @push('styles')
+        @vite('resources/css/torchlite.css')
+    @endpush
+
     <ul
     x-data="{ lastFocusedLink: localStorage.getItem('lastFocusedLink') }"
     x-init="document.getElementById(lastFocusedLink)?.focus()"
@@ -95,7 +99,12 @@ render(function ($view) {
                     Run the following command, and hit refresh.
                 </p>
 
-                <pre><code>http :80/api/post title="{title}" body="# Hello World" published:=true</code></pre>
+                <pre><x-torchlight-code language='curl'>
+                    curl http://127.0.0.1:80/api/post \
+                        -d "title"="Hello World" \
+                        -d "body"="# Hi there" \
+                        -d "published"=true
+                </x-torchlight-code></pre>
 
                 <p>
                     No worries if you made a mistake - simply run the next
@@ -107,7 +116,9 @@ render(function ($view) {
                     previous command.
                 </p>
 
-                <pre><code>http DELETE :80/api/{postId}</code></pre>
+                <pre><x-torchlight-code language='curl'>
+                    curl -X DELETE http://127.0.0.1:80/api/example-post-id-5
+                </x-torchlight-code></pre>
             </div>
         </div>
     @endif

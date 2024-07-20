@@ -13,7 +13,8 @@
         "laravel/prompts": "^0.1.24",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "livewire/volt": "^1.6"
+        "livewire/volt": "^1.6",
+        "torchlight/torchlight-laravel": "^0.6.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
