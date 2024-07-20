@@ -33,7 +33,7 @@ enum TextEditor: string
         return 'Select your preferred text editor for the post body.';
     }
 
-    public function editorSensibleDefaultSettings(): string
+    public function sensibleDefaultSettings(): string
     {
         if ($this === self::VIM) {
             return <<<EOD
