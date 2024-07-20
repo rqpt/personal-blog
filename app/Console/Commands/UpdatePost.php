@@ -74,9 +74,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         $url = $post->getUrl();
 
-        $status = $post->status == PostStatus::PUBLISHED
-            ? 'published'
-            : 'drafted';
+        $status = $post->status->forHumans();
 
         outro("We've successfully $status the post! 🍾");
 
