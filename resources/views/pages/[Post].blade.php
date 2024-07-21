@@ -37,7 +37,7 @@ middleware('heal-url');
     </main>
 
 
-    @if ($post->containsCode())
+    @if ($post->contains_code)
         <footer>
             <a href="https://torchlight.dev/">
                 Syntax highlighting brought to you by Torchlight! 🔦

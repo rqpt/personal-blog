@@ -16,12 +16,16 @@ class Post extends Model
 
     protected $casts = [
         'status' => PostStatus::class,
+        'contains_code' => 'boolean',
     ];
 
     protected static function booted(): void
     {
         static::saving(function (Post $post) {
-            $post->html = Markdown::convert($post->markdown)->getContent();
+            $html = Markdown::convert($post->markdown)->getContent();
+
+            $post->html = $html;
+            $post->contains_code = Str::contains($html, '<pre>');
         });
     }
 
@@ -52,10 +56,5 @@ class Post extends Model
     public function slug(?string $title = null): string
     {
         return Str::slug($title ?? $this->title);
-    }
-
-    public function containsCode(): bool
-    {
-        return Str::contains($this->html, '<pre>');
     }
 }
