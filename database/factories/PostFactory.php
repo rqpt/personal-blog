@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Enums\PostStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\Client\Pool;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 /** @extends Factory<\App\Models\Post> */
@@ -13,69 +14,100 @@ class PostFactory extends Factory
     {
         return [
             'title' => fake()->sentence(),
-            'markdown' => Http::getRandomMarkdown(),
-            'status' => fake()->randomElement(PostStatus::cases()),
+            'markdown' => fake()->paragraphs(),
+            'published_at' => now(),
         ];
     }
 
     /** @return Factory<\App\Models\Post>  */
-    public function published(): Factory
+    public function draft(): Factory
     {
-        return $this->withState(PostStatus::PUBLISHED);
+        return $this->state(fn (array $attributes) => [
+            'published_at' => null,
+        ]);
+    }
+
+    public function withRealisticMarkdown(): Factory
+    {
+        return $this->state(fn (array $attributes) => [
+            'markdown' => Http::getRandomMarkdown(),
+        ]);
     }
 
     /** @return Factory<\App\Models\Post>  */
-    public function drafted(): Factory
+    public function withCodeSnippet(int $count = 1): Factory
     {
-        return $this->withState(PostStatus::DRAFT);
-    }
+        return $this->state(function (array $attributes) use ($count) {
+            $markdown = $attributes['markdown'];
 
-    /** @return Factory<\App\Models\Post>  */
-    private function withState(PostStatus $status): Factory
-    {
-        return $this->state(function (array $attributes) use ($status) {
-            return compact('status');
-        });
-    }
+            $apiResponses = Http::pool(function (Pool $pool) use ($count) {
+                $ocean = [];
 
-    /** @return Factory<\App\Models\Post>  */
-    public function withARealCodeSnippet(): Factory
-    {
-        return $this->state(function (array $attributes) {
-            $language = fake()->randomElement(['python', 'php', 'c', 'rust']);
+                $languages = [
+                    'python', 'c', 'rust', 'lua', 'haskell', 'ruby', 'alpine',
+                    'css', 'julia', 'ocaml', 'go', 'elixir', 'cpp', 'dockerfile',
+                ];
 
-            $prompt = <<<EOD
-            Please write a medium sized $language snippet,
-            wrapped in markdown fencing,
-            with $language annotated next to the opening fence.
-            Prepend a heading 2 before it, please.";
-            EOD;
+                for ($i = 0; $i < $count; $i++) {
+                    $language = Arr::random($languages);
 
-            $snippet = Http::chatWithAI($prompt)
-                ->json('choices.message.content');
+                    $prompt = <<<EOD
+                    Please write a medium sized $language snippet,
+                    wrapped in markdown fencing, with $language annotated next
+                    to the opening fence. Prepend a heading 2 before it,
+                    please. Next to some of the code lines, I want you to add
+                    some special annotations. I want one line appended with a
+                    '[tl! ~~]', one appended with '[tl! **]', one with
+                    '[tl! ++]', and one with '[tl! --]'. They should be
+                    wrapped in a comment syntax.
+                    EOD;
 
-            $markdown = $attributes['markdown'].$snippet;
+                    $ocean[] = $pool
+                        ->withToken(config('third-party-api.openai.api_key'))
+                        ->withHeaders(['Content-Type' => 'application/json'])
+                        ->post(config('third-party-api.openai.url'), [
+                            'model' => 'gpt-4o-mini',
+                            'messages' => [
+                                [
+                                    'role' => 'system',
+                                    'content' => $prompt,
+                                ],
+                            ],
+                        ]);
+                }
+
+                return $ocean;
+            });
+
+            foreach ($apiResponses as $response) {
+                $markdown .= "\n\n".$response->json('choices.0.message.content');
+            }
 
             return compact('markdown');
         });
     }
 
     /** @return Factory<\App\Models\Post>  */
-    public function withAnEmbeddedVideo(): Factory
+    public function withEmbeddedVideo(int $count = 1): Factory
     {
-        return $this->state(function (array $attributes) {
-            $videoSectionHeading = fake()->sentence();
+        return $this->state(function (array $attributes) use ($count) {
             $youtubeUrl = 'https://www.youtube.com/watch?v=';
 
-            $video = fake()->randomElement([
-                "{$youtubeUrl}3co1Wo9sAc8&pp=ygULa2lkIGhlYWRidXQ%3D",
-                "{$youtubeUrl}UtfkrGRK8wA&pp=ygUOaG9sbHl3b29kIGJhYnk%3D",
-                "{$youtubeUrl}dQw4w9WgXcQ&pp=ygULcmljayBhc3RsZXk%3D",
-            ]);
+            $markdown = $attributes['markdown'];
 
-            $videoSection = "\n\n## {$videoSectionHeading}\n\n{$video}";
+            for ($i = 0; $i < $count; $i++) {
+                $videoSectionHeading = fake()->sentence();
 
-            $markdown = $attributes['markdown'].$videoSection;
+                $video = fake()->randomElement([
+                    "{$youtubeUrl}3co1Wo9sAc8&pp=ygULa2lkIGhlYWRidXQ%3D",
+                    "{$youtubeUrl}UtfkrGRK8wA&pp=ygUOaG9sbHl3b29kIGJhYnk%3D",
+                    "{$youtubeUrl}dQw4w9WgXcQ&pp=ygULcmljayBhc3RsZXk%3D",
+                ]);
+
+                $videoSection = "\n\n## {$videoSectionHeading}\n\n{$video}";
+
+                $markdown .= "\n\n".$videoSection;
+            }
 
             return compact('markdown');
         });

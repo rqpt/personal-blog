@@ -27,9 +27,13 @@ class DatabaseSeeder extends Seeder
 
                 $prompt = <<<EOD
                 Please write a medium sized $language snippet,
-                wrapped in markdown fencing,
-                with $language annotated next to the opening fence.
-                Prepend a heading 2 before it, please.";
+                wrapped in markdown fencing, with $language annotated next
+                to the opening fence. Prepend a heading 2 before it,
+                please. Next to some of the code lines, I want you to add
+                some special annotations. I want one line appended with a
+                '[tl! ~~]', one appended with '[tl! **]', one with
+                '[tl! ++]', and one with '[tl! --]'. They should be
+                wrapped in a comment syntax.
                 EOD;
 
                 $ocean[] = $pool->as("md-$i")
@@ -55,15 +59,15 @@ class DatabaseSeeder extends Seeder
         });
 
         for ($i = 0; $i < $uniquePostsRequired; $i++) {
-            Post::factory(state: [
-                'markdown' => $apiResponses["md-$i"].$apiResponses["api-$i"]
+            Post::factory([
+                'markdown' => $apiResponses["md-$i"]."\n\n".$apiResponses["api-$i"]
                     ->json('choices.0.message.content'),
-            ])->published()->create();
+            ])->create();
 
-            Post::factory(state: [
-                'markdown' => $apiResponses["md-$i"].$apiResponses["api-$i"]
+            Post::factory([
+                'markdown' => $apiResponses["md-$i"]."\n\n".$apiResponses["api-$i"]
                     ->json('choices.0.message.content'),
-            ])->published()->withAnEmbeddedVideo()->create();
+            ])->withEmbeddedVideo()->create();
         }
     }
 }

@@ -20,10 +20,4 @@ return new class extends Migration
             $table->integer('expiration');
         });
     }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('cache');
-        Schema::dropIfExists('cache_locks');
-    }
 };

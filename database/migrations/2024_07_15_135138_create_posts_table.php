@@ -14,13 +14,8 @@ return new class extends Migration
             $table->longText('html');
             $table->longText('markdown');
             $table->tinyInteger('contains_code');
-            $table->tinyInteger('status')->default(0); // cast as bool
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('posts');
     }
 };

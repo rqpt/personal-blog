@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Actions\Console\ComposePostMarkdown;
-use App\Enums\PostStatus;
 use App\Enums\TextEditor;
 use App\Models\Post;
 use Illuminate\Console\Command;
@@ -37,9 +36,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
         $bodyTmpFilename = Str::slug($post->title).'.md';
 
         $updateValues = [
-            'status' => $this->option('published')
-                ? PostStatus::PUBLISHED
-                : PostStatus::DRAFT,
+            'published_at' => $this->option('published') ? now() : null,
         ];
 
         if ($this->option('edit')) {
@@ -72,12 +69,8 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         $post->update($updateValues);
 
-        $status = $post->status->forHumans();
-
-        outro("We've successfully $status the post! 🍾");
-
-        if ($post->status == PostStatus::PUBLISHED) {
-            outro("You can access it at $post->url");
+        if ($post->published_at) {
+            outro("You can access it at {$post->url()}");
         }
     }
 

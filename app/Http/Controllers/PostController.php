@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\PostStatus;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -13,9 +12,7 @@ class PostController
     public function index(Request $request): AnonymousResourceCollection
     {
         if ($request->has('published')) {
-            $statusType = PostStatus::from($request->published);
-
-            $posts = Post::where('status', $statusType)->get();
+            $posts = Post::whereNotNull('published_at')->get();
         } else {
             $posts = Post::all();
         }
@@ -40,9 +37,12 @@ class PostController
 
         $updateValues = [
             'title' => $request->title,
-            'status' => PostStatus::tryFrom((int) $request->published),
             'markdown' => $request->body,
         ];
+
+        if ($request->published) {
+            $updateValues['published_at'] = now();
+        }
 
         $post = Post::create($updateValues);
 
@@ -53,9 +53,7 @@ class PostController
     {
         $post = $this->determinePostFromSlug($postSlugOrID);
 
-        $updateValues = [
-            'status' => PostStatus::tryFrom((int) $request->published),
-        ];
+        $updateValues = [];
 
         if ($request->has('title')) {
             $updateValues['title'] = $request->title;
@@ -63,6 +61,10 @@ class PostController
 
         if ($request->has('body')) {
             $updateValues['markdown'] = $request->body;
+        }
+
+        if ($request->has('published') && $request->published) {
+            $updateValues['published_at'] = now();
         }
 
         $post->update($updateValues);

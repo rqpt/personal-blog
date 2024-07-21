@@ -32,7 +32,7 @@ class ThirdPartyApiServiceProvider extends ServiceProvider
         Http::macro('getRandomMarkdown', function () {
             return Http::get(config('third-party-api.random_markdown.url'), [
                 'no-code' => 'on',
-            ]);
+            ])->body();
         });
 
         Http::macro('chatWithAI', function (string $prompt) {
@@ -47,7 +47,7 @@ class ThirdPartyApiServiceProvider extends ServiceProvider
                             'content' => $prompt,
                         ],
                     ],
-                ]);
+                ])->json('choices.0.message.content');
         });
     }
 }

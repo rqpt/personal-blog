@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Actions\Console\ComposePostMarkdown as ComposePostMarkdown;
-use App\Enums\PostStatus;
 use App\Enums\TextEditor;
 use App\Models\Post;
 use Illuminate\Console\Command;
@@ -59,10 +58,10 @@ class CreatePost extends Command
         );
 
         if ($publishNow) {
-            $post->update(['status' => PostStatus::PUBLISHED]);
+            $post->update(['published_at' => now()]);
 
             outro("We've successfully published the post! 🍾");
-            outro("You can access it at $post->url");
+            outro("You can access it at {$post->url()}");
         }
     }
 }

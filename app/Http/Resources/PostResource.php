@@ -30,7 +30,7 @@ class PostResource extends JsonResource
         $response = [
             'id' => $this->id,
             'title' => $this->title,
-            'status' => $this->status->forHumans(),
+            'published' => $this->published_at,
             ...$postBody,
         ];
 
