@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Actions\Console\ComposePostMarkdown;
-use App\Enums\TextEditor;
 use App\Models\Post;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
@@ -41,12 +40,13 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         if ($this->option('edit')) {
             $preferredTextEditor = select(
-                TextEditor::selectLabel(),
-                TextEditor::selectOptions(),
+                label: 'Select your preferred text editor for the post body.',
+                options: ['nvim' => 'neovim', 'builtin'],
+                default: 'nvim',
             );
 
             $updateValues['markdown'] = ComposePostMarkdown::handle(
-                (string) $preferredTextEditor,
+                $preferredTextEditor,
                 $bodyTmpFilename,
                 $post->markdown,
             );

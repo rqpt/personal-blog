@@ -16,8 +16,12 @@ class ComposePostMarkdown
         string $bodyTmpFilename,
         string $defaultBody = '',
     ): ?string {
+        $sensibleEditorDefaults = config('editor.options');
+
         if ($preferredTextEditor == TextEditor::BUILTIN->value) {
             info("No worries, here's one for you.");
+
+            $sensibleEditorDefaults = '';
 
             return textarea(
                 label: 'Please write your post in markdown format.',
@@ -35,10 +39,6 @@ class ComposePostMarkdown
         Storage::put($bodyTmpFilename, $defaultBody);
 
         $bodyTmpFilePath = Storage::path($bodyTmpFilename);
-
-        $textEditor = TextEditor::from($preferredTextEditor);
-
-        $sensibleEditorDefaults = $textEditor->sensibleDefaultSettings();
 
         do {
             Process::forever()->tty()->run(

@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Actions\Console\ComposePostMarkdown as ComposePostMarkdown;
-use App\Enums\TextEditor;
 use App\Models\Post;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
@@ -26,13 +25,14 @@ class CreatePost extends Command
         $formResponses = form()
             ->text(
                 label: 'Please provide a post title.',
-                placeholder: 'E.g. Are humans able to live off of tubby custard?',
+                placeholder: 'E.g. I give myself very good advice, but I very seldom follow it.',
                 validate: ['postTitle' => ['required', 'unique:posts,title']],
                 name: 'title',
             )
             ->select(
-                TextEditor::selectLabel(),
-                TextEditor::selectOptions(),
+                label: 'Select your preferred text editor for the post body.',
+                options: ['nvim' => 'neovim', 'builtin'],
+                default: 'nvim',
                 name: 'preferredTextEditor',
             )
             ->submit();
