@@ -61,10 +61,8 @@ class CreatePost extends Command
         if ($publishNow) {
             $post->update(['status' => PostStatus::PUBLISHED]);
 
-            $url = $post->getUrl();
-
             outro("We've successfully published the post! 🍾");
-            outro("You can access it at $url");
+            outro("You can access it at $post->url");
         }
     }
 }

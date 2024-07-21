@@ -47,41 +47,9 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     </head>
     <livewire:wire-nav />
 
-    <body
-    x-data="{hideHeader: @js(request()->is('/'))}"
-    >
-        <header
-        @if (request()->is('/'))
-        x-cloak
-        @endif
-        x-show="!hideHeader"
-        >
-            <!-- Workaround to get wire:navigate working for links. -->
-            <nav>
-                <a
-                wire:navigate.hover
-                @mouseenter="$focus.focus($el)"
-                href="/"
-                >
-                    Home
-                </a>
-            </nav>
-        </header>
+    <body>
 
-        <main>
-
-            {{ $slot }}
-
-        </main>
-
-
-        <footer>
-            <a href="https://torchlight.dev/">
-                Syntax highlighting is brought to you by Torchlight! 🔦
-            </a>
-
-            <p>Check them out!</p>
-        </footer>
+        {{ $slot }}
 
     </body>
 </html>

@@ -19,7 +19,7 @@ class HealUrl
 
         $post = Post::findOrFail($postId);
 
-        $trueUrl = $post->getUrlSlug();
+        $trueUrl = $post->urlSlug();
 
         if ($trueUrl !== $path) {
             $trueUrl = url()->query($trueUrl, $request->query());

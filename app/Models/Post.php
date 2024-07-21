@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
 
 class Post extends Model
 {
@@ -33,11 +32,6 @@ class Post extends Model
         return parent::resolveRouteBinding($postId, $field);
     }
 
-    /**
-     * @param  Builder<Post>  $query
-     *
-     * @throws InvalidArgumentException
-     */
     public function scopePublished(Builder $query): void
     {
         $query->where('status', PostStatus::PUBLISHED)
@@ -45,18 +39,23 @@ class Post extends Model
             ->select(['id', 'title']);
     }
 
-    public function getUrl(): string
+    public function url(): string
     {
-        return url($this->getUrlSlug());
+        return url($this->urlSlug());
     }
 
-    public function getUrlSlug(): string
+    public function urlSlug(): string
     {
-        return $this->asSlug().'-'.$this->id;
+        return $this->slug().'-'.$this->id;
     }
 
-    public function asSlug(?string $title = null): string
+    public function slug(?string $title = null): string
     {
         return Str::slug($title ?? $this->title);
+    }
+
+    public function containsCode(): bool
+    {
+        return Str::contains($this->html, '<pre>');
     }
 }
