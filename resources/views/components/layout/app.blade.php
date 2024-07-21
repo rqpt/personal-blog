@@ -74,5 +74,14 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
 
         </main>
 
+
+        <footer>
+            <a href="https://torchlight.dev/">
+                Syntax highlighting is brought to you by Torchlight! 🔦
+            </a>
+
+            <p>Check them out!</p>
+        </footer>
+
     </body>
 </html>
