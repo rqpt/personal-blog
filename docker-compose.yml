@@ -19,7 +19,10 @@ services:
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
         volumes:
             - '.:/var/www/html'
-            - './docker/nvim:/home/sail/.config/nvim'
+            - './docker/nvim/config:/home/sail/.config/nvim'
+            - './docker/nvim/local:/home/sail/.local/share/nvim'
+            - './docker/nvim/state:/home/sail/.local/state'
+            - './docker/nvim/cache:/home/sail/.cache/nvim'
         networks:
             - sail
         depends_on: {  }
