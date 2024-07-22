@@ -13,7 +13,6 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=UTC
 ENV SUPERVISOR_PHP_COMMAND="/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan serve --host=0.0.0.0 --port=80"
 ENV SUPERVISOR_PHP_USER="sail"
-ENV XDG_CONFIG_HOME="/home/sail/.config"
 ENV PATH="$PATH:/opt/nvim-linux64/bin"
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -51,7 +50,6 @@ RUN apt-get update \
     && apt-get install -y postgresql-client-$POSTGRES_VERSION \
     && curl -LO https://github.com/neovim/neovim/releases/download/v0.9.5/nvim-linux64.tar.gz \
     && tar -C /opt -xzf nvim-linux64.tar.gz \
-
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
