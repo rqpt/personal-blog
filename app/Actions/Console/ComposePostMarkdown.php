@@ -2,7 +2,6 @@
 
 namespace App\Actions\Console;
 
-use App\Enums\TextEditor;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +17,7 @@ class ComposePostMarkdown
     ): ?string {
         $sensibleEditorDefaults = config('editor.options');
 
-        if ($preferredTextEditor == TextEditor::BUILTIN->value) {
+        if ($preferredTextEditor == 'builtin') {
             info("No worries, here's one for you.");
 
             $sensibleEditorDefaults = '';
