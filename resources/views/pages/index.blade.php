@@ -12,10 +12,6 @@ render(function ($view) {
 ?>
 
 <x-layout.app>
-    @push('styles')
-        @vite('resources/css/torchlight.css')
-    @endpush
-
     <main>
         <ul
         x-data="{ lastFocusedLink: localStorage.getItem('lastFocusedLink') }"
@@ -27,7 +23,7 @@ render(function ($view) {
         @keydown.tab.prevent="$focus.wrap().next()"
         @keydown.shift.tab.prevent="$focus.wrap().previous()"
         >
-            @foreach ($posts as $post)
+            @foreach($posts as $post)
             @php $linkRef = "link-{$loop->iteration}"; @endphp
                 <li>
                     <a

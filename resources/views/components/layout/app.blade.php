@@ -39,7 +39,7 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
             [x-cloak] { display: none !important; }
         </style>
 
-        @stack('styles')
+        @vite(['resources/css/app.css', 'resources/css/torchlight.css'])
 
         <title>
             rqpt's blog

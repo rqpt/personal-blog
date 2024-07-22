@@ -7,17 +7,6 @@ middleware('heal-url');
 ?>
 
 <x-layout.app>
-    @php
-        $stylesheets = [
-            'resources/css/app.css',
-            'resources/css/torchlight.css',
-        ];
-
-        $requiredStylesheets = $post->contains_code ? $stylesheets : [$stylesheets[0]];
-    @endphp
-
-    @vite($requiredStylesheets)
-
     <header >
         <nav>
             <a
@@ -44,12 +33,11 @@ middleware('heal-url');
     </main>
 
 
-    @if ($post->contains_code)
+    @if($post->contains_code)
         <footer>
             <a href="https://torchlight.dev/">
                 Syntax highlighting brought to you by Torchlight! 🔦
             </a>
         </footer>
     @endif
-
 </x-layout.app>
