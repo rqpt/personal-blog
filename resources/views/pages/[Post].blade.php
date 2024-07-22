@@ -7,9 +7,16 @@ middleware('heal-url');
 ?>
 
 <x-layout.app>
-    @push('styles')
-        @vite(['resources/css/app.css', 'resources/css/torchlight.css'])
-    @endpush
+    @php
+        $stylesheets = [
+            'resources/css/app.css',
+            'resources/css/torchlight.css',
+        ];
+
+        $requiredStylesheets = $post->contains_code ? $stylesheets : [$stylesheets[0]];
+    @endphp
+
+    @vite($requiredStylesheets)
 
     <header >
         <nav>
