@@ -5,7 +5,6 @@ namespace App\Actions\Console;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 
-use function Laravel\Prompts\pause;
 use function Laravel\Prompts\textarea;
 
 class ComposePostMarkdown
@@ -29,8 +28,6 @@ class ComposePostMarkdown
                 rows: 25,
             );
         }
-
-        pause('Are you ready to embark on this quest?');
 
         $bodyTmpFileIsSaved = false;
         $bodyTmpFileIsEmpty = true;
