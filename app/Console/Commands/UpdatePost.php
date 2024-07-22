@@ -41,7 +41,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
         if ($this->option('edit')) {
             $preferredTextEditor = select(
                 label: 'Select your preferred text editor for the post body.',
-                options: ['nvim' => 'neovim', 'builtin'],
+                options: ['nvim' => 'neovim', 'builtin' => 'builtin'],
                 default: 'nvim',
             );
 
