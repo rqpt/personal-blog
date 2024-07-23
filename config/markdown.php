@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
+
 return [
 
     'views' => false,
@@ -14,9 +16,16 @@ return [
         League\CommonMark\Extension\FrontMatter\FrontMatterExtension::class,
         League\CommonMark\Extension\GithubFlavoredMarkdownExtension::class,
         League\CommonMark\Extension\Autolink\AutolinkExtension::class,
-        League\CommonMark\Extension\Embed\EmbedExtension::class,
         App\Markdown\TableOfContentsAlpineAttributeExtension::class,
+        League\CommonMark\Extension\Embed\EmbedExtension::class,
         App\Markdown\TorchlightNodeRendererExtension::class,
+    ],
+
+    'default_attributes' => [
+        Link::class => [
+            '@mouseenter' => '$el.focus()',
+            'x-intersect:leave' => '$el.blur()',
+        ],
     ],
 
     'heading_permalink' => [

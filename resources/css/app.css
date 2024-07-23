@@ -1,8 +1,5 @@
-/*
- Set heading permalinks invisible by default.
-*/
-
-.heading-permalink {
+.heading-permalink
+{
     font-size: .8em;
     vertical-align: super;
     text-decoration: none;
@@ -16,7 +13,13 @@ h4:hover .heading-permalink,
 h5:hover .heading-permalink,
 h6:hover .heading-permalink,
 .heading-permalink:hover,
-.heading-permalink:focus {
+.heading-permalink:focus
+{
     text-decoration: none;
     color: #777;
+}
+
+#toc
+{
+    margin-top: 1rem;
 }

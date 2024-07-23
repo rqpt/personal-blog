@@ -27,14 +27,23 @@ class TableOfContentsAlpineAttributeExtension implements ExtensionInterface
             ->where(Query::type(TableOfContents::class))
             ->findOne($document);
 
-        $tableOfContents?->data->set('attributes/x-ref', 'toc');
+        $tableOfContents?->data->set('attributes/id', 'toc');
+        $tableOfContents?->data->set('attributes/x-bind', 'toc');
+        $tableOfContents?->data->set('attributes/x-collapse', 'true');
+        $tableOfContents?->data->set('attributes/x-cloak', 'true');
+        $tableOfContents?->data->set('attributes/x-trap', 'tocExpanded');
+        $tableOfContents?->data->set('attributes/x-show', 'tocExpanded');
+        $tableOfContents?->data->set('attributes/@click', 'tocExpanded = false');
 
-        $links = (new Query())
-            ->where(Query::type(Link::class))
-            ->findAll($document);
+        if ($tableOfContents) {
+            $links = (new Query())
+                ->where(Query::type(Link::class))
+                ->findAll($tableOfContents);
 
-        foreach ($links as $link) {
-            $link->data->set('attributes/@mouseenter', '$focus.focus($el)');
+            foreach ($links as $link) {
+                $link->data->set('attributes/@mouseenter', '$el.focus()');
+                $link->data->set('attributes/x-intersect:leave', '$el.blur()');
+            }
         }
     }
 }

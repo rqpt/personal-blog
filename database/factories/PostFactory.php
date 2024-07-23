@@ -27,11 +27,69 @@ class PostFactory extends Factory
         ]);
     }
 
-    public function withRealisticMarkdown(): Factory
+    /** @return Factory<\App\Models\Post>  */
+    public function withBody(): Factory
     {
         return $this->state(fn (array $attributes) => [
             'markdown' => Http::getRandomMarkdown(),
         ]);
+    }
+
+    /** @return Factory<\App\Models\Post>  */
+    public function withRealisticBody(string $language): Factory
+    {
+        return $this->state(function (array $attributes) use ($language) {
+            $prompt = <<<EOD
+            Please write a medium sized blog post in markdown. It should have
+            headings, tables, ordered and unordered lists, bolded parts,
+            italicised parts , maybe even both bolded and italicised sometimes,
+            quotes. Line breaks, links, etc. I want to see all markdown has to
+            offer. The blog post should be written in $language.
+            EOD;
+
+            $aiResponse = Http::withToken(config('third-party-api.openai.api_key'))
+                ->withHeaders(['Content-Type' => 'application/json'])
+                ->post(config('third-party-api.openai.url'), [
+                    'model' => 'gpt-4o-mini',
+                    'messages' => [
+                        [
+                            'role' => 'system',
+                            'content' => $prompt,
+                        ],
+                    ],
+                ]);
+
+            return [
+                'markdown' => $aiResponse->json('choices.0.message.content'),
+            ];
+        });
+    }
+
+    /** @return Factory<\App\Models\Post>  */
+    public function withRealisticTitle(string $language): Factory
+    {
+        return $this->state(function (array $attributes) use ($language) {
+            $prompt = <<<EOD
+            Write a nice title for my blog post, keep it short and sweet.
+            The language the title should be written in is $language.
+            EOD;
+
+            $aiResponse = Http::withToken(config('third-party-api.openai.api_key'))
+                ->withHeaders(['Content-Type' => 'application/json'])
+                ->post(config('third-party-api.openai.url'), [
+                    'model' => 'gpt-4o-mini',
+                    'messages' => [
+                        [
+                            'role' => 'system',
+                            'content' => $prompt,
+                        ],
+                    ],
+                ]);
+
+            return [
+                'title' => $aiResponse->json('choices.0.message.content'),
+            ];
+        });
     }
 
     /** @return Factory<\App\Models\Post>  */
@@ -58,8 +116,8 @@ class PostFactory extends Factory
                     please. Next to some of the code lines, I want you to add
                     some special annotations. I want one line appended with a
                     '[tl! ~~]', one appended with '[tl! **]', one with
-                    '[tl! ++]', and one with '[tl! --]'. They should be
-                    wrapped in a comment syntax.
+                    '[tl! ++]', and one with '[tl! --]'. They should be wrapped
+                    in a comment syntax.
                     EOD;
 
                     $ocean[] = $pool
@@ -95,14 +153,16 @@ class PostFactory extends Factory
 
             $markdown = $attributes['markdown'];
 
+            $videos = [
+                "{$youtubeUrl}3co1Wo9sAc8&pp=ygULa2lkIGhlYWRidXQ%3D",
+                "{$youtubeUrl}UtfkrGRK8wA&pp=ygUOaG9sbHl3b29kIGJhYnk%3D",
+                "{$youtubeUrl}dQw4w9WgXcQ&pp=ygULcmljayBhc3RsZXk%3D",
+            ];
+
             for ($i = 0; $i < $count; $i++) {
                 $videoSectionHeading = fake()->sentence();
 
-                $video = fake()->randomElement([
-                    "{$youtubeUrl}3co1Wo9sAc8&pp=ygULa2lkIGhlYWRidXQ%3D",
-                    "{$youtubeUrl}UtfkrGRK8wA&pp=ygUOaG9sbHl3b29kIGJhYnk%3D",
-                    "{$youtubeUrl}dQw4w9WgXcQ&pp=ygULcmljayBhc3RsZXk%3D",
-                ]);
+                $video = Arr::random($videos);
 
                 $videoSection = "\n\n## {$videoSectionHeading}\n\n{$video}";
 

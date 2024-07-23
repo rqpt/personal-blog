@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $uniquePostsRequired = 2;
+        $uniquePostsRequired = 1;
 
         $apiResponses = Http::pool(function (Pool $pool) use ($uniquePostsRequired) {
             $ocean = [];
@@ -32,8 +32,8 @@ class DatabaseSeeder extends Seeder
                 please. Next to some of the code lines, I want you to add
                 some special annotations. I want one line appended with a
                 '[tl! ~~]', one appended with '[tl! **]', one with
-                '[tl! ++]', and one with '[tl! --]'. They should be
-                wrapped in a comment syntax.
+                '[tl! ++]', and one with '[tl! --]'. They should be wrapped
+                in a comment syntax.
                 EOD;
 
                 $ocean[] = $pool->as("md-$i")
@@ -59,11 +59,6 @@ class DatabaseSeeder extends Seeder
         });
 
         for ($i = 0; $i < $uniquePostsRequired; $i++) {
-            Post::factory([
-                'markdown' => $apiResponses["md-$i"]."\n\n".$apiResponses["api-$i"]
-                    ->json('choices.0.message.content'),
-            ])->create();
-
             Post::factory([
                 'markdown' => $apiResponses["md-$i"]."\n\n".$apiResponses["api-$i"]
                     ->json('choices.0.message.content'),

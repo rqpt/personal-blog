@@ -20,14 +20,19 @@ middleware('heal-url');
     </header>
 
     <main>
-        <div
-        x-data
-        x-init="$refs.toc?.getElementsByTagName('a')[0].focus()"
-        @keydown.up.prevent="$focus.next()"
-        @keydown.down.prevent="$focus.previous()"
-        @keydown.k="$focus.previous()"
-        @keydown.j="$focus.next()"
-        >
+        <div x-data="{ tocExpanded: false }">
+            <button
+            x-ref="tocButton"
+            x-init="$el.focus()"
+            x-intersect:enter="$el.focus()"
+            x-intersect:leave="$el.blur()"
+            @click="tocExpanded = true"
+            @keydown.j="$focus.next()"
+            @keydown.k="$focus.previous()"
+            >
+                Table of Contents
+            </button>
+
             {!! $post->html !!}
         </div>
     </main>
@@ -40,4 +45,31 @@ middleware('heal-url');
             </a>
         </footer>
     @endif
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.bind('toc', () => ({
+                '@keydown.escape'() {
+                     this.tocExpanded = false;
+                     this.$refs.tocButton.focus();
+                },
+
+                '@keydown.j.stop'() {
+                     this.$focus.wrap().next();
+                },
+
+                '@keydown.k.stop'() {
+                     this.$focus.wrap().previous();
+                },
+
+                '@keydown.tab'() {
+                     this.$focus.wrap().next();
+                },
+
+                '@keydown.shift.tab'() {
+                     this.$focus.wrap().previous();
+                },
+            }));
+        });
+    </script>
 </x-layout.app>
