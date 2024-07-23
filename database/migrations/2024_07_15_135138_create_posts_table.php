@@ -14,6 +14,7 @@ return new class extends Migration
             $table->longText('html');
             $table->longText('markdown');
             $table->tinyInteger('contains_code');
+            $table->tinyInteger('contains_toc')->default(0);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

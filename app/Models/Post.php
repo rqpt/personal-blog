@@ -16,6 +16,7 @@ class Post extends Model
 
     protected $casts = [
         'contains_code' => 'boolean',
+        'contains_toc' => 'boolean',
     ];
 
     protected static function booted(): void
@@ -25,6 +26,7 @@ class Post extends Model
 
             $post->html = $html;
             $post->contains_code = Str::contains($html, '<pre>');
+            $post->contains_toc = Str::contains($html, '<ul id="toc" ');
         });
     }
 

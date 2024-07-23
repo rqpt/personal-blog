@@ -19,8 +19,10 @@ middleware('heal-url');
         </nav>
     </header>
 
-    <main>
-        <div x-data="{ tocExpanded: false }">
+    <main
+    x-data="{ tocExpanded: false }"
+    >
+        @if($post->contains_toc)
             <button
             x-ref="tocButton"
             x-init="$el.focus()"
@@ -32,44 +34,48 @@ middleware('heal-url');
             >
                 Table of Contents
             </button>
+        @endif
 
-            {!! $post->html !!}
-        </div>
+        {!! $post->html !!}
     </main>
 
 
     @if($post->contains_code)
         <footer>
-            <a href="https://torchlight.dev/">
+            <a
+            href="https://torchlight.dev/"
+            >
                 Syntax highlighting brought to you by Torchlight! 🔦
             </a>
         </footer>
     @endif
 
-    <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.bind('toc', () => ({
-                '@keydown.escape'() {
-                     this.tocExpanded = false;
-                     this.$refs.tocButton.focus();
-                },
+    @if($post->contains_toc)
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.bind('toc', () => ({
+                    '@keydown.escape'() {
+                         this.tocExpanded = false;
+                         this.$refs.tocButton.focus();
+                    },
 
-                '@keydown.j.stop'() {
-                     this.$focus.wrap().next();
-                },
+                    '@keydown.j.stop'() {
+                         this.$focus.wrap().next();
+                    },
 
-                '@keydown.k.stop'() {
-                     this.$focus.wrap().previous();
-                },
+                    '@keydown.k.stop'() {
+                         this.$focus.wrap().previous();
+                    },
 
-                '@keydown.tab'() {
-                     this.$focus.wrap().next();
-                },
+                    '@keydown.tab'() {
+                         this.$focus.wrap().next();
+                    },
 
-                '@keydown.shift.tab'() {
-                     this.$focus.wrap().previous();
-                },
-            }));
-        });
-    </script>
+                    '@keydown.shift.tab'() {
+                         this.$focus.wrap().previous();
+                    },
+                }));
+            });
+        </script>
+    @endif
 </x-layout.app>
