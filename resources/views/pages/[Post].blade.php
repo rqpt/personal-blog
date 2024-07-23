@@ -28,7 +28,7 @@ middleware('heal-url');
             x-init="$el.focus()"
             x-intersect:enter="$el.focus()"
             x-intersect:leave="$el.blur()"
-            @click="tocExpanded = true"
+            @click="tocExpanded = !tocExpanded"
             @keydown.j="$focus.next()"
             @keydown.k="$focus.previous()"
             >
@@ -38,7 +38,6 @@ middleware('heal-url');
 
         {!! $post->html !!}
     </main>
-
 
     @if($post->contains_code)
         <footer>
