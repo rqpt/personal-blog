@@ -24,7 +24,7 @@ return [
     'default_attributes' => [
         Link::class => [
             '@mouseenter' => '$el.focus()',
-            'x-intersect:enter.margin.-20%' => '!atTopOfPage && $el.focus({ preventScroll: true })',
+            'x-intersect:enter' => '!atTopOfPage && $el.focus({ preventScroll: true })',
             'x-intersect:leave' => '$el.blur()',
         ],
     ],

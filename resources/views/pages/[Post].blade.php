@@ -38,6 +38,7 @@ middleware('heal-url');
         @endif
 
         {!! $post->html !!}
+
     </main>
 
     @if($post->contains_code)
