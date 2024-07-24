@@ -1,16 +1,3 @@
-<?php
-
-$possibleThemes = [
-    'amber', 'blue', 'cyan', 'fuchsia', 'green', 'grey', 'red', 'jade', 'lime',
-    'orange', 'pink', 'pumpkin', 'purple', 'indigo', 'sand', 'slate', 'violet',
-    'yellow', 'zinc', 'amber', 'blue', 'cyan', 'jade', 'green', 'grey', 'lime',
-    'fuchsia', 'red', 'orange', 'pink', 'pumpkin', 'purple', 'indigo', 'slate',
-];
-
-$theme = $possibleThemes[date('d') - 1];
-
-?>
-
 <!DOCTYPE html>
 <html
 lang="{{ str_replace('_', '-', app()->getLocale()) }}"
@@ -34,7 +21,7 @@ x-ref="root"
 
         <link
         rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.{{ $theme }}.min.css"
+        href="pico/css/pico.classless.green.min.css"
         />
 
         <style>

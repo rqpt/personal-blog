@@ -57,6 +57,24 @@ render(function ($view) {
                     />
                 </li>
             </ul>
+            <ul>
+                <li>
+                   <form
+                   role="search"
+                   id="search"
+                   >
+                      <input
+                      name="search"
+                      type="search"
+                      placeholder="Search"
+                      />
+                      <input
+                      type="submit"
+                      value="Search"
+                      />
+                    </form>
+                </li>
+            </ul>
         </nav>
     </header>
     <main>
@@ -94,11 +112,6 @@ render(function ($view) {
                     </article>
                 @endforeach
             </div>
-
-           <form role="search">
-              <input name="search" type="search" placeholder="Search" />
-              <input type="submit" value="Search" />
-            </form>
         @else
             <p>
                 No posts found

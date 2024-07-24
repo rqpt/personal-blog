@@ -5,3 +5,4 @@ Post::factory(5)->withRealisticTitle('afrikaans')->withRealisticBody('afrikaans'
 Post::factory(3)->withRealisticTitle('afrikaans')->withRealisticBody('afrikaans')->withCodeSnippet(2)->withVideo(2)->create();
 Post::factory(5)->withBody()->withVideo(2)->create();
 exit
+Post::first()->comments()->create(['author'\040=>\040'Ernst',\040'body'\040=>\040'easy']);

@@ -1,3 +1,24 @@
+:root
+{
+    --scrollbarBG: hsl(120 75% 50% / 1);
+    --thumbBG: hsl(120 100% 20% / 1);
+}
+
+::-webkit-scrollbar
+{
+    width: 1em;
+}
+
+::-webkit-scrollbar-track
+{
+    background: var(--scrollbarBG);
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: var(--thumbBG);
+}
+
 .heading-permalink
 {
     font-size: .8em;
@@ -17,4 +38,9 @@ h6:hover .heading-permalink,
 {
     text-decoration: none;
     color: #777;
+}
+
+#search
+{
+    margin-bottom: 0;
 }
