@@ -16,8 +16,8 @@ class MarkdownServiceProvider extends ServiceProvider
 
             $embedLibrary->setSettings([
                 'oembed:query_parameters' => [
-                    'maxwidth' => 800,
-                    'maxheight' => 600,
+                    'maxwidth' => 1200,
+                    'maxheight' => 900,
                 ],
             ]);
 
