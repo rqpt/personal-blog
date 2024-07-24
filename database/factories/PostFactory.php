@@ -146,7 +146,7 @@ class PostFactory extends Factory
     }
 
     /** @return Factory<\App\Models\Post>  */
-    public function withEmbeddedVideo(int $count = 1): Factory
+    public function withVideo(int $count = 1): Factory
     {
         return $this->state(function (array $attributes) use ($count) {
             $youtubeUrl = 'https://www.youtube.com/watch?v=';

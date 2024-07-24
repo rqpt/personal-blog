@@ -20,14 +20,17 @@ middleware('heal-url');
     </header>
 
     <main
-    x-data="{ tocExpanded: false }"
+    x-data="{
+        tocExpanded: false,
+        atTopOfPage: true,
+    }"
     >
         @if($post->contains_toc)
             <button
             x-ref="tocButton"
             x-init="$el.focus()"
-            x-intersect:enter="$el.focus()"
-            x-intersect:leave="$el.blur()"
+            x-intersect:enter="$el.focus({ preventScroll: true })"
+            x-intersect:leave="$el.blur(); atTopOfPage = false"
             @click="tocExpanded = !tocExpanded"
             @keydown.j="$focus.next()"
             @keydown.k="$focus.previous()"

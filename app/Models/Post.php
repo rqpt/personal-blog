@@ -25,8 +25,9 @@ class Post extends Model
             $html = Markdown::convert($post->markdown)->getContent();
 
             $post->html = $html;
+
             $post->contains_code = Str::contains($html, '<pre>');
-            $post->contains_toc = Str::contains($html, '<ul id="toc" ');
+            $post->contains_toc = Str::contains($html, 'table-of-contents');
         });
     }
 
