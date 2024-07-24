@@ -138,7 +138,9 @@ x-data="{
                     },
                 }));
             });
-
+        </script>
+    @endif
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const iframes = document.querySelectorAll('iframe');
 
@@ -154,5 +156,4 @@ x-data="{
                 });
             });
         </script>
-    @endif
 </x-layout.app>
