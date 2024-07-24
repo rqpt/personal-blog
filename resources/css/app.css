@@ -44,3 +44,8 @@ h6:hover .heading-permalink,
 {
     margin-bottom: 0;
 }
+
+#theme-toggle
+{
+    cursor: pointer;
+}
