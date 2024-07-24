@@ -32,8 +32,6 @@ middleware('heal-url');
             x-intersect:enter="$el.focus({ preventScroll: true })"
             x-intersect:leave="$el.blur(); atTopOfPage = false"
             @click="tocExpanded = !tocExpanded"
-            @keydown.j="$focus.next()"
-            @keydown.k="$focus.previous()"
             >
                 Table of Contents
             </button>
@@ -63,11 +61,11 @@ middleware('heal-url');
                          this.$refs.tocButton.focus();
                     },
 
-                    '@keydown.j.stop'() {
+                    '@keydown.j'() {
                          this.$focus.wrap().next();
                     },
 
-                    '@keydown.k.stop'() {
+                    '@keydown.k'() {
                          this.$focus.wrap().previous();
                     },
 

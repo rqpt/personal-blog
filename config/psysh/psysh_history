@@ -1,0 +1,7 @@
+_HiStOrY_V2_
+Post::first()->delete();
+Post::factory(5)->withRealisticTitle('afrikaans')->withRealisticBody('afrikaans')->withCodeSnippet(2)->withVideo(2)->create();
+Post::factory(5)->withRealisticTitle('afrikaans')->withRealisticBody('afrikaans')->withCodeSnippet(2)->withVideo(2)->create();
+Post::factory(3)->withRealisticTitle('afrikaans')->withRealisticBody('afrikaans')->withCodeSnippet(2)->withVideo(2)->create();
+Post::factory(5)->withBody()->withVideo(2)->create();
+exit

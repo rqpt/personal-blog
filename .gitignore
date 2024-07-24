@@ -19,3 +19,7 @@ yarn-error.log
 /.idea
 /.vscode
 docker/nvim
+
+/caddy
+frankenphp
+frankenphp-worker.php

@@ -10,6 +10,7 @@
         "graham-campbell/markdown": "^15.2",
         "laravel/folio": "^1.1",
         "laravel/framework": "^11.9",
+        "laravel/octane": "^2.5",
         "laravel/prompts": "^0.1.24",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
