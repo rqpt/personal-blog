@@ -43,8 +43,10 @@ middleware('heal-url');
     </main>
 
     @if($post->contains_code)
-        <footer>
+        <footer x-data>
             <a
+            x-intersect:enter="$el.focus({ preventScroll: true })"
+            x-intersect:leave="$el.blur()"
             href="https://torchlight.dev/"
             >
                 Syntax highlighting brought to you by Torchlight! 🔦
