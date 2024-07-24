@@ -23,7 +23,7 @@ class TableOfContentsAlpineAttributeExtension implements ExtensionInterface
     {
         $document = $event->getDocument();
 
-        $tableOfContents = (new Query())
+        $tableOfContents = (new Query)
             ->where(Query::type(TableOfContents::class))
             ->findOne($document);
 
@@ -36,7 +36,7 @@ class TableOfContentsAlpineAttributeExtension implements ExtensionInterface
         $tableOfContents?->data->set('attributes/@click', 'tocExpanded = false');
 
         if ($tableOfContents) {
-            $links = (new Query())
+            $links = (new Query)
                 ->where(Query::type(Link::class))
                 ->findAll($tableOfContents);
 
