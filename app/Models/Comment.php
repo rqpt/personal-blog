@@ -10,7 +10,7 @@ class Comment extends Model
 {
     use HasFactory;
 
-    public function belongsTo($related, $foreignKey = null, $ownerKey = null, $relation = null): BelongsTo
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
