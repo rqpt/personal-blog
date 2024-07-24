@@ -1,7 +1,7 @@
 :root
 {
-    --scrollbarBG: hsl(120 75% 50% / 1);
-    --thumbBG: hsl(120 100% 20% / 1);
+    --scrollbarBG: hsl(120 100% 20% / 1);
+    --thumbBG: hsl(120 30% 60% / 1);
 }
 
 ::-webkit-scrollbar
