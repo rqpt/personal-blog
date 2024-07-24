@@ -115,9 +115,8 @@ class PostFactory extends Factory
                     to the opening fence. Prepend a heading 2 before it,
                     please. Next to some of the code lines, I want you to add
                     some special annotations. I want one line appended with a
-                    '[tl! ~~]', one appended with '[tl! **]', one with
-                    '[tl! ++]', and one with '[tl! --]'. They should be wrapped
-                    in a comment syntax.
+                    '[tl! ~~]', one with '[tl! ++]', and one with '[tl! --]'.
+                    They should be wrapped in a comment syntax.
                     EOD;
 
                     $ocean[] = $pool
