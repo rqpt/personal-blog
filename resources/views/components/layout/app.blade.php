@@ -14,6 +14,8 @@ $theme = $possibleThemes[date('d') - 1];
 <!DOCTYPE html>
 <html
 lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+x-data
+x-ref="root"
 >
     <head>
         <meta
