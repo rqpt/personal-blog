@@ -6,43 +6,99 @@ middleware('heal-url');
 
 ?>
 
-<x-layout.app>
-    <header >
+<x-layout.app
+x-data="{
+    tocExpanded: false,
+    atTopOfPage: true,
+}"
+>
+    <header>
         <nav>
-            <a
-            wire:navigate.hover
-            @mouseenter="$focus.focus($el)"
-            href="/"
-            >
-                Home
-            </a>
+            @if($post->contains_toc)
+                <ul>
+                    <li>
+                        <button
+                        x-ref="tocButton"
+                        x-init="$el.focus()"
+                        x-intersect:enter="$el.focus({ preventScroll: true })"
+                        x-intersect:leave="$el.blur(); atTopOfPage = false"
+                        @click="tocExpanded = !tocExpanded"
+                        >
+                            Table of Contents
+                        </button>
+                    </li>
+                </ul>
+            @endif
+
+            <ul>
+                <li>
+                    <a
+                    wire:navigate.hover
+                    @mouseenter="$focus.focus($el)"
+                    href="/"
+                    >
+                        Home
+                    </a>
+                </li>
+            </ul>
         </nav>
     </header>
 
-    <main
-    x-data="{
-        tocExpanded: false,
-        atTopOfPage: true,
-    }"
-    >
-        @if($post->contains_toc)
-            <button
-            x-ref="tocButton"
-            x-init="$el.focus()"
-            x-intersect:enter="$el.focus({ preventScroll: true })"
-            x-intersect:leave="$el.blur(); atTopOfPage = false"
-            @click="tocExpanded = !tocExpanded"
-            >
-                Table of Contents
-            </button>
-        @endif
+    <main>
+        <section
+        id="post-body"
+        >
 
-        {!! $post->html !!}
+            {!! $post->html !!}
+
+        </section>
 
     </main>
 
-    @if($post->contains_code)
-        <footer x-data>
+    <hr>
+
+    <footer x-data>
+        <section
+        id="comments"
+        >
+            <form
+            action=""
+            >
+                <fieldset>
+                    <label
+                    for="author"
+                    >
+                        Name
+                        <input
+                        type="text"
+                        name="author"
+                        id="author"
+                        >
+                    </label>
+                    <textarea
+                    type="text"
+                    placeholder="Tell me why I'm wrong..."
+                    aria-label="Comment input"
+                    name="comment"
+                    id="comment"
+                    ></textarea>
+                </fieldset>
+            </form>
+
+            @foreach($post->comments as $comment)
+                <div>
+                    <p>
+                        {{ $comment->author }}
+                    </p>
+
+                    <p>
+                        {{ $comment->body }}
+                    </p>
+                </div>
+            @endforeach
+        </section>
+
+        @if($post->contains_code)
             <a
             x-intersect:enter="$el.focus({ preventScroll: true })"
             x-intersect:leave="$el.blur()"
@@ -50,8 +106,8 @@ middleware('heal-url');
             >
                 Syntax highlighting brought to you by Torchlight! 🔦
             </a>
-        </footer>
-    @endif
+        @endif
+    </footer>
 
     @if($post->contains_toc)
         <script>

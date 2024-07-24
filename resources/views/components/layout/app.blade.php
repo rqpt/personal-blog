@@ -47,7 +47,9 @@ lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     </head>
     <livewire:wire-nav />
 
-    <body>
+    <body
+    {{ $attributes }}
+    >
 
         {{ $slot }}
 
