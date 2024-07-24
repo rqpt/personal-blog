@@ -12,6 +12,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $inDevelopmentEnvironment = $this->app->environment('local');
 
+        // \Debugbar::disable();
+
         Model::unguard();
         Model::preventLazyLoading($inDevelopmentEnvironment);
         ! $inDevelopmentEnvironment && URL::forceScheme('https');
