@@ -31,8 +31,8 @@ class CreatePost extends Command
             )
             ->select(
                 label: 'Select your preferred text editor for the post body.',
-                options: ['nvim' => 'neovim', 'builtin' => 'builtin'],
-                default: 'nvim',
+                options: ['vim', 'builtin'],
+                default: 'vim',
                 name: 'preferredTextEditor',
             )
             ->submit();
