@@ -1,3 +1,5 @@
+/* Scrollbar  */
+
 :root
 {
     --scrollbarBG: hsl(120 100% 20% / 1);
@@ -27,6 +29,9 @@
     }
 }
 
+
+/* Heading links */
+
 .heading-permalink
 {
     font-size: .8em;
@@ -48,6 +53,8 @@ h6:hover .heading-permalink,
     color: #777;
 }
 
+/* Pico overrides */
+
 #search
 {
     margin-bottom: 0;
@@ -58,25 +65,17 @@ h6:hover .heading-permalink,
     cursor: pointer;
 }
 
-#toc-button,
-#theme-button
+.pico-button-override
 {
     background: transparent;
     border: transparent;
 }
+
+/* Embedded overrides */
 
 .embedded-content
 {
     display: flex;
     margin-top: 2rem;
     justify-content: center;
-}
-
-#responsive-nav
-{
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background: hsla(224, 24%, 10%, .95);
 }

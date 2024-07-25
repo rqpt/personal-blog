@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html
 lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-x-data="{
-    lightMode: window.matchMedia('(prefers-color-scheme: light)').matches,
-}"
+x-data
 x-ref="root"
 >
     <head>
@@ -39,6 +37,12 @@ x-ref="root"
     <livewire:wire-nav />
 
     <body
+    x-data="{
+        tocExpanded: false,
+        atTopOfPage: true,
+        lightMode: window.matchMedia('(prefers-color-scheme: light)').matches,
+        smallScreen: window.matchMedia('(max-width: 640px)').matches
+    }"
     {{ $attributes }}
     >
 

@@ -7,10 +7,6 @@ middleware('heal-url');
 ?>
 
 <x-layout.app
-x-data="{
-    tocExpanded: false,
-    atTopOfPage: true,
-}"
 x-init="illuminateSnippets(lightMode)"
 x-effect="illuminateSnippets(lightMode)"
 >
@@ -22,7 +18,7 @@ x-effect="illuminateSnippets(lightMode)"
                 @if($post->contains_toc)
                     <li>
                         <button
-                        id="toc-button"
+                        class="pico-button-override"
                         x-ref="toc-button"
                         x-init="$el.focus()"
                         x-intersect:enter="$el.focus({ preventScroll: true })"
@@ -168,5 +164,20 @@ x-effect="illuminateSnippets(lightMode)"
                     }
                 });
             }
+
+             document.addEventListener('DOMContentLoaded', function() {
+                 const iframes = document.querySelectorAll('iframe');
+
+                 iframes.forEach(iframe => {
+                     const wrapperDiv = document.createElement('div');
+
+                     wrapperDiv.style.display = 'flex';
+                     wrapperDiv.style.marginTop = '2rem';
+                     wrapperDiv.style.justifyContent = 'center';
+
+                     iframe.parentNode.insertBefore(wrapperDiv, iframe);
+                     wrapperDiv.appendChild(iframe);
+                 });
+            });
         </script>
 </x-layout.app>

@@ -2,7 +2,7 @@
 x-effect="$refs.root.dataset.theme = lightMode ? 'light' : 'dark'"
 >
     <button
-    id="theme-button"
+    class="pico-button-override"
     @click="lightMode = !lightMode"
     >
         <x-fas-moon
