@@ -140,20 +140,4 @@ x-data="{
             });
         </script>
     @endif
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const iframes = document.querySelectorAll('iframe');
-
-                iframes.forEach(iframe => {
-                    const wrapperDiv = document.createElement('div');
-
-                    wrapperDiv.style.display = 'flex';
-                    wrapperDiv.style.marginTop = '2rem';
-                    wrapperDiv.style.justifyContent = 'center';
-
-                    iframe.parentNode.insertBefore(wrapperDiv, iframe);
-                    wrapperDiv.appendChild(iframe);
-                });
-            });
-        </script>
 </x-layout.app>

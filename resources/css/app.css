@@ -57,3 +57,11 @@ h6:hover .heading-permalink,
 {
     cursor: pointer;
 }
+
+.embedded-content
+{
+    display: flex;
+    margin-top: 2rem;
+    justify-content: center;
+}
+
