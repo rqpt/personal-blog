@@ -163,19 +163,13 @@ x-effect="illuminateSnippets(lightMode)"
             });
         }
 
-         document.addEventListener('DOMContentLoaded', function() {
-             const iframes = document.querySelectorAll('iframe');
-
-             iframes.forEach(iframe => {
-                 const wrapperDiv = document.createElement('div');
-
-                 wrapperDiv.style.display = 'flex';
-                 wrapperDiv.style.marginTop = '2rem';
-                 wrapperDiv.style.justifyContent = 'center';
-
-                 iframe.parentNode.insertBefore(wrapperDiv, iframe);
-                 wrapperDiv.appendChild(iframe);
-             });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+              behavior: 'smooth'
+            });
+          });
         });
     </script>
 </x-layout.app>

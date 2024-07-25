@@ -15,6 +15,13 @@ render(function ($view) {
     <header>
         <nav>
             <ul>
+                <li>
+                    <img
+                    id="in-rainbows"
+                    src="/inrainbows.webp"
+                    alt="In Rainbows"
+                    >
+                </li>
             </ul>
             <ul>
                 <template

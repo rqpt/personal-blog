@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $uniquePostsRequired = 2;
+        $uniquePostsRequired = 1;
 
         $apiResponses = Http::pool(function (Pool $pool) use ($uniquePostsRequired) {
             $ocean = [];
