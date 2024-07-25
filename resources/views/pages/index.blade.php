@@ -11,35 +11,41 @@ render(function ($view) {
 
 ?>
 
-<x-layout.app>
+<x-layout.app
+x-data="{ smallScreen: window.matchMedia('(max-width: 640px)').matches }"
+>
     <header>
         <nav>
             <ul>
                 <x-theme-toggle />
             </ul>
-            <ul>
-                <li>
-                   <form
-                   role="search"
-                   id="search"
-                   >
-                      <input
-                      name="search"
-                      type="search"
-                      placeholder="Search"
-                      />
-                      <input
-                      type="submit"
-                      value="Search"
-                      />
-                    </form>
-                </li>
-            </ul>
+            <template
+            x-if="!smallScreen"
+            >
+                <ul>
+                    <li>
+                       <form
+                       role="search"
+                       id="search"
+                       >
+                          <input
+                          name="search"
+                          type="search"
+                          />
+                          <input
+                          type="submit"
+                          value="Search"
+                          />
+                        </form>
+                    </li>
+                </ul>
+            </template>
         </nav>
     </header>
     <main>
         @if($posts->count() > 0)
-            <div
+            <section
+            id="links"
             x-data="{ lastFocusedLink: localStorage.getItem('lastFocusedLink') }"
             x-init="document.getElementById(lastFocusedLink)?.focus()"
             @keydown.up="$focus.wrap().next()"
@@ -71,7 +77,25 @@ render(function ($view) {
                         </a>
                     </article>
                 @endforeach
-            </div>
+
+                <template
+                x-if="smallScreen"
+                >
+                   <form
+                   role="search"
+                   id="search"
+                   >
+                      <input
+                      type="submit"
+                      value="Search"
+                      />
+                      <input
+                      name="search"
+                      type="search"
+                      />
+                    </form>
+                </template>
+            </section>
         @else
             <p>
                 No posts found
