@@ -16,9 +16,7 @@ x-data="{ smallScreen: window.matchMedia('(max-width: 640px)').matches }"
 >
     <header>
         <nav>
-            <ul>
-                <x-theme-toggle />
-            </ul>
+            <x-theme-toggle />
             <template
             x-if="!smallScreen"
             >

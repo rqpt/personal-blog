@@ -14,23 +14,36 @@ x-data="{
 >
     <header>
         <nav>
-            <ul>
-                <x-theme-toggle />
+            <x-theme-toggle />
 
-                @if($post->contains_toc)
+            @if($post->contains_toc)
+                <ul>
                     <li>
                         <button
-                        x-ref="tocButton"
+                        id="toc-button"
+                        x-ref="toc-button"
                         x-init="$el.focus()"
                         x-intersect:enter="$el.focus({ preventScroll: true })"
                         x-intersect:leave="$el.blur(); atTopOfPage = false"
                         @click="tocExpanded = !tocExpanded"
                         >
-                            Table of Contents
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="white"
+                            class="bi bi-list-nested"
+                            viewBox="0 0 16 16"
+                            >
+                              <path
+                              fill-rule="evenodd"
+                              d="M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5"
+                              />
+                            </svg>
                         </button>
                     </li>
-                @endif
-            </ul>
+                </ul>
+            @endif
 
             <ul>
                 <li>
@@ -39,7 +52,21 @@ x-data="{
                     @mouseenter="$focus.focus($el)"
                     href="/"
                     >
-                        Home
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="#c2c7d0"
+                        class="bi bi-house-fill"
+                        viewBox="0 0 16 16"
+                        >
+                          <path
+                          d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"
+                          />
+                          <path
+                          d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"
+                          />
+                        </svg>
                     </a>
                 </li>
             </ul>
@@ -76,8 +103,8 @@ x-data="{
                     </label>
                     <textarea
                     type="text"
-                    placeholder="Speak your mind..."
-                    aria-label="Comment input"
+                    placeholder="Share your thoughts..."
+                    aria-label="comment input"
                     name="comment"
                     id="comment"
                     ></textarea>
@@ -113,7 +140,7 @@ x-data="{
                 Alpine.bind('toc', () => ({
                     '@keydown.escape'() {
                          this.tocExpanded = false;
-                         this.$refs.tocButton.focus();
+                         this.$refs.toc-button.focus();
                     },
 
                     '@keydown.j'() {
