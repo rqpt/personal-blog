@@ -19,6 +19,14 @@
     background: var(--thumbBG);
 }
 
+@supports (scrollbar-color: red blue)
+{
+    *
+    {
+        scrollbar-color: var(--scrollbarBG) transparent;
+    }
+}
+
 .heading-permalink
 {
     font-size: .8em;
