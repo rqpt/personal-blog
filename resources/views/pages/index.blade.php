@@ -15,6 +15,8 @@ render(function ($view) {
     <header>
         <nav>
             <ul>
+            </ul>
+            <ul>
                 <template
                 x-if="!smallScreen"
                 >
@@ -30,8 +32,6 @@ render(function ($view) {
                         </form>
                     </li>
                 </template>
-            </ul>
-            <ul>
                 <x-theme-toggle />
             </ul>
         </nav>

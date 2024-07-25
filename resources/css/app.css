@@ -60,6 +60,19 @@ h6:hover .heading-permalink,
     margin-bottom: 0;
 }
 
+@media (max-width: 640px)
+{
+    #search
+    {
+        position: fixed;
+        bottom: 5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95%;
+        max-width: 700px;
+    }
+}
+
 #theme-toggle
 {
     cursor: pointer;

@@ -43,8 +43,6 @@ x-effect="illuminateSnippets(lightMode)"
                         <x-fas-house />
                     </a>
                 </li>
-            </ul>
-            <ul>
                 <x-theme-toggle />
             </ul>
         </nav>
@@ -144,40 +142,40 @@ x-effect="illuminateSnippets(lightMode)"
             });
         </script>
     @endif
-        <script>
-            function illuminateSnippets(lightMode) {
-                const snippets = document.querySelectorAll('pre code');
+    <script>
+        function illuminateSnippets(lightMode) {
+            const snippets = document.querySelectorAll('pre code');
 
-                snippets.forEach(function(snippet) {
-                    if (lightMode) {
-                        if (snippet.getAttribute('data-theme') === 'light') {
-                            snippet.style.display = 'block';
-                        } else {
-                            snippet.style.display = 'none';
-                        }
+            snippets.forEach(function(snippet) {
+                if (lightMode) {
+                    if (snippet.getAttribute('data-theme') === 'light') {
+                        snippet.style.display = 'block';
                     } else {
-                        if (snippet.getAttribute('data-theme') === 'dark') {
-                            snippet.style.display = 'block';
-                        } else {
-                            snippet.style.display = 'none';
-                        }
+                        snippet.style.display = 'none';
                     }
-                });
-            }
-
-             document.addEventListener('DOMContentLoaded', function() {
-                 const iframes = document.querySelectorAll('iframe');
-
-                 iframes.forEach(iframe => {
-                     const wrapperDiv = document.createElement('div');
-
-                     wrapperDiv.style.display = 'flex';
-                     wrapperDiv.style.marginTop = '2rem';
-                     wrapperDiv.style.justifyContent = 'center';
-
-                     iframe.parentNode.insertBefore(wrapperDiv, iframe);
-                     wrapperDiv.appendChild(iframe);
-                 });
+                } else {
+                    if (snippet.getAttribute('data-theme') === 'dark') {
+                        snippet.style.display = 'block';
+                    } else {
+                        snippet.style.display = 'none';
+                    }
+                }
             });
-        </script>
+        }
+
+         document.addEventListener('DOMContentLoaded', function() {
+             const iframes = document.querySelectorAll('iframe');
+
+             iframes.forEach(iframe => {
+                 const wrapperDiv = document.createElement('div');
+
+                 wrapperDiv.style.display = 'flex';
+                 wrapperDiv.style.marginTop = '2rem';
+                 wrapperDiv.style.justifyContent = 'center';
+
+                 iframe.parentNode.insertBefore(wrapperDiv, iframe);
+                 wrapperDiv.appendChild(iframe);
+             });
+        });
+    </script>
 </x-layout.app>

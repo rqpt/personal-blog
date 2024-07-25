@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html
 lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-x-data
+x-data="{ lightMode: window.matchMedia('(prefers-color-scheme: light)').matches }"
 x-ref="root"
 >
     <head>
@@ -40,7 +40,6 @@ x-ref="root"
     x-data="{
         tocExpanded: false,
         atTopOfPage: true,
-        lightMode: window.matchMedia('(prefers-color-scheme: light)').matches,
         smallScreen: window.matchMedia('(max-width: 640px)').matches
     }"
     {{ $attributes }}
