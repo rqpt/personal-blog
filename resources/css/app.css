@@ -58,7 +58,8 @@ h6:hover .heading-permalink,
     cursor: pointer;
 }
 
-#toc-button
+#toc-button,
+#theme-button
 {
     background: transparent;
     border: transparent;

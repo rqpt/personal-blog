@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html
 lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-x-data
+x-data="{
+    lightMode: false,
+}"
 x-ref="root"
 >
     <head>
