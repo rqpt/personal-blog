@@ -30,10 +30,6 @@ x-data="{ smallScreen: window.matchMedia('(max-width: 640px)').matches }"
                           name="search"
                           type="search"
                           />
-                          <input
-                          type="submit"
-                          value="Search"
-                          />
                         </form>
                     </li>
                 </ul>

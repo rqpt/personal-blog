@@ -12,22 +12,40 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $uniquePostsRequired = 1;
+        $uniquePostsRequired = 2;
 
         $apiResponses = Http::pool(function (Pool $pool) use ($uniquePostsRequired) {
             $ocean = [];
 
-            $languages = [
+            $snippetLanguages = [
                 'python', 'c', 'rust', 'lua', 'haskell', 'ruby', 'alpine',
                 'css', 'julia', 'ocaml', 'go', 'elixir', 'cpp', 'dockerfile',
             ];
 
-            for ($i = 0; $i < $uniquePostsRequired; $i++) {
-                $language = Arr::random($languages);
+            $humanLanguages = [
+                'english', 'afrikaans',
+            ];
 
-                $prompt = <<<EOD
-                Please write a medium sized $language snippet,
-                wrapped in markdown fencing, with $language annotated next
+            for ($i = 0; $i < $uniquePostsRequired; $i++) {
+                $humanLanguage = Arr::random($humanLanguages);
+                $snippetLanguage = Arr::random($snippetLanguages);
+
+                $titlePrompt = <<<EOD
+                Write a nice title for my blog post, keep it short and sweet.
+                The language the title should be written in is $humanLanguage.
+                EOD;
+
+                $bodyPrompt = <<<EOD
+                Please write a medium sized blog post in markdown. It should have
+                headings, tables, ordered and unordered lists, bolded parts,
+                italicised parts , maybe even both bolded and italicised sometimes,
+                quotes. Line breaks, links, etc. I want to see all markdown has to
+                offer. The blog post should be written in $humanLanguage.
+                EOD;
+
+                $snippetPrompt = <<<EOD
+                Please write a medium sized $snippetLanguage snippet,
+                wrapped in markdown fencing, with $snippetLanguage annotated next
                 to the opening fence. Prepend a heading 2 before it,
                 please. Next to some of the code lines, I want you to add
                 some special annotations. I want one line appended with a
@@ -35,12 +53,7 @@ class DatabaseSeeder extends Seeder
                 should be wrapped in a comment syntax.
                 EOD;
 
-                $ocean[] = $pool->as("md-$i")
-                    ->get(config('third-party-api.random_markdown.url'), [
-                        'no-code' => 'on',
-                    ]);
-
-                $ocean[] = $pool->as("api-$i")
+                $ocean[] = $pool->as("title-$i")
                     ->withToken(config('third-party-api.openai.api_key'))
                     ->withHeaders(['Content-Type' => 'application/json'])
                     ->post(config('third-party-api.openai.url'), [
@@ -48,7 +61,32 @@ class DatabaseSeeder extends Seeder
                         'messages' => [
                             [
                                 'role' => 'system',
-                                'content' => $prompt,
+                                'content' => $titlePrompt,
+                            ],
+                        ],
+                    ]);
+
+                $ocean[] = $pool->as("body-$i")
+                    ->withToken(config('third-party-api.openai.api_key'))
+                    ->withHeaders(['Content-Type' => 'application/json'])
+                    ->post(config('third-party-api.openai.url'), [
+                        'model' => 'gpt-4o-mini',
+                        'messages' => [
+                            [
+                                'role' => 'system',
+                                'content' => $bodyPrompt,
+                            ],
+                        ],
+                    ]);
+                $ocean[] = $pool->as("snippet-$i")
+                    ->withToken(config('third-party-api.openai.api_key'))
+                    ->withHeaders(['Content-Type' => 'application/json'])
+                    ->post(config('third-party-api.openai.url'), [
+                        'model' => 'gpt-4o-mini',
+                        'messages' => [
+                            [
+                                'role' => 'system',
+                                'content' => $snippetPrompt,
                             ],
                         ],
                     ]);
@@ -58,10 +96,13 @@ class DatabaseSeeder extends Seeder
         });
 
         for ($i = 0; $i < $uniquePostsRequired; $i++) {
-            Post::factory([
-                'markdown' => $apiResponses["md-$i"]."\n\n".$apiResponses["api-$i"]
-                    ->json('choices.0.message.content'),
-            ])->withVideo()->create();
+            $body = $apiResponses["body-$i"]->json('choices.0.message.content');
+            $snippet = $apiResponses["snippet-$i"]->json('choices.0.message.content');
+
+            $title = $apiResponses["title-$i"]->json('choices.0.message.content');
+            $markdown = $body."\n\n".$snippet;
+
+            Post::factory(compact('title', 'markdown'))->withVideo()->create();
         }
     }
 }
