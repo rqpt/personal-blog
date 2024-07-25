@@ -2,7 +2,7 @@
 <html
 lang="{{ str_replace('_', '-', app()->getLocale()) }}"
 x-data="{
-    lightMode: false,
+    lightMode: window.matchMedia('(prefers-color-scheme: light)').matches,
 }"
 x-ref="root"
 >

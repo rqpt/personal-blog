@@ -11,6 +11,8 @@ x-data="{
     tocExpanded: false,
     atTopOfPage: true,
 }"
+x-init="illuminateSnippets(lightMode)"
+x-effect="illuminateSnippets(lightMode)"
 >
     <header>
         <nav>
@@ -144,7 +146,7 @@ x-data="{
         </script>
     @endif
         <script>
-            function lightenSnippets(lightMode) {
+            function illuminateSnippets(lightMode) {
                 const snippets = document.querySelectorAll('pre code');
 
                 snippets.forEach(function(snippet) {

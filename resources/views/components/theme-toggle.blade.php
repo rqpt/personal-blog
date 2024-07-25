@@ -4,7 +4,7 @@ x-effect="$refs.root.dataset.theme = lightMode ? 'light' : 'dark'"
     <li>
         <button
         id="theme-button"
-        @click="lightMode = !lightMode; lightenSnippets(lightMode)"
+        @click="lightMode = !lightMode"
         >
             <x-fas-moon
             x-show="!lightMode"
