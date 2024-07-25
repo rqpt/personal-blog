@@ -16,11 +16,11 @@ x-data="{ smallScreen: window.matchMedia('(max-width: 640px)').matches }"
 >
     <header>
         <nav>
-            <x-theme-toggle />
-            <template
-            x-if="!smallScreen"
-            >
-                <ul>
+            <ul></ul>
+            <ul>
+                <template
+                x-if="!smallScreen"
+                >
                     <li>
                        <form
                        role="search"
@@ -32,8 +32,9 @@ x-data="{ smallScreen: window.matchMedia('(max-width: 640px)').matches }"
                           />
                         </form>
                     </li>
-                </ul>
-            </template>
+                </template>
+                <x-theme-toggle />
+            </ul>
         </nav>
     </header>
     <main>
@@ -79,10 +80,6 @@ x-data="{ smallScreen: window.matchMedia('(max-width: 640px)').matches }"
                    role="search"
                    id="search"
                    >
-                      <input
-                      type="submit"
-                      value="Search"
-                      />
                       <input
                       name="search"
                       type="search"

@@ -16,7 +16,6 @@ x-effect="illuminateSnippets(lightMode)"
 >
     <header>
         <nav>
-            <x-theme-toggle />
 
             @if($post->contains_toc)
                 <ul>
@@ -47,6 +46,9 @@ x-effect="illuminateSnippets(lightMode)"
                         <x-fas-house />
                     </a>
                 </li>
+            </ul>
+            <ul>
+                <x-theme-toggle />
             </ul>
         </nav>
     </header>
