@@ -8,3 +8,10 @@ exit
 Post::first()->comments()->create(['author'\040=>\040'Ernst',\040'body'\040=>\040'easy']);
 Post::all();
 Post::factory(3)->withRealisticTitle('afrikaans')->withRealisticBody('afrikaans')->withCodeSnippet(2)->withVideo(2)->create();
+Post::factory()->withVideo()->create();
+Post::factory()->withVideo(1)->create();
+Post::factory()->withVideo(1)->create();
+Post::factory()->withVideo(1)->create();
+Post::factory()->withVideo(1)->create();
+Post::factory()->withVideo(1)->create();
+Post::factory()->withVideo(1)->create();

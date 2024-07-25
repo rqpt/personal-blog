@@ -14,7 +14,7 @@ class PostFactory extends Factory
     {
         return [
             'title' => fake()->sentence(),
-            'markdown' => fake()->paragraphs(),
+            'markdown' => fake()->paragraphs(asText: true),
             'published_at' => now(),
         ];
     }
