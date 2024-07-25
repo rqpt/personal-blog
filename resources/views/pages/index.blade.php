@@ -11,9 +11,7 @@ render(function ($view) {
 
 ?>
 
-<x-layout.app
-x-data="{ smallScreen: window.matchMedia('(max-width: 640px)').matches }"
->
+<x-layout.app>
     <header>
         <nav>
             <ul>

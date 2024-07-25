@@ -71,3 +71,12 @@ h6:hover .heading-permalink,
     margin-top: 2rem;
     justify-content: center;
 }
+
+#responsive-nav
+{
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: hsla(224, 24%, 10%, .95);
+}

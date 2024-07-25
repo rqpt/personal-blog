@@ -14,11 +14,12 @@ x-data="{
 x-init="illuminateSnippets(lightMode)"
 x-effect="illuminateSnippets(lightMode)"
 >
-    <header>
+    <header
+    :id="smallScreen && 'responsive-nav'"
+    >
         <nav>
-
-            @if($post->contains_toc)
-                <ul>
+            <ul>
+                @if($post->contains_toc)
                     <li>
                         <button
                         id="toc-button"
@@ -33,8 +34,8 @@ x-effect="illuminateSnippets(lightMode)"
                             />
                         </button>
                     </li>
-                </ul>
-            @endif
+                @endif
+            </ul>
 
             <ul>
                 <li>
