@@ -42,5 +42,11 @@ x-ref="root"
 
         {{ $slot }}
 
+         <svg
+         hidden
+         class="hidden"
+         >
+            @stack('bladeicons')
+        </svg>
     </body>
 </html>

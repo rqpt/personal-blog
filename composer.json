@@ -6,6 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "blade-ui-kit/blade-icons": "*",
+        "codeat3/blade-carbon-icons": "^2.28",
+        "davidhsianturi/blade-bootstrap-icons": "*",
         "embed/embed": "^4.4",
         "graham-campbell/markdown": "^15.2",
         "laravel/folio": "^1.1",

@@ -8224,7 +8224,7 @@ namespace Illuminate\Support\Facades {
                     /**
          * 
          *
-         * @see \App\Providers\ThirdPartyApiServiceProvider::boot()
+         * @see \App\Providers\MarkdownServiceProvider::boot()
          * @static 
          */        public static function getRandomMarkdown()
         {
@@ -8233,7 +8233,7 @@ namespace Illuminate\Support\Facades {
                     /**
          * 
          *
-         * @see \App\Providers\ThirdPartyApiServiceProvider::boot()
+         * @see \App\Providers\AiServiceProvider::boot()
          * @param string $prompt
          * @static 
          */        public static function chatWithAI($prompt)
@@ -19381,7 +19381,7 @@ namespace Illuminate\Http\Client {
                     /**
          * 
          *
-         * @see \App\Providers\ThirdPartyApiServiceProvider::boot()
+         * @see \App\Providers\MarkdownServiceProvider::boot()
          * @static 
          */        public static function getRandomMarkdown()
         {
@@ -19390,7 +19390,7 @@ namespace Illuminate\Http\Client {
                     /**
          * 
          *
-         * @see \App\Providers\ThirdPartyApiServiceProvider::boot()
+         * @see \App\Providers\AiServiceProvider::boot()
          * @param string $prompt
          * @static 
          */        public static function chatWithAI($prompt)
