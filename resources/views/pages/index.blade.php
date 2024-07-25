@@ -16,10 +16,10 @@ x-data="{ smallScreen: window.matchMedia('(max-width: 640px)').matches }"
 >
     <header>
         <nav>
-            <template
-            x-if="!smallScreen"
-            >
-                <ul>
+            <ul>
+                <template
+                x-if="!smallScreen"
+                >
                     <li>
                        <form
                        role="search"
@@ -31,8 +31,8 @@ x-data="{ smallScreen: window.matchMedia('(max-width: 640px)').matches }"
                           />
                         </form>
                     </li>
-                </ul>
-            </template>
+                </template>
+            </ul>
             <ul>
                 <x-theme-toggle />
             </ul>
