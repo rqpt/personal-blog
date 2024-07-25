@@ -20,6 +20,7 @@ render(function ($view) {
                     id="in-rainbows"
                     src="/inrainbows.webp"
                     alt="In Rainbows"
+                    x-cloak
                     >
                 </li>
             </ul>
