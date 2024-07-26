@@ -253,7 +253,7 @@ h6:hover .heading-permalink,
 .ascii
 {
     background: transparent;
-    opacity: .15;
+    opacity: .25;
 }
 
 .ascii-wrapper
