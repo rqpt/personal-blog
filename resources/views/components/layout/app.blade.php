@@ -250,15 +250,34 @@ h6:hover .heading-permalink,
 
 /* Ascii */
 
-#ascii
+.ascii
 {
     background: transparent;
+    opacity: .3;
 }
 
-#ascii-wrapper
+.ascii-wrapper
 {
-    display: flex;
-    justify-content: center;
+    position: absolute;
+    z-index: -1;
+}
+
+#note
+{
+    bottom: 8rem;
+    right: 8rem;
+}
+
+#initials
+{
+    top: 0;
+    left: 2rem;
+}
+
+#keyboard
+{
+    bottom: 0;
+    left: 2rem;
 }
         </style>
 
