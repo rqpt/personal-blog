@@ -69,7 +69,7 @@ render(function ($view) {
             </div>
 
             <div
-            class="ascii-wrapper"
+            class="ascii-wrapper lg-ascii"
             id="keyboard"
             >
                 <pre
