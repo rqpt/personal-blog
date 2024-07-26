@@ -21,7 +21,7 @@ x-ref="root"
 
         <link
         rel="stylesheet"
-        href="pico/css/pico.classless.green.min.css"
+        href="pico/css/pico.classless.cyan.min.css"
         />
 
         <style>
@@ -31,8 +31,8 @@ x-ref="root"
 
 :root
 {
-    --scrollbarBG: hsl(120 100% 20% / 1);
-    --thumbBG: hsl(120 30% 60% / 1);
+    --scrollbarBG: #0097A7;
+    --thumbBG: #0097A7;
 }
 
 ::-webkit-scrollbar
