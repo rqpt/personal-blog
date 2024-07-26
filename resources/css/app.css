@@ -29,7 +29,6 @@
     }
 }
 
-
 /* Heading links */
 
 .heading-permalink
@@ -79,39 +78,31 @@ h6:hover .heading-permalink,
 
 .ascii
 {
-    scale: 0.6;
     background: transparent;
-    opacity: .3;
+    opacity: .15;
 }
 
 .ascii-wrapper
 {
+    scale: 0.6;
     position: absolute;
     z-index: -1;
 }
 
-@media (max-width: 640px)
+#note
 {
-    .lg-ascii
-    {
-        display: none;
-    }
+    top: -3rem;
+    right: 1rem;
 }
 
-#note
+#initials
 {
     bottom: 0;
     right: 0;
 }
 
-#initials
-{
-    top: 0;
-    left: 0;
-}
-
 #keyboard
 {
-    bottom: 0;
-    left: 0;
+    bottom: 10rem;
+    left: -20rem;
 }
