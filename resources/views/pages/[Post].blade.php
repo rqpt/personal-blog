@@ -59,45 +59,6 @@ x-effect="illuminateSnippets(lightMode)"
     <hr>
 
     <footer x-data>
-        <section
-        id="comments"
-        >
-            <form
-            action=""
-            >
-                <fieldset>
-                    <label
-                    for="author"
-                    >
-                        Name
-                        <input
-                        type="text"
-                        name="author"
-                        id="author"
-                        >
-                    </label>
-                    <textarea
-                    type="text"
-                    placeholder="Share your thoughts..."
-                    aria-label="comment input"
-                    name="comment"
-                    id="comment"
-                    ></textarea>
-                </fieldset>
-            </form>
-
-            @foreach($post->comments as $comment)
-                <div>
-                    <p>
-                        {{ $comment->author }}
-                    </p>
-                    <p>
-                        {{ $comment->body }}
-                    </p>
-                </div>
-            @endforeach
-        </section>
-
         @if($post->contains_code)
             <a
             x-intersect:enter="$el.focus({ preventScroll: true })"

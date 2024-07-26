@@ -6,7 +6,6 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -31,18 +30,11 @@ class Post extends Model
         });
     }
 
-    public function comments(): HasMany
-    {
-        return $this->hasMany(Comment::class);
-    }
-
     public function resolveRouteBinding($value, $field = null): ?Model
     {
         $postId = last(explode('-', $value));
 
-        return parent::resolveRouteBindingQuery($this, $postId, $field)
-            ->with('comments')
-            ->first();
+        return parent::resolveRouteBinding($postId, $field);
     }
 
     public function scopePublished(Builder $query): void
