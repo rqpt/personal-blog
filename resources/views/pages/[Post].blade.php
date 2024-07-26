@@ -56,19 +56,19 @@ x-effect="illuminateSnippets(lightMode)"
         </section>
     </main>
 
-    <hr>
+    @if ($post->contains_code)
+        <hr>
 
-    <footer x-data>
-        @if($post->contains_code)
-            <a
-            x-intersect:enter="$el.focus({ preventScroll: true })"
-            x-intersect:leave="$el.blur()"
-            href="https://torchlight.dev/"
-            >
-                Syntax highlighting brought to you by Torchlight! 🔦
-            </a>
-        @endif
-    </footer>
+        <footer x-data>
+                <a
+                x-intersect:enter="$el.focus({ preventScroll: true })"
+                x-intersect:leave="$el.blur()"
+                href="https://torchlight.dev/"
+                >
+                    Syntax highlighting brought to you by Torchlight! 🔦
+                </a>
+        </footer>
+    @endif
 
     @if($post->contains_toc)
         <script>
