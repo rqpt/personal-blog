@@ -280,6 +280,15 @@ h6:hover .heading-permalink,
     bottom: 0;
     left: 0;
 }
+
+@media (max-width: 640px)
+{
+    .lg-ascii,
+    #keyboard
+    {
+        display: none;
+    }
+}
         </style>
 
         @vite(['resources/css/app.css', 'resources/css/torchlight.css'])

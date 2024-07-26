@@ -90,6 +90,15 @@ h6:hover .heading-permalink,
     z-index: -1;
 }
 
+@media (max-width: 640px)
+{
+    .lg-ascii,
+    #keyboard
+    {
+        display: none;
+    }
+}
+
 #note
 {
     bottom: 0;
