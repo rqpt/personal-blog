@@ -16,20 +16,24 @@ x-effect="illuminateSnippets(lightMode)"
         <nav>
             <ul>
                 @if($post->contains_toc)
-                    <li>
-                        <button
-                        class="pico-button-override"
-                        x-ref="toc-button"
-                        x-init="$el.focus()"
-                        x-intersect:enter="$el.focus({ preventScroll: true })"
-                        x-intersect:leave="$el.blur(); atTopOfPage = false"
-                        @click="tocExpanded = !tocExpanded"
-                        >
-                            <x-fas-list-ul
-                            ::fill="lightMode && '#2d3138'"
-                            />
-                        </button>
-                    </li>
+                    <template
+                    x-if="!smallScreen"
+                    >
+                        <li>
+                            <button
+                            class="pico-button-override"
+                            x-ref="toc-button"
+                            x-init="$el.focus()"
+                            x-intersect:enter="$el.focus({ preventScroll: true })"
+                            x-intersect:leave="$el.blur(); atTopOfPage = false"
+                            @click="tocExpanded = !tocExpanded"
+                            >
+                                <x-fas-list-ul
+                                ::fill="lightMode && '#2d3138'"
+                                />
+                            </button>
+                        </li>
+                    </template>
                 @endif
             </ul>
 
@@ -65,7 +69,7 @@ x-effect="illuminateSnippets(lightMode)"
                 x-intersect:leave="$el.blur()"
                 href="https://torchlight.dev/"
                 >
-                    Syntax highlighting brought to you by Torchlight! 🔦
+                    Syntax highlighting provided by Torchlight! 🔦
                 </a>
         </footer>
     @endif

@@ -31,3 +31,6 @@ Post::factory(5)->withRealisticBody('afrikaans')->withRealisticTitle('afrikaans'
 Post::factory(5)->withRealisticBody('afrikaans')->withRealisticTitle('afrikaans')->withVideo(2)->withCodeSnippet(2)->create();
 exit
 Post::factory(5)->withRealisticBody('english')->withRealisticTitle('english')->withVideo(2)->withCodeSnippet(2)->create();
+Post::factory(4)->withRealisticBody('english')->withRealisticTitle('english')->withVideo(2)->withCodeSnippet(2)->create();
+Post::factory(2)->withRealisticBody('english')->withRealisticTitle('english')->withVideo(2)->withCodeSnippet(2)->create();
+Post::factory(1)->withRealisticBody('english')->withRealisticTitle('english')->withVideo(2)->withCodeSnippet(2)->create();
