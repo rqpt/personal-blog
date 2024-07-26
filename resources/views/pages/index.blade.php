@@ -25,21 +25,17 @@ render(function ($view) {
                 </li>
             </ul>
             <ul>
-                <template
-                x-if="!smallScreen"
-                >
-                    <li>
-                       <form
-                       role="search"
-                       id="search"
-                       >
-                          <input
-                          name="search"
-                          type="search"
-                          />
-                        </form>
-                    </li>
-                </template>
+                <li>
+                   <form
+                   role="search"
+                   id="search"
+                   >
+                      <input
+                      name="search"
+                      type="search"
+                      />
+                    </form>
+                </li>
                 <x-theme-toggle />
             </ul>
         </nav>
@@ -79,20 +75,6 @@ render(function ($view) {
                         </a>
                     </article>
                 @endforeach
-
-                <template
-                x-if="smallScreen"
-                >
-                   <form
-                   role="search"
-                   id="search"
-                   >
-                      <input
-                      name="search"
-                      type="search"
-                      />
-                    </form>
-                </template>
             </section>
         @else
             <p>
