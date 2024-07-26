@@ -17,17 +17,6 @@ render(function ($view) {
             <ul>
             </ul>
             <ul>
-                <!--<li>-->
-                <!--   <form-->
-                <!--   role="search"-->
-                <!--   id="search"-->
-                <!--   >-->
-                <!--      <input-->
-                <!--      name="search"-->
-                <!--      type="search"-->
-                <!--      />-->
-                <!--    </form>-->
-                <!--</li>-->
                 <li>
                     <a
                     href="http://ernst-blog.laravel-sail.site:8080/welcome-1"

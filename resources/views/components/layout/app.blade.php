@@ -227,24 +227,6 @@ h6:hover .heading-permalink,
 
 /* Pico overrides */
 
-#search
-{
-    margin-bottom: 0;
-}
-
-@media (max-width: 640px)
-{
-    #search
-    {
-        position: fixed;
-        bottom: 3rem;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 95%;
-        max-width: 700px;
-    }
-}
-
 #theme-toggle
 {
     cursor: pointer;
@@ -263,15 +245,6 @@ h6:hover .heading-permalink,
     display: flex;
     margin-top: 2rem;
     justify-content: center;
-}
-
-/* In Rainbows */
-
-#in-rainbows
-{
-    width: 24px;
-    aspect-ratio: 1 / 1;
-    border-radius: 100%;
 }
         </style>
 
