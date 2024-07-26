@@ -16,24 +16,20 @@ x-effect="illuminateSnippets(lightMode)"
         <nav>
             <ul>
                 @if($post->contains_toc)
-                    <template
-                    x-if="!smallScreen"
-                    >
-                        <li>
-                            <button
-                            class="pico-button-override"
-                            x-ref="toc-button"
-                            x-init="$el.focus()"
-                            x-intersect:enter="$el.focus({ preventScroll: true })"
-                            x-intersect:leave="$el.blur(); atTopOfPage = false"
-                            @click="tocExpanded = !tocExpanded"
-                            >
-                                <x-fas-list-ul
-                                ::fill="lightMode && '#2d3138'"
-                                />
-                            </button>
-                        </li>
-                    </template>
+                    <li>
+                        <button
+                        class="pico-button-override"
+                        x-ref="toc-button"
+                        x-init="$el.focus()"
+                        x-intersect:enter="$el.focus({ preventScroll: true })"
+                        x-intersect:leave="$el.blur(); atTopOfPage = false"
+                        @click="tocExpanded = !tocExpanded"
+                        >
+                            <x-fas-list-ul
+                            ::fill="lightMode && '#2d3138'"
+                            />
+                        </button>
+                    </li>
                 @endif
             </ul>
 
