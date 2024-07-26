@@ -248,11 +248,17 @@ h6:hover .heading-permalink,
 }
 
 
-/* Drawing */
+/* Ascii */
 
-#drawing
+#ascii
 {
     background: transparent;
+}
+
+#ascii-wrapper
+{
+    display: flex;
+    justify-content: center;
 }
         </style>
 

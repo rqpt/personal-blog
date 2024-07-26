@@ -75,9 +75,15 @@ h6:hover .heading-permalink,
     justify-content: center;
 }
 
-/* Drawing */
+/* Ascii */
 
-#drawing
+#ascii
 {
     background: transparent;
+}
+
+#ascii-wrapper
+{
+    display: flex;
+    justify-content: center;
 }
