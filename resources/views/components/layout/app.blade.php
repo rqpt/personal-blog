@@ -258,26 +258,27 @@ h6:hover .heading-permalink,
 
 .ascii-wrapper
 {
+    scale: 0.6;
     position: absolute;
     z-index: -1;
 }
 
 #note
 {
-    bottom: 8rem;
-    right: 8rem;
+    bottom: 0;
+    right: 0;
 }
 
 #initials
 {
     top: 0;
-    left: 2rem;
+    left: 0;
 }
 
 #keyboard
 {
     bottom: 0;
-    left: 2rem;
+    left: 0;
 }
         </style>
 

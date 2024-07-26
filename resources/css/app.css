@@ -79,6 +79,7 @@ h6:hover .heading-permalink,
 
 .ascii
 {
+    scale: 0.6;
     background: transparent;
     opacity: .3;
 }
@@ -91,18 +92,18 @@ h6:hover .heading-permalink,
 
 #note
 {
-    bottom: 8rem;
-    right: 8rem;
+    bottom: 0;
+    right: 0;
 }
 
 #initials
 {
     top: 0;
-    left: 2rem;
+    left: 0;
 }
 
 #keyboard
 {
     bottom: 0;
-    left: 2rem;
+    left: 0;
 }
