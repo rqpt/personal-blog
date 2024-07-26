@@ -246,6 +246,14 @@ h6:hover .heading-permalink,
     margin-top: 2rem;
     justify-content: center;
 }
+
+
+/* Drawing */
+
+#drawing
+{
+    background: transparent;
+}
         </style>
 
         @vite(['resources/css/app.css', 'resources/css/torchlight.css'])
