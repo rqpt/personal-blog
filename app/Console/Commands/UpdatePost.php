@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function Laravel\Prompts\form;
 use function Laravel\Prompts\outro;
 use function Laravel\Prompts\search;
-use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
 class UpdatePost extends Command implements PromptsForMissingInput
@@ -39,14 +38,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
         ];
 
         if ($this->option('edit')) {
-            $preferredTextEditor = select(
-                label: 'Select your preferred text editor for the post body.',
-                options: ['vim', 'builtin'],
-                default: 'vim',
-            );
-
             $updateValues['markdown'] = ComposePostMarkdown::handle(
-                $preferredTextEditor,
                 $bodyTmpFilename,
                 $post->markdown,
             );

@@ -8,9 +8,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
 use function Laravel\Prompts\confirm;
-use function Laravel\Prompts\form;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\outro;
+use function Laravel\Prompts\text;
 
 class CreatePost extends Command
 {
@@ -22,27 +22,15 @@ class CreatePost extends Command
     {
         info('Welcome to the post creation wizard!');
 
-        $formResponses = form()
-            ->text(
-                label: 'Please provide a post title.',
-                placeholder: 'E.g. I give myself very good advice, but I very seldom follow it.',
-                validate: ['postTitle' => ['required', 'unique:posts,title']],
-                name: 'title',
-            )
-            ->select(
-                label: 'Select your preferred text editor for the post body.',
-                options: ['vim', 'builtin'],
-                default: 'vim',
-                name: 'preferredTextEditor',
-            )
-            ->submit();
-
-        $title = $formResponses['title'];
+        $title = text(
+            label: 'Please provide a post title.',
+            placeholder: 'E.g. I give myself very good advice, but I very seldom follow it.',
+            validate: ['postTitle' => ['required', 'unique:posts,title']],
+        );
 
         $bodyTmpFilename = Str::slug($title).'.md';
 
         $markdown = ComposePostMarkdown::handle(
-            $formResponses['preferredTextEditor'],
             $bodyTmpFilename,
         );
 

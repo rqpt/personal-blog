@@ -5,29 +5,13 @@ namespace App\Actions\Console;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
 
-use function Laravel\Prompts\textarea;
-
 class ComposePostMarkdown
 {
     public static function handle(
-        string $preferredTextEditor,
         string $bodyTmpFilename,
         string $defaultBody = '',
     ): ?string {
         $sensibleEditorDefaults = config('editor.options');
-
-        if ($preferredTextEditor == 'builtin') {
-            info("No worries, here's one for you.");
-
-            $sensibleEditorDefaults = '';
-
-            return textarea(
-                label: 'Please write your post in markdown format.',
-                required: true,
-                default: $defaultBody,
-                rows: 25,
-            );
-        }
 
         $bodyTmpFileIsSaved = false;
         $bodyTmpFileIsEmpty = true;
@@ -38,7 +22,7 @@ class ComposePostMarkdown
 
         do {
             Process::forever()->tty()->run(
-                "$preferredTextEditor '$sensibleEditorDefaults' $bodyTmpFilePath", // Remove these single quotes, and you'll hate your life
+                "vim '$sensibleEditorDefaults' $bodyTmpFilePath", // Remove these single quotes, and you'll hate your life
             );
 
             $bodyTmpFileIsSaved = Storage::exists($bodyTmpFilename);
