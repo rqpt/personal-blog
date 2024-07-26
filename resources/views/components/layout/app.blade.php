@@ -283,8 +283,7 @@ h6:hover .heading-permalink,
 
 @media (max-width: 640px)
 {
-    .lg-ascii,
-    #keyboard
+    .lg-ascii
     {
         display: none;
     }
