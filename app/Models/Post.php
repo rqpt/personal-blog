@@ -41,7 +41,7 @@ class Post extends Model
     {
         $query->whereNotNull('published_at')
             ->orderBy('updated_at', 'desc')
-            ->limit(4)
+            ->limit(3)
             ->select(['id', 'title']);
     }
 
