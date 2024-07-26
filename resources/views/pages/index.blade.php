@@ -15,14 +15,6 @@ render(function ($view) {
     <header>
         <nav>
             <ul>
-                <li>
-                    <img
-                    id="in-rainbows"
-                    src="/inrainbows.webp"
-                    alt="In Rainbows"
-                    x-cloak
-                    >
-                </li>
             </ul>
             <ul>
                 <li>
@@ -35,6 +27,13 @@ render(function ($view) {
                       type="search"
                       />
                     </form>
+                </li>
+                <li>
+                    <a
+                    href="http://ernst-blog.laravel-sail.site:8080/welcome-1"
+                    >
+                        <x-fas-question-circle />
+                    </a>
                 </li>
                 <x-theme-toggle />
             </ul>
