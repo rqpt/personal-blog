@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\Console\ComposePostMarkdown as ComposePostMarkdown;
+use App\Console\ComposePostMarkdown;
+use App\Enums\PostType;
 use App\Models\Post;
-use App\PostType;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\PostType;
+use App\Enums\PostType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Support\Arr;

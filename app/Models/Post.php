@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\PostType;
 use App\Exceptions\FrontmatterMissingException;
-use App\PostType;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
