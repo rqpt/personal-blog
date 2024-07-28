@@ -5,6 +5,8 @@ x-data="{ lightMode: window.matchMedia('(prefers-color-scheme: light)').matches 
 x-ref="root"
 >
     <head>
+        <x-seo::meta />
+
         <meta
         charset="utf-8"
         >

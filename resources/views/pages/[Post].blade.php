@@ -15,22 +15,20 @@ x-effect="illuminateSnippets(lightMode)"
     >
         <nav>
             <ul>
-                @if($post->contains_toc)
-                    <li>
-                        <button
-                        class="pico-button-override"
-                        x-ref="toc-button"
-                        x-init="$el.focus()"
-                        x-intersect:enter="$el.focus({ preventScroll: true })"
-                        x-intersect:leave="$el.blur(); atTopOfPage = false"
-                        @click="tocExpanded = !tocExpanded"
-                        >
-                            <x-fas-list-ul
-                            ::fill="lightMode && '#2d3138'"
-                            />
-                        </button>
-                    </li>
-                @endif
+                <li>
+                    <button
+                    class="pico-button-override"
+                    x-ref="toc-button"
+                    x-init="$el.focus()"
+                    x-intersect:enter="$el.focus({ preventScroll: true })"
+                    x-intersect:leave="$el.blur(); atTopOfPage = false"
+                    @click="tocExpanded = !tocExpanded"
+                    >
+                        <x-fas-list-ul
+                        ::fill="lightMode && '#2d3138'"
+                        />
+                    </button>
+                </li>
             </ul>
 
             <ul>
@@ -70,39 +68,37 @@ x-effect="illuminateSnippets(lightMode)"
         </footer>
     @endif
 
-    @if($post->contains_toc)
-        <script>
-            document.addEventListener('alpine:init', () => {
-                Alpine.bind('toc', () => ({
-                    '@keydown.escape'() {
-                         this.tocExpanded = false;
-                         this.$refs.toc-button.focus();
-                    },
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.bind('toc', () => ({
+                '@keydown.escape'() {
+                     this.tocExpanded = false;
+                     this.$refs.toc-button.focus();
+                },
 
-                    '@keydown.j'() {
-                         this.$focus.wrap().next();
-                    },
+                '@keydown.j'() {
+                     this.$focus.wrap().next();
+                },
 
-                    '@keydown.k'() {
-                         this.$focus.wrap().previous();
-                    },
+                '@keydown.k'() {
+                     this.$focus.wrap().previous();
+                },
 
-                    '@keydown.tab'() {
-                         this.$focus.wrap().next();
-                    },
+                '@keydown.tab'() {
+                     this.$focus.wrap().next();
+                },
 
-                    '@keydown.shift.tab'() {
-                         this.$focus.wrap().previous();
-                    },
+                '@keydown.shift.tab'() {
+                     this.$focus.wrap().previous();
+                },
 
 
-                    '@scroll.window.throttle.100s'() {
-                        this.tocExpanded = false;
-                    },
-                }));
-            });
-        </script>
-    @endif
+                '@scroll.window.throttle.100s'() {
+                    this.tocExpanded = false;
+                },
+            }));
+        });
+    </script>
     <script>
         function illuminateSnippets(lightMode) {
             const snippets = document.querySelectorAll('pre code');

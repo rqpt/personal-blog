@@ -4,12 +4,14 @@ namespace App\Console\Commands;
 
 use App\Actions\Console\ComposePostMarkdown as ComposePostMarkdown;
 use App\Models\Post;
+use App\PostType;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\outro;
+use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
 class CreatePost extends Command
@@ -34,7 +36,13 @@ class CreatePost extends Command
             $bodyTmpFilename,
         );
 
-        $post = Post::create(compact('title', 'markdown'));
+        $type = select(
+            label: 'What type of post is this?',
+            options: PostType::asFormOptions(),
+            default: PostType::REGULAR->asString(),
+        );
+
+        $post = Post::create(compact('title', 'type', 'markdown'));
 
         outro("Nicely done! You've successfully created a draft post.");
 

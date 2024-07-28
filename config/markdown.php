@@ -37,6 +37,7 @@ return [
 
     'table_of_contents' => [
         'min_heading_level' => 2,
+        'max_heading_level' => 3,
     ],
 
     'renderer' => [

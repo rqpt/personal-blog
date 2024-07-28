@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
 
 class Post extends Model
 {
@@ -17,18 +18,21 @@ class Post extends Model
     protected $casts = [
         'type' => PostType::class,
         'contains_code' => 'boolean',
-        'contains_toc' => 'boolean',
     ];
 
     protected static function booted(): void
     {
         static::saving(function (Post $post) {
-            $html = Markdown::convert($post->markdown)->getContent();
+            $convertedMarkdown = Markdown::convert($post->markdown);
+
+            if ($convertedMarkdown instanceof RenderedContentWithFrontMatter) {
+                dd('hello');
+            }
+
+            $html = $convertedMarkdown->getContent();
 
             $post->html = $html;
-
             $post->contains_code = Str::contains($html, '<pre>');
-            $post->contains_toc = Str::contains($html, 'table-of-contents');
         });
     }
 
