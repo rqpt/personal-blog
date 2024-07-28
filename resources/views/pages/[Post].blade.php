@@ -1,8 +1,22 @@
 <?php
 
-use function Laravel\Folio\middleware;
+use Illuminate\View\View;
+use App\Models\Post;
+
+use function Laravel\Folio\{middleware, render};
 
 middleware('heal-url');
+
+render(function (View $view, Post $post) {
+  seo()
+  ->title($post->frontmatter['title'])
+  ->description($post->frontmatter['excerpt'])
+  ->site($post->frontmatter['site'])
+  ->url($post->frontmatter['url'])
+  ->type($post->frontmatter['type']);
+
+    return $view;
+});
 
 ?>
 
