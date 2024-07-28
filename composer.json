@@ -19,7 +19,6 @@
         "livewire/volt": "^1.6",
         "owenvoke/blade-fontawesome": "^2.6",
         "torchlight/torchlight-laravel": "^0.6.0",
-        "wendelladriel/laravel-validated-dto": "^3.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
