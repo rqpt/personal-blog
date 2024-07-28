@@ -40,3 +40,6 @@ Post::pinned()->get();
 Post::promotional()->get();
 Post::factory(2)->pinned()->create();
 Post::factory(2)->promotional()->create();
+Post::first();
+Post::first()->frontmatter();
+Post::first()->frontmatter;

@@ -29,4 +29,13 @@ enum PostType: int
             default => 'regular',
         };
     }
+
+    public static function fromString(string $string): self
+    {
+        return match ($string) {
+            'promotional' => self::PROMOTIONAL,
+            'pinned' => self::PINNED,
+            default => self::REGULAR,
+        };
+    }
 }

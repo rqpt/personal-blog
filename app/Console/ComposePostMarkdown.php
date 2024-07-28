@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ComposePostMarkdown
 {
@@ -15,6 +17,7 @@ class ComposePostMarkdown
 
         $bodyTmpFileIsSaved = false;
         $bodyTmpFileIsEmpty = true;
+        $bodyTmpFileHasFrontMatter = false;
 
         Storage::put($bodyTmpFilename, $defaultBody);
 
@@ -29,7 +32,9 @@ class ComposePostMarkdown
 
             $bodyTmpFileIsEmpty = $bodyTmpFileIsSaved
                 && Storage::size($bodyTmpFilename) == 0;
-        } while (! $bodyTmpFileIsSaved || $bodyTmpFileIsEmpty);
+
+            $bodyTmpFileHasFrontMatter = Str::startsWith(File::get($bodyTmpFilePath), '---');
+        } while (! $bodyTmpFileIsSaved || $bodyTmpFileIsEmpty || ! $bodyTmpFileHasFrontMatter);
 
         $markdown = Storage::get($bodyTmpFilename);
 

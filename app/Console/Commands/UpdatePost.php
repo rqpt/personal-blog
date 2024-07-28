@@ -62,12 +62,14 @@ class UpdatePost extends Command implements PromptsForMissingInput
             outro("We've successfully renamed a post!");
         }
 
-        if ($this->option('rename')) {
-            $newPostType = select(
+        if ($this->option('type')) {
+            $typeSelect = select(
                 label: 'What type of post is this?',
                 options: PostType::asFormOptions(),
                 default: PostType::REGULAR->asString(),
             );
+
+            $newPostType = PostType::fromString($typeSelect);
 
             $updateValues['type'] = $newPostType;
 
