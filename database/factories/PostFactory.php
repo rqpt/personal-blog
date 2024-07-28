@@ -16,7 +16,7 @@ class PostFactory extends Factory
         return [
             'title' => fake()->sentence(4),
             'type' => fake()->randomElement(PostType::cases()),
-            'markdown' => fake()->paragraphs(asText: true),
+            'markdown' => $this->getFrontMatter()."\n\n".fake()->paragraphs(asText: true),
             'published_at' => now(),
         ];
     }
@@ -196,5 +196,15 @@ class PostFactory extends Factory
 
             return compact('markdown');
         });
+    }
+
+    private function getFrontmatter(): string
+    {
+        return <<<'EOD'
+        ---
+        title: test
+        description: test
+        ---
+        EOD;
     }
 }
