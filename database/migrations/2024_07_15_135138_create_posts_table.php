@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
+            $table->tinyInteger('type')->default(0);
             $table->longText('html');
             $table->longText('markdown');
             $table->tinyInteger('contains_code');

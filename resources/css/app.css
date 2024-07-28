@@ -1,38 +1,31 @@
 /* Scrollbar  */
 
-:root
-{
+:root {
     --scrollbarBG: #0097A7;
     --thumbBG: #0097A7;
 }
 
-::-webkit-scrollbar
-{
+::-webkit-scrollbar {
     width: 0.5em;
 }
 
-::-webkit-scrollbar-track
-{
+::-webkit-scrollbar-track {
     background: var(--scrollbarBG);
 }
 
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
     background: var(--thumbBG);
 }
 
-@supports (scrollbar-color: red blue)
-{
-    *
-    {
+@supports (scrollbar-color: red blue) {
+    * {
         scrollbar-color: var(--scrollbarBG) transparent;
     }
 }
 
 /* Heading links */
 
-.heading-permalink
-{
+.heading-permalink {
     font-size: .8em;
     vertical-align: super;
     text-decoration: none;
@@ -46,29 +39,25 @@ h4:hover .heading-permalink,
 h5:hover .heading-permalink,
 h6:hover .heading-permalink,
 .heading-permalink:hover,
-.heading-permalink:focus
-{
+.heading-permalink:focus {
     text-decoration: none;
     color: #777;
 }
 
 /* Pico overrides */
 
-#theme-toggle
-{
+#theme-toggle {
     cursor: pointer;
 }
 
-.pico-button-override
-{
+.pico-button-override {
     background: transparent;
     border: transparent;
 }
 
 /* Embedded overrides */
 
-.embedded-content
-{
+.embedded-content {
     display: flex;
     margin-top: 2rem;
     justify-content: center;
@@ -76,33 +65,39 @@ h6:hover .heading-permalink,
 
 /* Ascii */
 
-.ascii
-{
+.ascii {
     background: transparent;
     opacity: .1;
 }
 
-.ascii-wrapper
-{
+.ascii-wrapper {
     scale: 0.6;
     position: absolute;
     z-index: -1;
 }
 
-#note
-{
+#note {
     top: -3rem;
     right: 1rem;
 }
 
-#initials
-{
+#initials {
     bottom: 0;
     right: 0;
 }
 
-#keyboard
-{
+#keyboard {
     bottom: 10rem;
     left: -20rem;
+}
+
+/* Layout */
+
+#latest-and-promotional-posts {
+    display: flex;
+    gap: 1rem;
+}
+
+#latest-and-promotional-posts>* {
+    flex: 1;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\PostType;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +15,7 @@ class Post extends Model
     use HasFactory;
 
     protected $casts = [
+        'type' => PostType::class,
         'contains_code' => 'boolean',
         'contains_toc' => 'boolean',
     ];
@@ -41,8 +43,18 @@ class Post extends Model
     {
         $query->whereNotNull('published_at')
             ->orderBy('updated_at', 'desc')
-            ->limit(6)
+            ->limit(3)
             ->select(['id', 'title']);
+    }
+
+    public function scopePinned(Builder $query): void
+    {
+        $query->published()->whereType(PostType::PINNED);
+    }
+
+    public function scopePromotional(Builder $query): void
+    {
+        $query->published()->whereType(PostType::PROMOTIONAL);
     }
 
     public function url(): string

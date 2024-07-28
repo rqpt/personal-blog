@@ -34,3 +34,9 @@ Post::factory(5)->withRealisticBody('english')->withRealisticTitle('english')->w
 Post::factory(4)->withRealisticBody('english')->withRealisticTitle('english')->withVideo(2)->withCodeSnippet(2)->create();
 Post::factory(2)->withRealisticBody('english')->withRealisticTitle('english')->withVideo(2)->withCodeSnippet(2)->create();
 Post::factory(1)->withRealisticBody('english')->withRealisticTitle('english')->withVideo(2)->withCodeSnippet(2)->create();
+Post::first();
+Post::ephemeral()->get();
+Post::pinned()->get();
+Post::promotional()->get();
+Post::factory(2)->pinned()->create();
+Post::factory(2)->promotional()->create();

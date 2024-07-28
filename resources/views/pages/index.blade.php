@@ -1,12 +1,17 @@
 <?php
 
-use function Laravel\Folio\render;
 use App\Models\Post;
 
-render(function ($view) {
-    $posts = Post::published()->get();
+use function Laravel\Folio\render;
 
-    return $view->with(compact('posts'));
+render(function ($view) {
+    $latestPosts = Post::published()->get();
+    $pinnedPosts = Post::pinned()->get();
+    $promotionalPosts = Post::promotional()->get();
+
+    return $view->with(
+        compact('pinnedPosts', 'latestPosts', 'promotionalPosts'),
+    );
 });
 
 ?>
@@ -28,21 +33,22 @@ render(function ($view) {
             </ul>
         </nav>
     </header>
-    <main>
-        @if($posts->count() > 0)
-            <section
-            id="links"
-            x-data="{ lastFocusedLink: localStorage.getItem('lastFocusedLink') }"
-            x-init="document.getElementById(lastFocusedLink)?.focus()"
-            @keydown.up="$focus.wrap().next()"
-            @keydown.down="$focus.wrap().previous()"
-            @keydown.k="$focus.wrap().previous()"
-            @keydown.j="$focus.wrap().next()"
-            @keydown.tab.prevent="$focus.wrap().next()"
-            @keydown.shift.tab.prevent="$focus.wrap().previous()"
-            >
-                @foreach($posts as $post)
-                @php $linkRef = "link-{$loop->iteration}"; @endphp
+    <main
+    x-data="{ lastFocusedLink: localStorage.getItem('lastFocusedLink') }"
+    x-init="document.getElementById(lastFocusedLink)?.focus()"
+    @keydown.up="$focus.wrap().next()"
+    @keydown.down="$focus.wrap().previous()"
+    @keydown.k="$focus.wrap().previous()"
+    @keydown.j="$focus.wrap().next()"
+    @keydown.tab.prevent="$focus.wrap().next()"
+    @keydown.shift.tab.prevent="$focus.wrap().previous()"
+    >
+        @if ($pinnedPosts->count() > 0)
+            <section>
+                <h2>Pinned</h2>
+                @foreach($pinnedPosts as $post)
+                    @php $linkRef = "link-{$loop->iteration}"; @endphp
+
                     <article
                     x-data="{ clicked: false }"
                     :aria-busy="clicked"
@@ -64,10 +70,66 @@ render(function ($view) {
                     </article>
                 @endforeach
             </section>
-        @else
-            <p>
-                No posts found
-            </p>
         @endif
+        <div
+        id="latest-and-promotional-posts"
+        >
+            @if ($latestPosts->count() > 0)
+                <section>
+                    <h2>Latest</h2>
+                    @foreach($latestPosts as $post)
+                        @php $linkRef = "link-{$loop->iteration}"; @endphp
+
+                        <article
+                        x-data="{ clicked: false }"
+                        :aria-busy="clicked"
+                        :aria-label="Please wait..."
+                        >
+                            <a
+                            x-show="!clicked"
+                            id="{{ $linkRef }}"
+                            x-ref="{{ $linkRef }}"
+                            @click.capture="clicked = true"
+                            @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                            @mouseenter="$focus.focus($el); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                            @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                            wire:navigate.hover
+                            href="/{{ $post->urlSlug() }}"
+                            >
+                                {{ $post->title }}
+                            </a>
+                        </article>
+                    @endforeach
+                </section>
+            @endif
+            @if ($promotionalPosts->count() > 0)
+                <section>
+                    <h2>Promotional</h2>
+                    @foreach($promotionalPosts as $post)
+                        @php $linkRef = "link-{$loop->iteration}"; @endphp
+
+                        <article
+                        x-data="{ clicked: false }"
+                        :aria-busy="clicked"
+                        :aria-label="Please wait..."
+                        >
+                            <a
+                            x-show="!clicked"
+                            id="{{ $linkRef }}"
+                            x-ref="{{ $linkRef }}"
+                            @click.capture="clicked = true"
+                            @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                            @mouseenter="$focus.focus($el); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                            @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                            wire:navigate.hover
+                            href="/{{ $post->urlSlug() }}"
+                            >
+                                {{ $post->title }}
+                            </a>
+                        </article>
+                    @endforeach
+                </section>
+            @endif
+        </div>
     </main>
 </x-layout.app>
