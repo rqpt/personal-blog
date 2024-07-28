@@ -39,7 +39,7 @@ class CreatePost extends Command
         $type = select(
             label: 'What type of post is this?',
             options: PostType::asFormOptions(),
-            default: PostType::REGULAR->asString(),
+            default: PostType::REGULAR->value,
         );
 
         $post = Post::create(compact('title', 'type', 'markdown'));

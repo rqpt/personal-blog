@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "archtechx/laravel-seo": "^0.10.1",
         "blade-ui-kit/blade-icons": "*",
         "embed/embed": "^4.4",
         "graham-campbell/markdown": "^15.2",
@@ -17,7 +18,8 @@
         "laravel/tinker": "^2.9",
         "livewire/volt": "^1.6",
         "owenvoke/blade-fontawesome": "^2.6",
-        "torchlight/torchlight-laravel": "^0.6.0"
+        "torchlight/torchlight-laravel": "^0.6.0",
+        "wendelladriel/laravel-validated-dto": "^3.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
