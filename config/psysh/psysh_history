@@ -43,3 +43,8 @@ Post::factory(2)->promotional()->create();
 Post::first();
 Post::first()->frontmatter();
 Post::first()->frontmatter;
+Post::latest();
+Post::latest()->get();
+Post::first();
+Post::first()->delete();
+Post::first();

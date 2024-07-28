@@ -11,13 +11,24 @@ class ComposePostMarkdown
 {
     public static function handle(
         string $bodyTmpFilename,
-        string $defaultBody = '',
+        ?string $defaultBody = null,
     ): ?string {
         $sensibleEditorDefaults = config('editor.options');
 
         $bodyTmpFileIsSaved = false;
         $bodyTmpFileIsEmpty = true;
         $bodyTmpFileHasFrontMatter = false;
+
+        $defaultBody ??= <<<'EOD'
+        ---
+        title:
+        description:
+        tags:
+            -
+        ---
+
+        #
+        EOD;
 
         Storage::put($bodyTmpFilename, $defaultBody);
 

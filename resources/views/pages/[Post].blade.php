@@ -9,11 +9,9 @@ middleware('heal-url');
 
 render(function (View $view, Post $post) {
   seo()
+  ->withUrl()
   ->title($post->frontmatter['title'])
-  ->description($post->frontmatter['excerpt'])
-  ->site($post->frontmatter['site'])
-  ->url($post->frontmatter['url'])
-  ->type($post->frontmatter['type']);
+  ->description($post->frontmatter['description']);
 
     return $view;
 });
