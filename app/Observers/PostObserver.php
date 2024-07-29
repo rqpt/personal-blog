@@ -37,9 +37,15 @@ class PostObserver
 
     public function saved(Post $post): void
     {
-        $detachedTags = Tag::whereNotIn('name', $post->frontmatter->tags)->get();
+        $originalFrontmatter = $post->getOriginal('frontmatter');
 
-        foreach ($detachedTags as $tag) {
+        $originalTags = $originalFrontmatter->tags;
+
+        $tagsToDetach = array_diff($originalTags, $post->frontmatter->tags);
+
+        $tagsToDetach = Tag::where('name', $tagsToDetach)->get();
+
+        foreach ($tagsToDetach as $tag) {
             $post->tags()->detach($tag);
         }
 
