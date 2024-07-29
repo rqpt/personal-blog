@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\PostType;
 use App\Exceptions\FrontmatterMissingException;
+use App\ValueObjects\Frontmatter;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ class Post extends Model
 
     protected $casts = [
         'type' => PostType::class,
-        'frontmatter' => 'json',
+        'frontmatter' => Frontmatter::class,
         'contains_code' => 'boolean',
     ];
 
@@ -36,7 +37,13 @@ class Post extends Model
             $html = $convertedMarkdown->getContent();
 
             $post->html = $html;
-            $post->frontmatter = $frontmatter;
+            $post->frontmatter = new Frontmatter(
+                title: $frontmatter['title'] ?? $post->title,
+                description: $frontmatter['description'],
+                tags: $frontmatter['tags'],
+                author: $frontmatter['author'],
+            );
+
             $post->contains_code = Str::contains($html, '<pre>');
         });
     }

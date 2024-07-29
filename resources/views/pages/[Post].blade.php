@@ -10,8 +10,8 @@ middleware('heal-url');
 render(function (View $view, Post $post) {
   seo()
   ->withUrl()
-  ->title($post->frontmatter['title'])
-  ->description($post->frontmatter['description']);
+  ->title($post->frontmatter->title)
+  ->description($post->frontmatter->description);
 
     return $view;
 });

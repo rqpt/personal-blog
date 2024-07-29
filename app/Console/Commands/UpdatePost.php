@@ -113,10 +113,9 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 label: 'Edit the body of the post?',
                 default: $this->option('edit'),
                 name: 'edit',
-            )->select(
+            )->confirm(
                 label: "Modify the post's type?",
-                options: PostType::asFormOptions(),
-                default: $this->option('type'),
+                default: false,
                 name: 'type',
             )
             ->confirm(

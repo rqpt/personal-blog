@@ -23,6 +23,7 @@ class ComposePostMarkdown
         ---
         title:
         description:
+        author:
         tags:
             -
         ---

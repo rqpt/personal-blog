@@ -48,3 +48,5 @@ Post::latest()->get();
 Post::first();
 Post::first()->delete();
 Post::first();
+Post::first();
+Post::first()->frontmatter;
