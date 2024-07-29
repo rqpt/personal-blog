@@ -20,11 +20,21 @@ render(function ($view) {
     <header>
         <nav>
             <ul>
+                <input
+                id="search"
+                type="search"
+                name="search"
+                aria-label="Search"
+                />
             </ul>
             <ul>
                 <li>
                     <a
                     href="http://ernst-blog.laravel-sail.site:8080/welcome-1"
+                    @mouseenter="$el.focus()"
+                    @mouseleave="$el.blur()"
+                    data-tooltip="Help"
+                    data-placement="left"
                     >
                         <x-fas-question-circle />
                     </a>

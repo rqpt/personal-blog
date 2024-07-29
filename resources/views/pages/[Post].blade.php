@@ -47,8 +47,11 @@ x-effect="illuminateSnippets(lightMode)"
                 <li>
                     <a
                     wire:navigate.hover
-                    @mouseenter="$focus.focus($el)"
+                    @mouseenter="$el.focus()"
+                    @mouseleave="$el.blur()"
                     href="/"
+                    data-tooltip="Home"
+                    data-placement="left"
                     >
                         <x-fas-house />
                     </a>
