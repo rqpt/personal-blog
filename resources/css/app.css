@@ -1,3 +1,9 @@
+/* Alpine */
+
+[x-cloak] {
+    display: none !important;
+}
+
 /* Scrollbar  */
 
 :root {
@@ -65,30 +71,19 @@ h6:hover .heading-permalink,
 
 /* Ascii */
 
+#ascii-grid {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    z-index: -1;
+    overflow: hidden;
+}
+
 .ascii {
     background: transparent;
     opacity: .1;
-}
-
-.ascii-wrapper {
-    scale: 0.6;
-    position: absolute;
-    z-index: -1;
-}
-
-#note {
-    top: -3rem;
-    right: 1rem;
-}
-
-#initials {
-    bottom: 0;
-    right: 0;
-}
-
-#keyboard {
-    bottom: 10rem;
-    left: -20rem;
 }
 
 /* Layout */
