@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use App\Enums\PostType;
-use App\Exceptions\FrontmatterMissingException;
+use App\Observers\PostObserver;
 use App\ValueObjects\Frontmatter;
-use GrahamCampbell\Markdown\Facades\Markdown;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
-use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
 
+#[ObservedBy(PostObserver::class)]
 class Post extends Model
 {
     /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\PostFactory> */
@@ -23,29 +24,9 @@ class Post extends Model
         'contains_code' => 'boolean',
     ];
 
-    protected static function booted(): void
+    public function tags(): BelongsToMany
     {
-        static::saving(function (Post $post) {
-            $convertedMarkdown = Markdown::convert($post->markdown);
-
-            if ($convertedMarkdown instanceof RenderedContentWithFrontMatter) {
-                $frontmatter = $convertedMarkdown->getFrontMatter();
-            } else {
-                throw new FrontmatterMissingException;
-            }
-
-            $html = $convertedMarkdown->getContent();
-
-            $post->html = $html;
-            $post->frontmatter = new Frontmatter(
-                title: $frontmatter['title'] ?? $post->title,
-                description: $frontmatter['description'],
-                tags: $frontmatter['tags'],
-                author: $frontmatter['author'],
-            );
-
-            $post->contains_code = Str::contains($html, '<pre>');
-        });
+        return $this->belongsToMany(Tag::class);
     }
 
     public function resolveRouteBinding($value, $field = null): ?Model

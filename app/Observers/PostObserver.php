@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Observers;
+
+use App\Exceptions\FrontmatterMissingException;
+use App\Models\Post;
+use App\Models\Tag;
+use App\ValueObjects\Frontmatter;
+use GrahamCampbell\Markdown\Facades\Markdown;
+use Illuminate\Support\Str;
+use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
+
+class PostObserver
+{
+    public function saving(Post $post): void
+    {
+        $convertedMarkdown = Markdown::convert($post->markdown);
+
+        if ($convertedMarkdown instanceof RenderedContentWithFrontMatter) {
+            $frontmatter = $convertedMarkdown->getFrontMatter();
+        } else {
+            throw new FrontmatterMissingException;
+        }
+
+        $html = $convertedMarkdown->getContent();
+
+        $post->html = $html;
+        $post->frontmatter = new Frontmatter(
+            title: $frontmatter['title'] ?? $post->title,
+            description: $frontmatter['description'],
+            tags: $frontmatter['tags'],
+            author: $frontmatter['author'],
+        );
+
+        $post->contains_code = Str::contains($html, '<pre>');
+
+        $tags = [];
+
+        foreach ($frontmatter['tags'] as $name) {
+            $tags[] = Tag::firstOrCreate(compact('name'));
+        }
+
+        $post->tags()->saveMany($tags);
+    }
+}
