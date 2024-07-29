@@ -33,13 +33,22 @@ class PostObserver
         );
 
         $post->contains_code = Str::contains($html, '<pre>');
+    }
 
-        $tags = [];
+    public function saved(Post $post): void
+    {
+        $detachedTags = Tag::whereNotIn('name', $post->frontmatter->tags)->get();
 
-        foreach ($frontmatter['tags'] as $name) {
-            $tags[] = Tag::firstOrCreate(compact('name'));
+        foreach ($detachedTags as $tag) {
+            $post->tags()->detach($tag);
         }
 
-        $post->tags()->saveMany($tags);
+        foreach ($post->frontmatter->tags as $name) {
+            $tag = Tag::firstOrCreate(compact('name'));
+
+            if (! $post->tags()->find($tag)) {
+                $post->tags()->attach($tag);
+            }
+        }
     }
 }
