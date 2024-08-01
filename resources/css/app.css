@@ -52,10 +52,6 @@ h6:hover .heading-permalink,
 
 /* Pico overrides */
 
-#search {
-    margin-bottom: 0;
-}
-
 #theme-toggle {
     cursor: pointer;
 }
@@ -99,4 +95,10 @@ h6:hover .heading-permalink,
 
 #latest-and-promotional-posts>* {
     flex: 1;
+}
+
+/* Misc */
+
+.hidden {
+    display: none;
 }

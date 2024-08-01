@@ -20,12 +20,6 @@ render(function ($view) {
     <header>
         <nav>
             <ul>
-                <input
-                id="search"
-                type="search"
-                name="search"
-                aria-label="Search"
-                />
             </ul>
             <ul>
                 <li>
@@ -53,6 +47,12 @@ render(function ($view) {
     @keydown.tab.prevent="$focus.wrap().next()"
     @keydown.shift.tab.prevent="$focus.wrap().previous()"
     >
+        <h1
+        class="hidden"
+        >
+            My Blog
+        </h1>
+
         @if ($pinnedPosts->count() > 0)
             <section>
                 <h2>Pinned</h2>
@@ -86,7 +86,7 @@ render(function ($view) {
         >
             @if ($latestPosts->count() > 0)
                 <section>
-                    <h2>Latest</h2>
+                    <h2>Recent</h2>
                     @foreach($latestPosts as $post)
                         @php $linkRef = "link-{$loop->iteration}"; @endphp
 
