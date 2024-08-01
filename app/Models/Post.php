@@ -32,7 +32,7 @@ class Post extends Model
 
     protected static function booted(): void
     {
-        /** @param Builder<\App\Models\Post>  */
+        /** @param Builder<\App\Models\Post> $builder */
         static::addGlobalScope('published', function (Builder $builder) {
             $builder->whereNotNull('published_at')
                 ->orderBy('updated_at', 'desc')
@@ -47,19 +47,19 @@ class Post extends Model
         return parent::resolveRouteBinding($postId, $field);
     }
 
-    /** @param Builder<\App\Models\Post>  */
+    /** @param Builder<\App\Models\Post> $query  */
     public function scopeSurfaceInfo(Builder $query): void
     {
         $query->select(['id', 'name']);
     }
 
-    /** @param Builder<\App\Models\Post>  */
+    /** @param Builder<\App\Models\Post> $query */
     public function scopePinned(Builder $query): void
     {
         $query->surfaceInfo()->whereType(PostType::PINNED);
     }
 
-    /** @param Builder<\App\Models\Post>  */
+    /** @param Builder<\App\Models\Post>  $query */
     public function scopePromotional(Builder $query): void
     {
         $query->surfaceInfo()->whereType(PostType::PROMOTIONAL);
