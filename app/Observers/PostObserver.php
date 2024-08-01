@@ -29,7 +29,7 @@ class PostObserver
             title: $frontmatter['title'] ?? $post->title,
             description: $frontmatter['description'],
             tags: $frontmatter['tags'],
-            author: $frontmatter['author'],
+            author: $frontmatter['author'] ?? 'Ernst Vermeulen',
         );
 
         $post->contains_code = Str::contains($html, '<pre>');
