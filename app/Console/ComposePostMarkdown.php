@@ -23,7 +23,7 @@ class ComposePostMarkdown
         ---
         title:
         description:
-        author:
+        author: Ernst Vermeulen
         tags:
             -
         ---

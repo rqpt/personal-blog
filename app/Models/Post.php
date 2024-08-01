@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Enums\PostType;
+use App\Models\Scopes\PublishedScope;
 use App\Observers\PostObserver;
 use App\ValueObjects\Frontmatter;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 #[ObservedBy(PostObserver::class)]
+#[ScopedBy(PublishedScope::class)]
 class Post extends Model
 {
     /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\PostFactory> */
@@ -36,22 +39,19 @@ class Post extends Model
         return parent::resolveRouteBinding($postId, $field);
     }
 
-    public function scopePublished(Builder $query): void
+    public function scopeSurfaceInfo(Builder $query): void
     {
-        $query->whereNotNull('published_at')
-            ->orderBy('updated_at', 'desc')
-            ->limit(3)
-            ->select(['id', 'title']);
+        $query->select(['id', 'name']);
     }
 
     public function scopePinned(Builder $query): void
     {
-        $query->published()->whereType(PostType::PINNED);
+        $query->surfaceInfo()->whereType(PostType::PINNED);
     }
 
     public function scopePromotional(Builder $query): void
     {
-        $query->published()->whereType(PostType::PROMOTIONAL);
+        $query->surfaceInfo()->whereType(PostType::PROMOTIONAL);
     }
 
     public function url(): string
@@ -64,8 +64,8 @@ class Post extends Model
         return $this->slug().'-'.$this->id;
     }
 
-    public function slug(?string $title = null): string
+    public function slug(): string
     {
-        return Str::slug($title ?? $this->title);
+        return Str::slug($this->title);
     }
 }

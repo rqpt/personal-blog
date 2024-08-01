@@ -56,7 +56,7 @@ class CreatePost extends Command
         );
 
         if ($publishNow) {
-            $post->update(['published_at' => now()]);
+            $post->updateQuietly(['published_at' => now()]);
 
             outro("We've successfully published the post! 🍾");
             outro("You can access it at {$post->url()}");

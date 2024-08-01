@@ -37,6 +37,14 @@ class PostObserver
 
     public function saved(Post $post): void
     {
+        foreach ($post->frontmatter->tags as $name) {
+            $post->tags()->firstOrCreate(compact('name'));
+        }
+
+        if (! $post->wasChanged('frontmatter')) {
+            return;
+        }
+
         $originalFrontmatter = $post->getOriginal('frontmatter');
 
         $originalTags = $originalFrontmatter->tags;
@@ -47,14 +55,6 @@ class PostObserver
 
         foreach ($tagsToDetach as $tag) {
             $post->tags()->detach($tag);
-        }
-
-        foreach ($post->frontmatter->tags as $name) {
-            $tag = Tag::firstOrCreate(compact('name'));
-
-            if (! $post->tags()->find($tag)) {
-                $post->tags()->attach($tag);
-            }
         }
     }
 }
