@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use App\Enums\PostType;
-use App\Models\Scopes\PublishedScope;
 use App\Observers\PostObserver;
 use App\ValueObjects\Frontmatter;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 #[ObservedBy(PostObserver::class)]
-#[ScopedBy(PublishedScope::class)]
 class Post extends Model
 {
     /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\PostFactory> */
@@ -31,6 +28,16 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    protected static function booted(): void
+    {
+        /** @param Builder<\App\Models\Post>  */
+        static::addGlobalScope('published', function (Builder $builder) {
+            $builder->whereNotNull('published_at')
+                ->orderBy('updated_at', 'desc')
+                ->limit(3);
+        });
     }
 
     public function resolveRouteBinding($value, $field = null): ?Model
