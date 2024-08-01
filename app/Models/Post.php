@@ -27,6 +27,7 @@ class Post extends Model
         'contains_code' => 'boolean',
     ];
 
+    /** @return BelongsToMany<\App\Models\Tag> */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
@@ -39,16 +40,19 @@ class Post extends Model
         return parent::resolveRouteBinding($postId, $field);
     }
 
+    /** @param Builder<\App\Models\Post>  */
     public function scopeSurfaceInfo(Builder $query): void
     {
         $query->select(['id', 'name']);
     }
 
+    /** @param Builder<\App\Models\Post>  */
     public function scopePinned(Builder $query): void
     {
         $query->surfaceInfo()->whereType(PostType::PINNED);
     }
 
+    /** @param Builder<\App\Models\Post>  */
     public function scopePromotional(Builder $query): void
     {
         $query->surfaceInfo()->whereType(PostType::PROMOTIONAL);

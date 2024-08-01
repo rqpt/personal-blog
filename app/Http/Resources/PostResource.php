@@ -10,7 +10,7 @@ class PostResource extends JsonResource
 {
     public bool $preserveKeys = true;
 
-    /** @return non-empty-array<'html'|'id'|'markdown'|'status'|'title', mixed> */
+    /** @return non-empty-array<'html'|'id'|'markdown'|'published'|'title', mixed> */
     public function toArray(Request $request): array
     {
         $postBody = [];

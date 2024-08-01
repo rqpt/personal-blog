@@ -8,6 +8,7 @@ enum PostType: int
     case PINNED = 1;
     case PROMOTIONAL = 2;
 
+    /** @return string[] */
     public static function asFormOptions(): array
     {
         $formOptions = [];

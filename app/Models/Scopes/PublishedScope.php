@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Scope;
 
 class PublishedScope implements Scope
 {
+    /** @param Builder<\App\Models\Post>  */
     public function apply(Builder $builder, Model $model): void
     {
         $builder->whereNotNull('published_at')

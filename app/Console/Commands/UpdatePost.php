@@ -69,7 +69,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 default: PostType::REGULAR->asString(),
             );
 
-            $newPostType = PostType::fromString($typeSelect);
+            $newPostType = PostType::fromString((string) $typeSelect);
 
             $updateValues['type'] = $newPostType;
 
@@ -91,7 +91,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
         return [
             'post' => fn () => search(
                 label: 'Search for a post:',
-                options: fn (string $value) => strlen($value) > 0
+                options: fn (string $value): array => strlen($value) > 0
                     ? Post::where('title', 'like', "%{$value}%")->pluck('title')->all()
                     : $titles,
                 required: true,

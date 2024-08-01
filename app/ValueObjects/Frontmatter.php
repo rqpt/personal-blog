@@ -9,6 +9,7 @@ use InvalidArgumentException;
 
 class Frontmatter implements Castable
 {
+    /** @param string[] $tags */
     public function __construct(
         public string $title,
         public string $description,

@@ -42,7 +42,7 @@ class CreatePost extends Command
             default: PostType::REGULAR->asString(),
         );
 
-        $type = PostType::fromString($typeSelect);
+        $type = PostType::fromString((string) $typeSelect);
 
         $post = Post::create(compact('title', 'type', 'markdown'));
 
