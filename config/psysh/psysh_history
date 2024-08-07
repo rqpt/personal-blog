@@ -100,3 +100,13 @@ Post::first()->markdown();
 Post::first()->markdown;
 Post::first()->frontmatter;
 Post::first()->html;
+Post::factory(9)->create();
+exit
+Post::where('type',\040'pinned')->first();
+Post::count();
+Post::all();
+Post::all()->pluck('title')
+exit
+Post::truncate();
+Post::all();
+Post::factory(9)->withRealisticTitle('english')->withRealisticBody('english')->withCodeSnippet(2)->withVideo(2)->create();

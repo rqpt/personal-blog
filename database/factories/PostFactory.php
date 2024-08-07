@@ -57,7 +57,7 @@ class PostFactory extends Factory
     public function withBody(): Factory
     {
         return $this->state(fn (array $attributes) => [
-            'markdown' => Http::getRandomMarkdown(),
+            'markdown' => $this->getFrontMatter()."\n\n".Http::getRandomMarkdown(),
         ]);
     }
 
@@ -86,7 +86,7 @@ class PostFactory extends Factory
                 ]);
 
             return [
-                'markdown' => $aiResponse->json('choices.0.message.content'),
+                'markdown' => $this->getFrontMatter()."\n\n".$aiResponse->json('choices.0.message.content'),
             ];
         });
     }
@@ -202,8 +202,11 @@ class PostFactory extends Factory
     {
         return <<<'EOD'
         ---
-        title: test
         description: test
+        tags:
+            - test0
+            - test1
+            - test2
         ---
         EOD;
     }
