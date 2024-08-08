@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:latest-php8.3-alpine
 
-ENV SERVER_NAME="https://"
+ENV SERVER_NAME="pevermeulen.blog"
 
 RUN apk update && apk add vim nodejs npm git
 
