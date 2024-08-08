@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:latest-php8.3-alpine
 
-ENV SERVER_NAME="http://"
+ENV SERVER_NAME="pevermeulen.blog/"
 
 RUN apk update && apk add vim nodejs npm git
 
@@ -9,15 +9,14 @@ RUN install-php-extensions \
   pcntl \
   zip
 
-ENV WEB_DOCUMENT_ROOT="/app/public"
+WORKDIR /var/www
 
-RUN rm -rf /app
+RUN rm -rf /html
 
-WORKDIR /
+RUN git clone -b main https://github.com/rqpt/personal-blog html
+COPY php.ini /usr/local/etc/php/
 
-RUN git clone -b main https://github.com/rqpt/personal-blog app
-
-WORKDIR /app
+WORKDIR /var/www/html
 
 RUN npm install
 RUN npm run build
@@ -29,9 +28,12 @@ RUN mkdir resources/svg
 RUN composer install --no-interaction --optimize-autoloader
 
 COPY .env.production .env
-COPY php.ini /usr/local/etc/php
 
 RUN php artisan optimize
 RUN php artisan icons:cache
+
+RUN chown -R www-data:www-data storage bootstrap/cache
+
+EXPOSE 80 443
 
 ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
