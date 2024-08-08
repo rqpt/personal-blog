@@ -2,7 +2,7 @@ FROM dunglas/frankenphp:latest-php8.3-alpine
 
 ENV SERVER_NAME="http://"
 
-RUN apk update && apk add vim git nodejs npm
+RUN apk update && apk add vim git nodejs npm git
 
 RUN install-php-extensions \
   pcntl \

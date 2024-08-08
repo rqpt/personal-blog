@@ -12,7 +12,6 @@
         environment:
             EDITOR: '${EDITOR:-nano}'
         volumes:
-            - ./:/app
             - caddy_data:/data
             - caddy_config:/config
         networks:
