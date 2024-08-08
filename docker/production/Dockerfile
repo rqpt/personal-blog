@@ -1,11 +1,13 @@
-FROM dunglas/frankenphp
+FROM dunglas/frankenphp:latest-php8.3-alpine
 
-ENV SERVER_NAME=pevermeulen.blog
+ENV SERVER_NAME="http://"
 
-RUN apt-get update && apt-get install curl ca-certificates git unzip libzip-dev nodejs npm vim -y
+RUN apk update && apk add vim git nodejs npm
 
-RUN docker-php-ext-install zip
-RUN docker-php-ext-install exif
+RUN install-php-extensions \
+  pcntl \
+  zip \
+  exif
 
 WORKDIR /
 
@@ -16,6 +18,8 @@ RUN rm -rf /app
 RUN git clone -b main https://github.com/rqpt/personal-blog app
 
 WORKDIR /app
+
+RUN mkdir resources/svg
 
 RUN npm install
 RUN npm run build
@@ -31,4 +35,4 @@ RUN php artisan optimize
 
 RUN php artisan icons:cache
 
-ENTRYPOINT ['php', 'artisan', 'octane:start']
+ENTRYPOINT [php, artisan, octane:frankenphp]
