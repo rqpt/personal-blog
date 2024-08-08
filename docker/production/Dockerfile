@@ -25,7 +25,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN mkdir resources/svg
 
-RUN composer install --no-interaction --optimize-autoloader
+RUN composer install --no-dev --no-interaction --optimize-autoloader
 
 COPY .env.production .env
 
