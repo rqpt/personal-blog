@@ -62,7 +62,7 @@ render(function ($view) {
                     <article
                     x-data="{ clicked: false }"
                     :aria-busy="clicked"
-                    :aria-label="Please wait..."
+                    :aria-label="'Please wait...'"
                     >
                         <a
                         x-show="!clicked"
