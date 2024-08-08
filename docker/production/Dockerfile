@@ -2,24 +2,26 @@ FROM dunglas/frankenphp
 
 ENV SERVER_NAME=pevermeulen.blog
 
-RUN apt-get update && apt-get install curl ca-certificates git nodejs npm -y
+RUN apt-get update && apt-get install curl ca-certificates git unzip libzip-dev nodejs npm vim -y
 
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install exif
 
-WORKDIR /app/
+WORKDIR /
+
 ENV WEB_DOCUMENT_ROOT /app/public
 
-USER application
-RUN git clone -b main https://github.com/rqpt/personal-blog .
+RUN rm -rf /app
+
+RUN git clone -b main https://github.com/rqpt/personal-blog app
+
+WORKDIR /app
 
 RUN npm install
 RUN npm run build
 
-USER root
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-USER application
 RUN composer install --no-interaction --optimize-autoloader
 
 COPY .env.production .env
