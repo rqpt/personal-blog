@@ -20,10 +20,8 @@ class PostController
         return PostResource::collection($posts);
     }
 
-    public function show(string $postSlugOrID): PostResource
+    public function show(Post $post): PostResource
     {
-        $post = $this->determinePostFromSlug($postSlugOrID);
-
         return new PostResource($post);
     }
 
@@ -49,10 +47,8 @@ class PostController
         return new PostResource($post);
     }
 
-    public function update(Request $request, string $postSlugOrID): PostResource
+    public function update(Request $request, Post $post): PostResource
     {
-        $post = $this->determinePostFromSlug($postSlugOrID);
-
         $updateValues = [];
 
         if ($request->has('title')) {
@@ -72,19 +68,10 @@ class PostController
         return new PostResource($post);
     }
 
-    public function destroy(string $postSlugOrID): PostResource
+    public function destroy(Post $post): PostResource
     {
-        $post = $this->determinePostFromSlug($postSlugOrID);
-
         $post->delete();
 
         return new PostResource($post);
-    }
-
-    private function determinePostFromSlug(string $postSlug): Post
-    {
-        $postId = last(explode('-', $postSlug));
-
-        return Post::findOrFail($postId);
     }
 }
