@@ -24,7 +24,7 @@ render(function ($view) {
             <ul>
                 <li>
                     <a
-                    href="http://ernst-blog.laravel-sail.site:8080/welcome-1"
+                    href="/welcome-1"
                     @mouseenter="$el.focus()"
                     @mouseleave="$el.blur()"
                     data-tooltip="Help"
