@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:latest-php8.3-alpine
 
-ENV SERVER_NAME="pevermeulen.blog"
+ENV SERVER_NAME="https://"
 
 RUN apk update && apk add vim nodejs npm git
 
@@ -29,6 +29,7 @@ RUN composer install --no-interaction --optimize-autoloader
 
 COPY .env.production .env
 
+RUN php artisan key:generate
 RUN php artisan optimize
 RUN php artisan icons:cache
 
