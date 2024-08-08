@@ -30,7 +30,7 @@
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
-            - 'blog-mariadb:/var/lib/mysql'
+            - 'blog_mariadb:/var/lib/mysql'
         networks:
             - blog
         healthcheck:
@@ -45,7 +45,7 @@ networks:
     blog:
         driver: bridge
 volumes:
-    blog-mariadb:
+    blog_mariadb:
         driver: local
     caddy_data:
     caddy_config:
