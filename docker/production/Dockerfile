@@ -5,7 +5,7 @@ ENV SERVER_NAME="http://"
 RUN apk update && apk add vim nodejs npm git
 
 RUN install-php-extensions \
-  pdo-mysql \
+  pdo_mysql \
   pcntl \
   zip
 
