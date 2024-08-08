@@ -35,6 +35,9 @@ RUN php artisan icons:cache
 
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-EXPOSE 80 443
+EXPOSE 80 443 8000 443/udp
+
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+ENV SSL_CERT_DIR=/etc/ssl/certs
 
 ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
