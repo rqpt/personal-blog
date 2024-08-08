@@ -19,8 +19,6 @@ RUN git clone -b main https://github.com/rqpt/personal-blog app
 
 WORKDIR /app
 
-RUN mkdir resources/svg
-
 RUN npm install
 RUN npm run build
 
@@ -32,7 +30,5 @@ COPY .env.production .env
 COPY php.ini /usr/local/etc/php
 
 RUN php artisan optimize
-
-RUN php artisan icons:cache
 
 ENTRYPOINT [php, artisan, octane:frankenphp]
