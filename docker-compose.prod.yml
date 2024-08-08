@@ -1,21 +1,22 @@
-services:
+  services:
     php:
+        image: dunglas/frankenphp
         build:
             context: ./docker/production
             dockerfile: Dockerfile
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
+        restart: always
         ports:
-            - '${APP_PORT:-80}:80'
+            - '80:80'
             - '443:443'
             - '443:443/udp'
         environment:
             EDITOR: '${EDITOR:-nano}'
         volumes:
+            - ./:/app
             - caddy_data:/data
             - caddy_config:/config
         networks:
-            - sail
+            - blog
         depends_on:
             - mariadb
     mariadb:
@@ -30,9 +31,9 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
-            - 'sail-mariadb:/var/lib/mysql'
+            - 'blog-mariadb:/var/lib/mysql'
         networks:
-            - sail
+            - blog
         healthcheck:
             test:
                 - CMD
@@ -42,12 +43,10 @@ services:
             retries: 3
             timeout: 5s
 networks:
-    sail:
+    blog:
         driver: bridge
 volumes:
-    sail-mariadb:
-        driver: local
-    sail-minio:
+    blog-mariadb:
         driver: local
     caddy_data:
     caddy_config:
