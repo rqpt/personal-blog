@@ -1,7 +1,5 @@
 <x-layout.app>
-    <header
-    :id="smallScreen && 'responsive-nav'"
-    >
+    <header>
         <nav>
             <ul>
             </ul>
