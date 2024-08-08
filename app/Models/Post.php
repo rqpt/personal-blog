@@ -50,7 +50,7 @@ class Post extends Model
     /** @param Builder<\App\Models\Post> $query  */
     public function scopeSurfaceInfo(Builder $query): void
     {
-        $query->select(['id', 'name']);
+        $query->select(['id', 'title']);
     }
 
     /** @param Builder<\App\Models\Post> $query */
