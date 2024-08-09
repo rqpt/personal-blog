@@ -11,6 +11,7 @@ render(function (View $view, Post $post) {
   seo()
   ->withUrl()
   ->title($post->frontmatter->title)
+  ->image(fn () => asset('logo.webp'))
   ->description($post->frontmatter->description);
 
     return $view;
