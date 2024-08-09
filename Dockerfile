@@ -28,7 +28,7 @@ RUN mkdir /app/resources/svg
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN apk update && apk add nodejs npm
+RUN apk update && apk add nodejs npm vim
 
 RUN npm install
 

@@ -35,7 +35,7 @@ class ComposePostMarkdown
 
         do {
             Process::forever()->tty()->run(
-                "nvim '$sensibleEditorDefaults' $bodyTmpFilePath", // Remove these single quotes, and you'll hate your life
+                "vim '$sensibleEditorDefaults' $bodyTmpFilePath", // Remove these single quotes, and you'll hate your life
             );
 
             $bodyTmpFileIsSaved = Storage::exists($bodyTmpFilename);
