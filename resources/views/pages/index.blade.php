@@ -13,7 +13,7 @@ render(function ($view) {
     ->withUrl()
     ->title("PE Vermeulen's blog")
     ->image(fn () => asset('logo.webp'))
-    ->description("I am a software engineer and music lover, but this blog is not limited to that - I'll post whatever I feel like!");
+    ->description("I am a software engineer and music lover. This is where I'll post whatever I want to.");
 
     return $view->with(
         compact('pinnedPosts', 'latestPosts', 'promotionalPosts'),
