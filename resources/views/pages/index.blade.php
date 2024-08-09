@@ -11,7 +11,7 @@ render(function ($view) {
 
     seo()
     ->withUrl()
-    ->title("PE Vermeulen's blog")
+    ->title("PE Vermeulen - Blog")
     ->image(fn () => asset('logo.webp'))
     ->description("I am a software engineer and music lover. This is where I'll post whatever I want to.");
 

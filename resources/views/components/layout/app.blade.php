@@ -54,7 +54,7 @@ x-ref="root"
         @vite(['resources/css/app.css', 'resources/css/torchlight.css'])
 
         <title>
-            PE blog
+            PE Blog
         </title>
     </head>
     <livewire:wire-nav />
