@@ -111,3 +111,5 @@ Post::truncate();
 Post::all();
 Post::factory(9)->withRealisticTitle('english')->withRealisticBody('english')->withCodeSnippet(2)->withVideo(2)->create();
 Post::count();
+asset('logo.webp')
+exit

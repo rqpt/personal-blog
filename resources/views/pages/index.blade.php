@@ -9,13 +9,6 @@ render(function ($view) {
     $pinnedPosts = Post::pinned()->get();
     $promotionalPosts = Post::promotional()->get();
 
-    seo()
-    ->withUrl()
-    ->tag('author', 'PE Vermeulen')
-    ->title("PE Vermeulen - Blog")
-    ->image(fn () => asset('logo.webp'))
-    ->description("I am a software engineer and music lover. This is where I'll post whatever I want to.");
-
     return $view->with(
         compact('pinnedPosts', 'latestPosts', 'promotionalPosts'),
     );
