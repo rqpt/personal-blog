@@ -10,6 +10,7 @@ middleware('heal-url');
 render(function (View $view, Post $post) {
   seo()
   ->withUrl()
+  ->tag('author', $post->frontmatter->author)
   ->title($post->frontmatter->title)
   ->image(fn () => asset('logo.webp'))
   ->description($post->frontmatter->description);
