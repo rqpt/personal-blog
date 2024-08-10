@@ -25,6 +25,7 @@ render(function ($view) {
                 <li>
                     <a
                     href="/welcome-1"
+                    aria-label="Help shortcut"
                     @mouseenter="$el.focus()"
                     @mouseleave="$el.blur()"
                     data-tooltip="Help"

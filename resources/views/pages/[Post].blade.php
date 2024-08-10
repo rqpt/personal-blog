@@ -30,6 +30,7 @@ x-effect="illuminateSnippets(lightMode)"
                 <li>
                     <button
                     class="pico-button-override"
+                    aria-label="Toggle table of contents"
                     x-ref="toc-button"
                     x-init="$el.focus()"
                     x-intersect:enter="$el.focus({ preventScroll: true })"
