@@ -69,6 +69,7 @@ x-ref="root"
     >
         <div
         id="ascii-grid"
+        aria-hidden="true"
         >
             <pre
             class="ascii"
