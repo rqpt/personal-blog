@@ -60,22 +60,16 @@ class Post extends Model
         return $this->formatTimestamp();
     }
 
-    /** @param Builder<\App\Models\Post> $query  */
-    public function scopeSurfaceInfo(Builder $query): void
-    {
-        $query->select(['id', 'title']);
-    }
-
     /** @param Builder<\App\Models\Post> $query */
     public function scopePinned(Builder $query): void
     {
-        $query->surfaceInfo()->whereType(PostType::PINNED);
+        $query->whereType(PostType::PINNED);
     }
 
     /** @param Builder<\App\Models\Post>  $query */
     public function scopePromotional(Builder $query): void
     {
-        $query->surfaceInfo()->whereType(PostType::PROMOTIONAL);
+        $query->whereType(PostType::PROMOTIONAL);
     }
 
     public function url(): string
