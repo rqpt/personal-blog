@@ -114,7 +114,7 @@ render(function ($view) {
                             <footer>
                                 <small>
                                     <em>
-                                        Published: {{ $post->published_at}} | Updated: {{ $post->updated_at }}
+                                        {{ $post->timestamps() }}
                                     </em>
                                 </small>
                             </footer>

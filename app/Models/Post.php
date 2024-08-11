@@ -93,6 +93,17 @@ class Post extends Model
         return Str::slug($this->title);
     }
 
+    public function timestamps(): string
+    {
+        $timestamps = "Published at: $this->published_at";
+
+        if ($this->published_at != $this->updated_at) {
+            $timestamps .= " | Updated at: $this->updated_at";
+        }
+
+        return $timestamps;
+    }
+
     private function formatTimestamp(): Attribute
     {
         return Attribute::make(
