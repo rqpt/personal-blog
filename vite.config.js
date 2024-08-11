@@ -9,6 +9,7 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/css/torchlight.css",
             ],
+            refresh: true
         }),
     ],
 });
