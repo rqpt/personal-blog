@@ -39,6 +39,7 @@
                         <small>
                             <em
                             data-tooltip="{{ $post->timestampTooltip() }}"
+                            data-placement="right"
                             >
                                 {{ $post->timestamps() }}
                             </em>
