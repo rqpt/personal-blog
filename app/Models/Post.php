@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PostType;
 use App\Observers\PostObserver;
 use App\ValueObjects\Frontmatter;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,9 +24,6 @@ class Post extends Model
         'frontmatter' => Frontmatter::class,
         'contains_code' => 'boolean',
         'contains_video' => 'boolean',
-        'created_at' => 'datetime:d-M-Y',
-        'updated_at' => 'datetime:d-M-Y',
-        'published_at' => 'datetime:d-M-Y',
     ];
 
     /** @return BelongsToMany<\App\Models\Tag> */
@@ -49,6 +47,11 @@ class Post extends Model
         $postId = last(explode('-', $value));
 
         return parent::resolveRouteBinding($postId, $field);
+    }
+
+    protected function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('d-M-Y');
     }
 
     /** @param Builder<\App\Models\Post> $query */
