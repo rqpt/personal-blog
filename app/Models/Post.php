@@ -61,6 +61,12 @@ class Post extends Model
     }
 
     /** @param Builder<\App\Models\Post> $query */
+    public function scopeRegular(Builder $query): void
+    {
+        $query->whereType(PostType::REGULAR);
+    }
+
+    /** @param Builder<\App\Models\Post> $query */
     public function scopePinned(Builder $query): void
     {
         $query->whereType(PostType::PINNED);
