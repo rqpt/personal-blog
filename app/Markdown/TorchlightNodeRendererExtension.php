@@ -20,15 +20,11 @@ class TorchlightNodeRendererExtension implements ExtensionInterface, NodeRendere
 
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
-        $lang = $node->getInfo();
+        $language = $node->getInfo() ?? '';
 
-        if (is_null($lang)) {
-            $langAttribute = '';
-        } else {
-            $langAttribute = " language='$lang'";
-        }
+        $languageAttribute = " language=$language";
 
-        $torchlightOpeningTag = "<pre><x-torchlight-code{$langAttribute}>\n";
+        $torchlightOpeningTag = "<pre><x-torchlight-code{$languageAttribute}>\n";
 
         $torchlightClosingTag = '</x-torchlight-code></pre>';
 
