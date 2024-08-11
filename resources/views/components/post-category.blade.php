@@ -4,34 +4,34 @@
         @foreach($posts as $post)
             @php $linkRef = "link-{$loop->iteration}"; @endphp
 
-            <a
-            x-data="{ clicked: false }"
-            id="{{ $linkRef }}"
-            x-ref="{{ $linkRef }}"
-            @click.capture="clicked = true"
-            @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-            @mouseenter="$focus.focus($el); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-            @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-            wire:navigate.hover
-            href="/{{ $post->urlSlug() }}"
-            >
-                <article
-                :aria-busy="clicked"
-                :aria-label="'Please wait...'"
-                >
-                    <hgroup
-                    x-show="!clicked"
+                <article>
+                    <a
+                    id="{{ $linkRef }}"
+                    x-data="{ clicked: false }"
+                    x-ref="{{ $linkRef }}"
+                    :aria-busy="clicked"
+                    :aria-label="'Please wait...'"
+                    @click.capture="clicked = true"
+                    @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                    @mouseenter="$focus.focus($el); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                    @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                    wire:navigate.hover
+                    href="/{{ $post->urlSlug() }}"
                     >
-                        <h3>
-                            {{ $post->title }}
-                        </h3>
+                        <hgroup
+                        x-show="!clicked"
+                        >
+                            <h3>
+                                {{ $post->title }}
+                            </h3>
 
-                        <p>
-                            <small>
-                                {{ $post->frontmatter->description }}
-                            </small>
-                        </p>
-                    </hgroup>
+                            <p>
+                                <small>
+                                    {{ $post->frontmatter->description }}
+                                </small>
+                            </p>
+                        </hgroup>
+                    </a>
 
                     <footer>
                         <small>
@@ -43,7 +43,6 @@
                         </small>
                     </footer>
                 </article>
-            </a>
         @endforeach
     </section>
 @endif
