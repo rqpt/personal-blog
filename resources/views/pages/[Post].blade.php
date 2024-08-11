@@ -3,9 +3,11 @@
 use Illuminate\View\View;
 use App\Models\Post;
 
-use function Laravel\Folio\{middleware, render};
+use function Laravel\Folio\{middleware, render, name};
 
 middleware('heal-url');
+
+name('post');
 
 render(function (View $view, Post $post) {
   seo()
