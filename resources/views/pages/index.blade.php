@@ -22,16 +22,24 @@ render(function ($view) {
             <ul>
             </ul>
             <ul>
-                <li>
+                <li
+                x-data="{ clicked: false }"
+                :aria-busy="clicked"
+                :aria-label="'Please wait...'"
+                >
                     <a
-                    href="/welcome-1"
-                    aria-label="Help shortcut"
+                    x-show="!clicked"
+                    @click.capture="clicked = true"
+                    @keydown.capture.enter="clicked = true"
                     @mouseenter="$el.focus()"
                     @mouseleave="$el.blur()"
                     data-tooltip="Help"
                     data-placement="left"
+                    href="/welcome-1"
+                    aria-label="Help shortcut"
+                    wire:navigate.hover
                     >
-                        <x-fas-question-circle />
+                        <x-fas-question-circle/>
                     </a>
                 </li>
                 <x-theme-toggle />

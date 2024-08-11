@@ -47,9 +47,16 @@ x-effect="illuminateSnippets(lightMode)"
             </ul>
 
             <ul>
-                <li>
+                <li
+                x-data="{ clicked: false }"
+                :aria-busy="clicked"
+                :aria-label="'Please wait...'"
+                >
                     <a
                     wire:navigate.hover
+                    x-show="!clicked"
+                    @click.capture="clicked = true"
+                    @keydown.capture.enter="clicked = true"
                     @mouseenter="$el.focus()"
                     @mouseleave="$el.blur()"
                     href="/"
@@ -57,7 +64,7 @@ x-effect="illuminateSnippets(lightMode)"
                     data-tooltip="Home"
                     data-placement="left"
                     >
-                        <x-fas-house />
+                        <x-fas-house/>
                     </a>
                 </li>
                 <x-theme-toggle />
