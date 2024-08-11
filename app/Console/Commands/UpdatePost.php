@@ -32,13 +32,19 @@ class UpdatePost extends Command implements PromptsForMissingInput
     {
         $postTitle = $this->argument('post');
 
-        $post = Post::where('title', $postTitle)->sole();
+        $post = Post::withoutGlobalScopes()->where('title', $postTitle)->sole();
 
         $bodyTmpFilename = Str::slug($post->title).'.md';
 
-        $updateValues = [
-            'published_at' => $this->option('published') ? now() : null,
-        ];
+        if ($this->option('published')) {
+            $updateValues = [
+                'published_at' => $post->published_at ??= now(),
+            ];
+        } else {
+            $updateValues = [
+                'published_at' => null,
+            ];
+        }
 
         if ($this->option('edit')) {
             $updateValues['markdown'] = ComposePostMarkdown::handle(
@@ -86,13 +92,13 @@ class UpdatePost extends Command implements PromptsForMissingInput
     /** @return array<string, mixed>  */
     protected function promptForMissingArgumentsUsing(): array
     {
-        $titles = Post::select('title')->pluck('title')->all();
+        $titles = Post::withoutGlobalScopes()->select('title')->get()->pluck('title')->toArray();
 
         return [
             'post' => fn () => search(
                 label: 'Search for a post:',
                 options: fn (string $value): array => strlen($value) > 0
-                    ? Post::where('title', 'like', "%{$value}%")->pluck('title')->all()
+                    ? Post::withoutGlobalScopes()->where('title', 'like', "%{$value}%")->pluck('title')->toArray()
                     : $titles,
                 required: true,
             ),

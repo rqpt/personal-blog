@@ -121,7 +121,11 @@ class Post extends Model
     private function formatTimestamp(): Attribute
     {
         return Attribute::make(
-            get: function (string $timestamp): string {
+            get: function (?string $timestamp = null): ?string {
+                if (is_null($timestamp)) {
+                    return null;
+                }
+
                 return Carbon::parse($timestamp)->format('d-M-Y');
             }
         );

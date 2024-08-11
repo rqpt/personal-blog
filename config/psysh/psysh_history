@@ -113,3 +113,17 @@ Post::factory(9)->withRealisticTitle('english')->withRealisticBody('english')->w
 Post::count();
 asset('logo.webp')
 exit
+Post::first()->update(['published_at'\040=>\040'10-Aug-2024']);
+Post::first()->published_at
+exit
+Post::all();
+Post::factory()->create();
+Post::first()->published_at\040=\04009-Aug-2024
+Post::first()->published_at\040=\040'09-Aug-2024'
+Post::first()->save()
+Post::first()->published_at
+Post::first()->update(['published_at'\040=>\040'09-Aug-2024']);
+exit
+Post::all()
+Post::withoutScopes()->get();
+Post::withoutGlobalScopes()->get();
