@@ -2,6 +2,7 @@
 
 namespace App\Markdown;
 
+use Illuminate\Support\Str;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\Embed\Embed;
 use League\CommonMark\Extension\ExtensionInterface;
@@ -9,7 +10,6 @@ use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
-use Illuminate\Support\Str;
 
 class EmbedWrapperExtension implements ExtensionInterface, NodeRendererInterface
 {
@@ -29,15 +29,20 @@ class EmbedWrapperExtension implements ExtensionInterface, NodeRendererInterface
         $title = $matches[1];
         $videoid = Str::after($node->getUrl(), '=');
 
-        $span = new HtmlElement('span', ['class' => 'lyt-visually-hidden'], "Play Video: {$title}");
+        $span = new HtmlElement('span', [
+            'class' => 'lyt-visually-hidden',
+        ], "Play Video: {$title}");
 
-        $anchor = new HtmlElement('a', ['href' => "https://youtube.com/watch?v={$videoid}", 'class' => 'lty-playbtn' ], $span);
+        $anchor = new HtmlElement('a', [
+            'href' => "https://youtube.com/watch?v={$videoid}",
+            'class' => 'lty-playbtn',
+            'aria-label' => 'Play video',
+        ], $span);
 
         $liteYoutube = new HtmlElement('lite-youtube', [
             ...compact('videoid', 'title'),
-            'style' => "background-image: url('https://i.ytimg.com/vi/{$videoid}/hqdefault.jpg');"],
-            $anchor
-        );
+            'style' => "background-image: url('https://i.ytimg.com/vi/{$videoid}/hqdefault.jpg');",
+        ], $anchor);
 
         return $liteYoutube;
     }
