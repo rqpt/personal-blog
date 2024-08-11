@@ -54,53 +54,23 @@ render(function ($view) {
             PE Vermeulen | Blog
         </h1>
 
-        @if ($pinnedPosts->count() > 0)
-            <section>
-                <h2>Pinned</h2>
-                @foreach($pinnedPosts as $post)
-                    @php $linkRef = "link-{$loop->iteration}"; @endphp
-
-                    <x-post-card
-                    :$linkRef
-                    :$post
-                    />
-
-                @endforeach
-            </section>
-        @endif
+        <x-post-category
+        heading="Pinned"
+        :posts="$pinnedPosts"
+        />
 
         <div
         id="latest-and-promotional-posts"
         >
-            @if ($latestPosts->count() > 0)
-                <section>
-                    <h2>Recent</h2>
-                    @foreach($latestPosts as $post)
-                        @php $linkRef = "link-{$loop->iteration}"; @endphp
+            <x-post-category
+            heading="Latest"
+            :posts="$latestPosts"
+            />
 
-                        <x-post-card
-                        :$linkRef
-                        :$post
-                        />
-
-                    @endforeach
-                </section>
-            @endif
-
-            @if ($promotionalPosts->count() > 0)
-                <section>
-                    <h2>Promotional</h2>
-                    @foreach($promotionalPosts as $post)
-                        @php $linkRef = "link-{$loop->iteration}"; @endphp
-
-                        <x-post-card
-                        :$linkRef
-                        :$post
-                        />
-
-                    @endforeach
-                </section>
-            @endif
+            <x-post-category
+            heading="Promotional"
+            :posts="$promotionalPosts"
+            />
         </div>
     </main>
 </x-layout.app>
