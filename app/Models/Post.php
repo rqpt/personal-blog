@@ -25,6 +25,9 @@ class Post extends Model
         'frontmatter' => Frontmatter::class,
         'contains_code' => 'boolean',
         'contains_video' => 'boolean',
+        'created_at' => 'datetime:d-M-Y',
+        'updated_at' => 'datetime:d-M-Y',
+        'published_at' => 'datetime:d-M-Y',
     ];
 
     /** @return BelongsToMany<\App\Models\Tag> */
@@ -48,16 +51,6 @@ class Post extends Model
         $postId = last(explode('-', $value));
 
         return parent::resolveRouteBinding($postId, $field);
-    }
-
-    public function publishedAt(): Attribute
-    {
-        return $this->formatTimestamp();
-    }
-
-    public function updatedAt(): Attribute
-    {
-        return $this->formatTimestamp();
     }
 
     /** @param Builder<\App\Models\Post> $query */
@@ -116,18 +109,5 @@ class Post extends Model
         }
 
         return $final;
-    }
-
-    private function formatTimestamp(): Attribute
-    {
-        return Attribute::make(
-            get: function (?string $timestamp = null): ?string {
-                if (is_null($timestamp)) {
-                    return null;
-                }
-
-                return Carbon::parse($timestamp)->format('d-M-Y');
-            }
-        );
     }
 }
