@@ -53,6 +53,7 @@ x-effect="illuminateSnippets(lightMode)"
                     @mouseenter="$el.focus()"
                     @mouseleave="$el.blur()"
                     href="/"
+                    aria-label="Home"
                     data-tooltip="Home"
                     data-placement="left"
                     >
