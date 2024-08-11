@@ -25,7 +25,9 @@
                                 {{ $post->title }}
                             </h3>
 
-                            <p>
+                            <p
+                            class="mobile-hidden"
+                            >
                                 <small>
                                     {{ $post->frontmatter->description }}
                                 </small>
