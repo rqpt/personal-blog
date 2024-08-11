@@ -108,12 +108,21 @@ render(function ($view) {
                                 wire:navigate.hover
                                 href="/{{ $post->urlSlug() }}"
                                 >
-                                    {{ $post->title }}
+                                    <strong>
+                                        {{ $post->title }}
+                                    </strong>
                                 </a>
                             </header>
+
+                            <small>
+                                {{ $post->frontmatter->description }}
+                            </small>
+
                             <footer>
                                 <small>
-                                    <em>
+                                    <em
+                                    data-tooltip="{{ $post->timestampTooltip() }}"
+                                    >
                                         {{ $post->timestamps() }}
                                     </em>
                                 </small>
