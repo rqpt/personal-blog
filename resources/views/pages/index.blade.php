@@ -51,7 +51,7 @@ render(function ($view) {
         <h1
         class="hidden"
         >
-            PE Vermeulen | Blog
+            PE Vermeulen - Software Engineer
         </h1>
 
         <x-post-category

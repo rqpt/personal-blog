@@ -79,17 +79,17 @@ x-effect="illuminateSnippets(lightMode)"
         <footer
         x-data
         >
-                <a
-                x-intersect:enter="$el.focus({ preventScroll: true })"
-                x-intersect:leave="$el.blur()"
-                href="https://torchlight.dev/"
-                >
-                    <small>
-                        <em>
-                            Syntax highlighting provided by Torchlight! 🔦
-                        </em>
-                    </small>
-                </a>
+            <a
+            x-intersect:enter="$el.focus({ preventScroll: true })"
+            x-intersect:leave="$el.blur()"
+            href="https://torchlight.dev/"
+            >
+                <small>
+                    <em>
+                        Syntax highlighting provided by Torchlight! 🔦
+                    </em>
+                </small>
+            </a>
         </footer>
     @endif
 
@@ -123,8 +123,7 @@ x-effect="illuminateSnippets(lightMode)"
                 },
             }));
         });
-    </script>
-    <script>
+
         function illuminateSnippets(lightMode) {
             const snippets = document.querySelectorAll('pre code');
 
