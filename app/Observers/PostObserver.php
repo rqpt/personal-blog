@@ -32,6 +32,8 @@ class PostObserver
             author: $frontmatter['author'] ?? 'PE Vermeulen',
         );
 
+        $post->contains_video = Str::contains($html, 'embedded-youtube-iframe');
+
         $post->contains_code = Str::contains($html, '<pre>');
     }
 

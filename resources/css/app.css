@@ -63,7 +63,7 @@ h6:hover .heading-permalink,
 
 /* Embedded overrides */
 
-.embedded-content {
+.embedded-youtube-iframe {
     display: flex;
     margin-top: 2rem;
 }

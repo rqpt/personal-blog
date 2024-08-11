@@ -22,6 +22,7 @@ class Post extends Model
         'type' => PostType::class,
         'frontmatter' => Frontmatter::class,
         'contains_code' => 'boolean',
+        'contains_video' => 'boolean',
     ];
 
     /** @return BelongsToMany<\App\Models\Tag> */

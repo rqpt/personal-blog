@@ -12,6 +12,6 @@ class EmbedWrapperExtension implements ExtensionInterface
 {
     public function register(EnvironmentBuilderInterface $environment): void
     {
-        $environment->addRenderer(Embed::class, new HtmlDecorator(new EmbedRenderer, 'div', ['class' => 'embedded-content']), 100);
+        $environment->addRenderer(Embed::class, new HtmlDecorator(new EmbedRenderer, 'div', ['class' => 'embedded-youtube-iframe']), 100);
     }
 }
