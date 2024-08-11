@@ -23,6 +23,8 @@ class MarkdownServiceProvider extends ServiceProvider
 
             $markdownEnvironment->mergeConfig(['embed' => [
                 'adapter' => new OscaroteroEmbedAdapter($embedLibrary),
+                'allowed_domains' => ['youtube.com'],
+                'fallback' => 'link',
             ]]);
         });
     }
