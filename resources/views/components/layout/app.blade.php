@@ -51,7 +51,7 @@ x-ref="root"
         href="pico/css/pico.classless.cyan.min.css"
         />
 
-        @vite(['resources/css/app.css', 'resources/css/torchlight.css'])
+        @vite(['resources/js/app.js', 'resources/css/app.css', 'resources/css/torchlight.css'])
 
         <title>
             PE Blog

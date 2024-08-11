@@ -9,5 +9,8 @@
         "chokidar": "^3.6.0",
         "laravel-vite-plugin": "^1.0",
         "vite": "^5.0"
+    },
+    "dependencies": {
+        "lite-youtube-embed": "^0.3.3"
     }
 }

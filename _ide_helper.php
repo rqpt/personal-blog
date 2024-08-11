@@ -8294,21 +8294,21 @@ namespace Illuminate\Support\Facades {
                     /**
          * 
          *
-         * @see \App\Providers\MarkdownServiceProvider::boot()
-         * @static 
-         */        public static function getRandomMarkdown()
-        {
-                        return \Illuminate\Http\Client\Factory::getRandomMarkdown();
-        }
-                    /**
-         * 
-         *
          * @see \App\Providers\AiServiceProvider::boot()
          * @param string $prompt
          * @static 
          */        public static function chatWithAI($prompt)
         {
                         return \Illuminate\Http\Client\Factory::chatWithAI($prompt);
+        }
+                    /**
+         * 
+         *
+         * @see \App\Providers\MarkdownServiceProvider::boot()
+         * @static 
+         */        public static function getRandomMarkdown()
+        {
+                        return \Illuminate\Http\Client\Factory::getRandomMarkdown();
         }
             }
             /**
@@ -19451,21 +19451,21 @@ namespace Illuminate\Http\Client {
                     /**
          * 
          *
-         * @see \App\Providers\MarkdownServiceProvider::boot()
-         * @static 
-         */        public static function getRandomMarkdown()
-        {
-                        return \Illuminate\Http\Client\Factory::getRandomMarkdown();
-        }
-                    /**
-         * 
-         *
          * @see \App\Providers\AiServiceProvider::boot()
          * @param string $prompt
          * @static 
          */        public static function chatWithAI($prompt)
         {
                         return \Illuminate\Http\Client\Factory::chatWithAI($prompt);
+        }
+                    /**
+         * 
+         *
+         * @see \App\Providers\MarkdownServiceProvider::boot()
+         * @static 
+         */        public static function getRandomMarkdown()
+        {
+                        return \Illuminate\Http\Client\Factory::getRandomMarkdown();
         }
             }
     }
