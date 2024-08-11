@@ -11,7 +11,7 @@ use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
 
-class EmbedWrapperExtension implements ExtensionInterface, NodeRendererInterface
+class DecorateEmbedsExtension implements ExtensionInterface, NodeRendererInterface
 {
     public function register(EnvironmentBuilderInterface $environment): void
     {

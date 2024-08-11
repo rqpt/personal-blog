@@ -19,7 +19,7 @@ return [
         App\Markdown\TableOfContentsAlpineAttributeExtension::class,
         League\CommonMark\Extension\Embed\EmbedExtension::class,
         App\Markdown\TorchlightNodeRendererExtension::class,
-        App\Markdown\EmbedWrapperExtension::class,
+        App\Markdown\DecorateEmbedsExtension::class,
     ],
 
     'default_attributes' => [
