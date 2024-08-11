@@ -61,13 +61,6 @@ h6:hover .heading-permalink,
     border: transparent;
 }
 
-/* Embedded overrides */
-
-.embedded-youtube-iframe {
-    display: flex;
-    margin-top: 2rem;
-}
-
 /* Ascii */
 
 #ascii-grid {

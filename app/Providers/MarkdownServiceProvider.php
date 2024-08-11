@@ -14,13 +14,6 @@ class MarkdownServiceProvider extends ServiceProvider
         $this->callAfterResolving('markdown.environment', function ($markdownEnvironment) {
             $embedLibrary = new Embed;
 
-            $embedLibrary->setSettings([
-                'oembed:query_parameters' => [
-                    'maxwidth' => 800,
-                    'maxheight' => 600,
-                ],
-            ]);
-
             $markdownEnvironment->mergeConfig(['embed' => [
                 'adapter' => new OscaroteroEmbedAdapter($embedLibrary),
                 'allowed_domains' => ['youtube.com'],
