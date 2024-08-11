@@ -15,7 +15,7 @@
                     @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
                     @mouseenter="$focus.focus($el); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
                     @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-                    wire:navigate.hover
+                    wire:navigate
                     href="/{{ $post->urlSlug() }}"
                     >
                         <hgroup
