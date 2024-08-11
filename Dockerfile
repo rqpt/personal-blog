@@ -22,13 +22,13 @@ RUN install-php-extensions \
   pdo_mysql \
   zip
 
-COPY . /app
-
-RUN mkdir /app/resources/svg
-
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN apk update && apk add nodejs npm vim
+
+COPY . /app
+
+RUN mkdir /app/resources/svg
 
 RUN npm install
 
