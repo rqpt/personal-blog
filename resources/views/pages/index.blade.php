@@ -51,7 +51,7 @@ render(function ($view) {
         <h1
         class="hidden"
         >
-            My Blog
+            PE Vermeulen | Blog
         </h1>
 
         @if ($pinnedPosts->count() > 0)
@@ -96,19 +96,28 @@ render(function ($view) {
                         :aria-busy="clicked"
                         :aria-label="'Please wait...'"
                         >
-                            <a
-                            x-show="!clicked"
-                            id="{{ $linkRef }}"
-                            x-ref="{{ $linkRef }}"
-                            @click.capture="clicked = true"
-                            @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-                            @mouseenter="$focus.focus($el); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-                            @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-                            wire:navigate.hover
-                            href="/{{ $post->urlSlug() }}"
-                            >
-                                {{ $post->title }}
-                            </a>
+                            <header>
+                                <a
+                                x-show="!clicked"
+                                id="{{ $linkRef }}"
+                                x-ref="{{ $linkRef }}"
+                                @click.capture="clicked = true"
+                                @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                                @mouseenter="$focus.focus($el); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                                @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                                wire:navigate.hover
+                                href="/{{ $post->urlSlug() }}"
+                                >
+                                    {{ $post->title }}
+                                </a>
+                            </header>
+                            <footer>
+                                <small>
+                                    <em>
+                                        Published: {{ $post->published_at}} | Updated: {{ $post->updated_at }}
+                                    </em>
+                                </small>
+                            </footer>
                         </article>
                     @endforeach
                 </section>

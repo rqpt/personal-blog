@@ -7,9 +7,11 @@ use App\Observers\PostObserver;
 use App\ValueObjects\Frontmatter;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 #[ObservedBy(PostObserver::class)]
@@ -48,6 +50,16 @@ class Post extends Model
         return parent::resolveRouteBinding($postId, $field);
     }
 
+    public function publishedAt(): Attribute
+    {
+        return $this->formatTimestamp();
+    }
+
+    public function updatedAt(): Attribute
+    {
+        return $this->formatTimestamp();
+    }
+
     /** @param Builder<\App\Models\Post> $query  */
     public function scopeSurfaceInfo(Builder $query): void
     {
@@ -79,5 +91,14 @@ class Post extends Model
     public function slug(): string
     {
         return Str::slug($this->title);
+    }
+
+    private function formatTimestamp(): Attribute
+    {
+        return Attribute::make(
+            get: function (string $timestamp): string {
+                return Carbon::parse($timestamp)->format('d-M-Y');
+            }
+        );
     }
 }
