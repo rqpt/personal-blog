@@ -20,6 +20,7 @@ return [
         League\CommonMark\Extension\Embed\EmbedExtension::class,
         App\Markdown\TorchlightNodeRendererExtension::class,
         App\Markdown\DecorateEmbedsExtension::class,
+        App\Markdown\CodeRendererExtension::class,
     ],
 
     'default_attributes' => [

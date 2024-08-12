@@ -9,25 +9,20 @@ use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
-use Torchlight\Blade\BladeManager;
 
-class TorchlightNodeRendererExtension implements ExtensionInterface, NodeRendererInterface
+class CodeRendererExtension implements ExtensionInterface, NodeRendererInterface
 {
     public function register(EnvironmentBuilderInterface $environment): void
     {
-        $environment->addRenderer(FencedCode::class, $this, 90);
+        $environment->addRenderer(FencedCode::class, $this, 100);
     }
 
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
-        $language = $node->getInfo() ?? '';
+        $info = $node->getInfoWords();
 
-        $languageAttribute = " language=$language";
-
-        $torchlightOpeningTag = "<pre><x-torchlight-code{$languageAttribute}>\n";
-
-        $torchlightClosingTag = '</x-torchlight-code></pre>';
-
-        return BladeManager::renderContent(Blade::render($torchlightOpeningTag.$node->getLiteral().$torchlightClosingTag));
+        if (in_array('+parse', $info)) {
+            return Blade::render($node->getLiteral());
+        }
     }
 }
