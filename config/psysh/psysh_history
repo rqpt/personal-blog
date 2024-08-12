@@ -127,3 +127,7 @@ exit
 Post::all()
 Post::withoutScopes()->get();
 Post::withoutGlobalScopes()->get();
+Post::first()->published_at
+Post::first()->update(['published_at'\040=>\040'09-Aug-2024']);
+Post::first()->published_at;
+exit
