@@ -4,16 +4,22 @@
         @foreach($posts as $post)
             @php $linkRef = "link-{$loop->iteration}"; @endphp
 
-                <article>
+                <article
+                x-data="{
+                    clicked: false,
+                    focused: false,
+                }"
+                    @mouseenter="focused = true"
+                    @mouseleave="focused = false"
+                >
                     <a
                     id="{{ $linkRef }}"
-                    x-data="{ clicked: false }"
                     x-ref="{{ $linkRef }}"
                     :aria-busy="clicked"
                     :aria-label="'Please wait...'"
                     @click.capture="clicked = true"
                     @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
-                    @mouseenter="$focus.focus($el); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+                    @mouseenter="$el.focus(); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
                     @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
                     wire:navigate
                     href="/{{ $post->urlSlug() }}"
@@ -27,6 +33,8 @@
 
                             <p
                             class="mobile-hidden"
+                            x-show="focused"
+                            x-collapse
                             >
                                 <small>
                                     {{ $post->frontmatter->description }}
