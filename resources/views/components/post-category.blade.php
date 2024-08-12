@@ -35,6 +35,7 @@
                             class="mobile-hidden"
                             x-show="focused"
                             x-collapse
+                            x-cloak
                             >
                                 <small>
                                     {{ $post->frontmatter->description }}
