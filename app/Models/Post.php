@@ -106,27 +106,13 @@ class Post extends Model
 
     public function timestamps(): string
     {
-        return $this->simplifyTimestampInfo(
-            "󰚧  $this->published_at",
-            "󰚰  $this->updated_at",
-        );
-    }
+        $timestamps = "󰚧  $this->published_at";
 
-    public function timestampTooltip(): string
-    {
-        return $this->simplifyTimestampInfo(
-            'Published at',
-            'Updated at',
-        );
-    }
-
-    private function simplifyTimestampInfo(string $final, string $optional): string
-    {
         if ($this->published_at != $this->updated_at) {
-            $final .= " | $optional";
+            $timestamps .= " | 󰚰  $this->updated_at";
         }
 
-        return $final;
+        return $timestamps;
     }
 
     private function formatTimestamp(): Attribute
