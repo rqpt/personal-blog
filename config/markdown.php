@@ -18,7 +18,7 @@ return [
         League\CommonMark\Extension\Autolink\AutolinkExtension::class,
         App\Markdown\TableOfContentsAlpineAttributeExtension::class,
         League\CommonMark\Extension\Embed\EmbedExtension::class,
-        App\Markdown\TorchlightNodeRendererExtension::class,
+        App\Markdown\TorchlightRendererExtension::class,
         App\Markdown\DecorateEmbedsExtension::class,
         App\Markdown\CodeRendererExtension::class,
     ],

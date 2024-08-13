@@ -11,7 +11,7 @@ use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use Torchlight\Blade\BladeManager;
 
-class TorchlightNodeRendererExtension implements ExtensionInterface, NodeRendererInterface
+class TorchlightRendererExtension implements ExtensionInterface, NodeRendererInterface
 {
     public function register(EnvironmentBuilderInterface $environment): void
     {
