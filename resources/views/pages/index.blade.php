@@ -11,8 +11,8 @@ render(function ($view) {
 
     return $view->with(
         compact(
-            'pinnedPosts',
             'latestPosts',
+            'pinnedPosts',
             'promotionalPosts',
         ),
     );
