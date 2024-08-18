@@ -1,3 +1,8 @@
+@props([
+    'heading',
+    'posts',
+])
+
 @if ($posts->count() > 0)
     <section>
         <h2>{{ $heading }}</h2>

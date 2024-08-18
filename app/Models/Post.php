@@ -89,6 +89,11 @@ class Post extends Model
         $query->whereType(PostType::PROMOTIONAL);
     }
 
+    public static function drafts(): Builder
+    {
+        return self::withoutGlobalScopes()->whereNull('published_at');
+    }
+
     public function url(): string
     {
         return url($this->urlSlug());
@@ -148,6 +153,11 @@ class Post extends Model
     public function containsCode(): bool
     {
         return $this->features->contains(PostFeature::CODE);
+    }
+
+    public function containsVideo(): bool
+    {
+        return $this->features->contains(PostFeature::VIDEO);
     }
 
     private function filterNullTimestamps(string $timestamp): ?Carbon

@@ -8,14 +8,14 @@ render(function ($view) {
     $latestPosts = Post::regular()->get();
     $pinnedPosts = Post::pinned()->get();
     $promotionalPosts = Post::promotional()->get();
-    $plannedPosts = Post::planned()->get();
+    $draftPosts = Post::drafts()->get();
 
     return $view->with(
         compact(
             'pinnedPosts',
             'latestPosts',
             'promotionalPosts',
-            'plannedPosts',
+            'draftPosts',
         ),
     );
 });
@@ -78,7 +78,7 @@ render(function ($view) {
 
             <x-post-category
             heading="Planned/WIP"
-            :posts="$plannedPosts"
+            :posts="$draftPosts"
             />
 
             <x-post-category

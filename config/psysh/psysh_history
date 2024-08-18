@@ -142,3 +142,9 @@ Post::factory()->withCodeSnippet()->create();
 wtf
 Post::factory()->withCodeSnippet()->create();
 exit
+Post::factory()->create();
+Post::factory()->withVideo()->create();
+Post::factory()->withVideo()->withCodeSnippet()->create();
+Post::factory()->withVideo()->create();
+$post\040=\040Post::factory()->withVideo()->create();
+$post->containsCode();
