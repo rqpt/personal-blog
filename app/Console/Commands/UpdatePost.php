@@ -75,7 +75,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 default: PostType::LATEST->asString(),
             );
 
-            $newPostType = PostType::from((string) $typeSelect);
+            $newPostType = PostType::fromString($typeSelect);
 
             $updateValues['type'] = $newPostType;
 

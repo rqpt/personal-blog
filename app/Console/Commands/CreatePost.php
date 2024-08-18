@@ -42,7 +42,7 @@ class CreatePost extends Command
             default: PostType::LATEST->asString(),
         );
 
-        $type = PostType::from((string) $typeSelect);
+        $type = PostType::fromString($typeSelect);
 
         $post = Post::create(compact('title', 'type', 'markdown', 'published_at'));
 
