@@ -80,7 +80,7 @@ h6:hover .heading-permalink,
 
 /* Layout */
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 1024px) {
     #categories {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
