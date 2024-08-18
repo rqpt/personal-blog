@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum PostType: int
 {
-    case REGULAR = 0;
+    case LATEST = 0;
     case PINNED = 1;
     case PROMOTIONAL = 2;
 

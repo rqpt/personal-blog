@@ -5,17 +5,15 @@ use App\Models\Post;
 use function Laravel\Folio\render;
 
 render(function ($view) {
-    $latestPosts = Post::regular()->get();
+    $latestPosts = Post::latest()->get();
     $pinnedPosts = Post::pinned()->get();
     $promotionalPosts = Post::promotional()->get();
-    $draftPosts = Post::drafts()->get();
 
     return $view->with(
         compact(
             'pinnedPosts',
             'latestPosts',
             'promotionalPosts',
-            'draftPosts',
         ),
     );
 });
@@ -71,22 +69,19 @@ render(function ($view) {
         <div
         id="categories"
         >
-            <x-post-category
+            <x-category-cards
             heading="Pinned"
             :posts="$pinnedPosts"
             />
 
-            <x-post-category
-            heading="Planned/WIP"
-            :posts="$draftPosts"
-            />
+            <x-draft-cards />
 
-            <x-post-category
+            <x-category-cards
             heading="Latest"
             :posts="$latestPosts"
             />
 
-            <x-post-category
+            <x-category-cards
             heading="Promotional"
             :posts="$promotionalPosts"
             />

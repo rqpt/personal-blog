@@ -71,10 +71,16 @@ class Post extends Model
         return $this->formatTimestamp();
     }
 
-    /** @param Builder<\App\Models\Post> $query */
-    public function scopeRegular(Builder $query): void
+    public function scopeThreeMostRecent(Builder $query): void
     {
-        $query->whereType(PostType::REGULAR);
+        $query->orderBy('updated_at', 'desc')
+            ->limit(3);
+    }
+
+    /** @param Builder<\App\Models\Post> $query */
+    public function scopeLatest(Builder $query): void
+    {
+        $query->whereType(PostType::LATEST);
     }
 
     /** @param Builder<\App\Models\Post> $query */
