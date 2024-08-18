@@ -160,7 +160,7 @@ class Post extends Model
         return $this->features->contains(PostFeature::VIDEO);
     }
 
-    private function filterNullTimestamps(string $timestamp): ?Carbon
+    private function filterNullTimestamps(?string $timestamp): ?Carbon
     {
         if (is_null($timestamp)) {
             return null;

@@ -21,7 +21,7 @@
                 id="{{ $linkRef }}"
                 x-ref="{{ $linkRef }}"
                 :aria-busy="clicked"
-                :aria-label="'Please wait...'"
+                :aria-label="clicked && 'Please wait...'"
                 @click.capture="clicked = true"
                 @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
                 @mouseenter="$el.focus(); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"

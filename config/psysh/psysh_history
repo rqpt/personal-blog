@@ -148,3 +148,5 @@ Post::factory()->withVideo()->withCodeSnippet()->create();
 Post::factory()->withVideo()->create();
 $post\040=\040Post::factory()->withVideo()->create();
 $post->containsCode();
+$post\040=\040Post::factory()->withVideo()->draft()->create();
+$post\040=\040Post::factory()->withVideo()->draft()->create();
