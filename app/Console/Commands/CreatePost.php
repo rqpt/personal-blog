@@ -39,7 +39,7 @@ class CreatePost extends Command
         $typeSelect = select(
             label: 'What type of post is this?',
             options: PostType::asFormOptions(),
-            default: PostType::REGULAR->asString(),
+            default: PostType::LATEST->asString(),
         );
 
         $type = PostType::from((string) $typeSelect);

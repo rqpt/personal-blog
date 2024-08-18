@@ -72,7 +72,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
             $typeSelect = select(
                 label: 'What type of post is this?',
                 options: PostType::asFormOptions(),
-                default: PostType::REGULAR->asString(),
+                default: PostType::LATEST->asString(),
             );
 
             $newPostType = PostType::from((string) $typeSelect);
