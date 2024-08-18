@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use Stringable;
-
-enum PostType: int implements Stringable
+enum PostType: int
 {
     case REGULAR = 0;
     case PINNED = 1;
@@ -24,7 +22,7 @@ enum PostType: int implements Stringable
         return $formOptions;
     }
 
-    public function __toString(): string
+    public function asString(): string
     {
         return match ($this) {
             self::PROMOTIONAL => 'promotional',
