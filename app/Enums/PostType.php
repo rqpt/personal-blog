@@ -9,7 +9,6 @@ enum PostType: int implements Stringable
     case REGULAR = 0;
     case PINNED = 1;
     case PROMOTIONAL = 2;
-    case PLANNED = 3;
 
     /** @return string[] */
     public static function asFormOptions(): array
@@ -30,7 +29,6 @@ enum PostType: int implements Stringable
         return match ($this) {
             self::PROMOTIONAL => 'promotional',
             self::PINNED => 'pinned',
-            self::PLANNED => 'planned',
             default => 'regular',
         };
     }
