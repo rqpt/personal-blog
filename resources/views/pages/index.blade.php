@@ -74,8 +74,6 @@ render(function ($view) {
             :posts="$pinnedPosts"
             />
 
-            <x-draft-cards />
-
             <x-category-cards
             heading="Latest"
             :posts="$latestPosts"
@@ -85,6 +83,8 @@ render(function ($view) {
             heading="Promotional"
             :posts="$promotionalPosts"
             />
+
+            <x-draft-cards />
         </div>
     </main>
 </x-layout.app>
