@@ -16,7 +16,7 @@ enum PostType: int
         $cases = self::cases();
 
         foreach ($cases as $case) {
-            $formOptions[] = (string) $case;
+            $formOptions[] = $case->asString();
         }
 
         return $formOptions;
