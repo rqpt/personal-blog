@@ -78,7 +78,7 @@ class Post extends Model
     }
 
     /** @param Builder<\App\Models\Post> $query */
-    public function scopeLatest(Builder $query): void
+    public function scopeRegular(Builder $query): void
     {
         $query->whereType(PostType::LATEST);
     }

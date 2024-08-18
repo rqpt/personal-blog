@@ -5,7 +5,7 @@ use App\Models\Post;
 use function Laravel\Folio\render;
 
 render(function ($view) {
-    $latestPosts = Post::latest()->get();
+    $latestPosts = Post::regular()->get();
     $pinnedPosts = Post::pinned()->get();
     $promotionalPosts = Post::promotional()->get();
 
