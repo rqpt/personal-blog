@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\PostFeature;
 use App\Exceptions\FrontmatterMissingException;
 use App\Models\Post;
 use App\Models\Tag;
@@ -32,9 +33,17 @@ class PostObserver
             author: $frontmatter['author'] ?? 'PE Vermeulen',
         );
 
-        $post->contains_video = Str::contains($html, 'lite-youtube');
+        $features = [];
 
-        $post->contains_code = Str::contains($html, '<pre>');
+        if (Str::contains($html, 'lite-youtube')) {
+            $features[] = PostFeature::VIDEO;
+        }
+
+        if (Str::contains($html, '<pre>')) {
+            $features[] = PostFeature::CODE;
+        }
+
+        $post->features = $features;
     }
 
     public function saved(Post $post): void

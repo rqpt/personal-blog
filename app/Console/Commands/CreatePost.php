@@ -8,7 +8,6 @@ use App\Models\Post;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\outro;
 use function Laravel\Prompts\select;
@@ -18,7 +17,7 @@ class CreatePost extends Command
 {
     protected $signature = 'post:create';
 
-    protected $description = 'Create a draft post';
+    protected $description = 'Create a post';
 
     public function handle(): void
     {
@@ -44,22 +43,11 @@ class CreatePost extends Command
 
         $type = PostType::fromString((string) $typeSelect);
 
-        $post = Post::create(compact('title', 'type', 'markdown'));
+        $published_at = now();
 
-        outro("Nicely done! You've successfully created a draft post.");
+        $post = Post::create(compact('title', 'type', 'markdown', 'published_at'));
 
-        $publishNow = confirm(
-            label: 'Would you like to publish the post now?',
-            yes: 'Sure, why not?',
-            no: 'No, maybe later.',
-            default: true,
-        );
-
-        if ($publishNow) {
-            $post->updateQuietly(['published_at' => now()]);
-
-            outro("We've successfully published the post! 🍾");
-            outro("You can access it at {$post->url()}");
-        }
+        outro("We've successfully published the post! 🍾");
+        outro("You can access it at {$post->url()}");
     }
 }

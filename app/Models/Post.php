@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PostFeature;
 use App\Enums\PostType;
 use App\Observers\PostObserver;
 use App\ValueObjects\Frontmatter;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 #[ObservedBy(PostObserver::class)]
@@ -24,8 +26,6 @@ class Post extends Model
     protected $casts = [
         'type' => PostType::class,
         'frontmatter' => Frontmatter::class,
-        'contains_code' => 'boolean',
-        'contains_video' => 'boolean',
     ];
 
     /** @return BelongsToMany<\App\Models\Tag> */
@@ -127,6 +127,27 @@ class Post extends Model
                     ?->toDateTimeString();
             }
         );
+    }
+
+    public function features(): Attribute
+    {
+        return Attribute::make(
+            get: function (int $sum): Collection {
+                return PostFeature::collect()
+                    ->filter(function (PostFeature $feature) use ($sum) {
+                        return $feature->value & $sum;
+                    })
+                    ->values();
+            },
+            set: function (array $values): int {
+                return Collection::wrap($values)->sum('value');
+            }
+        );
+    }
+
+    public function containsCode(): bool
+    {
+        return $this->features->contains(PostFeature::CODE);
     }
 
     private function filterNullTimestamps(string $timestamp): ?Carbon

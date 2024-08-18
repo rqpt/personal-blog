@@ -80,7 +80,7 @@ x-effect="illuminateSnippets(lightMode)"
         </section>
     </main>
 
-    @if ($post->contains_code)
+    @if ($post->containsCode())
         <hr>
 
         <footer

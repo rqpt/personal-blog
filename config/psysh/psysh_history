@@ -131,3 +131,14 @@ Post::first()->published_at
 Post::first()->update(['published_at'\040=>\040'09-Aug-2024']);
 Post::first()->published_at;
 exit
+edit
+edit
+edit
+edit
+edit
+Post::all();\012
+Post::factory()->withCode()->create();
+Post::factory()->withCodeSnippet()->create();
+wtf
+Post::factory()->withCodeSnippet()->create();
+exit

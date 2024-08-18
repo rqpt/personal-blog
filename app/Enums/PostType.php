@@ -7,6 +7,7 @@ enum PostType: int
     case REGULAR = 0;
     case PINNED = 1;
     case PROMOTIONAL = 2;
+    case PLANNED = 3;
 
     /** @return string[] */
     public static function asFormOptions(): array
