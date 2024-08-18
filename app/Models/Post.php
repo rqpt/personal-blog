@@ -89,6 +89,12 @@ class Post extends Model
         $query->whereType(PostType::PROMOTIONAL);
     }
 
+    /** @param Builder<\App\Models\Post>  $query */
+    public function scopePlanned(Builder $query): void
+    {
+        $query->whereType(PostType::PLANNED);
+    }
+
     public function url(): string
     {
         return url($this->urlSlug());

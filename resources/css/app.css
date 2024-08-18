@@ -80,13 +80,10 @@ h6:hover .heading-permalink,
 
 /* Layout */
 
-#latest-and-promotional-posts {
-    display: flex;
+#categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-}
-
-#latest-and-promotional-posts>* {
-    flex: 1;
 }
 
 /* Misc */

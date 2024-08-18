@@ -8,9 +8,15 @@ render(function ($view) {
     $latestPosts = Post::regular()->get();
     $pinnedPosts = Post::pinned()->get();
     $promotionalPosts = Post::promotional()->get();
+    $plannedPosts = Post::planned()->get();
 
     return $view->with(
-        compact('pinnedPosts', 'latestPosts', 'promotionalPosts'),
+        compact(
+            'pinnedPosts',
+            'latestPosts',
+            'promotionalPosts',
+            'plannedPosts',
+        ),
     );
 });
 
@@ -62,14 +68,19 @@ render(function ($view) {
             PE Vermeulen - Software Engineer
         </h1>
 
-        <x-post-category
-        heading="Pinned"
-        :posts="$pinnedPosts"
-        />
-
         <div
-        id="latest-and-promotional-posts"
+        id="categories"
         >
+            <x-post-category
+            heading="Pinned"
+            :posts="$pinnedPosts"
+            />
+
+            <x-post-category
+            heading="Planned/WIP"
+            :posts="$plannedPosts"
+            />
+
             <x-post-category
             heading="Latest"
             :posts="$latestPosts"
