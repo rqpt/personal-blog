@@ -44,7 +44,7 @@ class CreatePost extends Command
 
         $type = PostType::fromString($typeSelect);
 
-        $post = Post::create(compact('title', 'type', 'markdown', 'published_at'));
+        $post = Post::create(compact('title', 'type', 'markdown'));
 
         outro("Nicely done! You've successfully created a draft post.");
 
