@@ -1,81 +1,80 @@
 <!DOCTYPE html>
 <html
-lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-x-data="{ lightMode: window.matchMedia('(prefers-color-scheme: light)').matches }"
-x-ref="root"
+  lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+  x-data="{ lightMode: window.matchMedia('(prefers-color-scheme: light)').matches }"
+  x-ref="root"
 >
-    <head>
-        <meta
-        charset="utf-8"
-        >
 
-        <x-seo::meta />
+  <head>
+    <meta charset="utf-8">
 
-        <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-        >
+    <x-seo::meta />
 
-        <meta
-        name="color-scheme"
-        content="light dark"
-        />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    >
 
-        <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="/apple-touch-icon.png"
-        >
+    <meta
+      name="color-scheme"
+      content="light dark"
+    />
 
-        <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="/favicon-32x32.png"
-        >
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/apple-touch-icon.png"
+    >
 
-        <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="/favicon-16x16.png"
-        >
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon-32x32.png"
+    >
 
-        <link
-        rel="manifest"
-        href="/site.webmanifest"
-        >
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon-16x16.png"
+    >
 
-        <link
-        rel="stylesheet"
-        href="/css/pico.classless.cyan.min.css"
-        />
+    <link
+      rel="manifest"
+      href="/site.webmanifest"
+    >
 
-        @vite(['resources/js/app.js', 'resources/css/app.css', 'resources/css/torchlight.css'])
+    <link
+      rel="stylesheet"
+      href="/css/pico.classless.cyan.min.css"
+    />
 
-        <title>
-            PE Vermeulen - Software Engineer
-        </title>
-    </head>
-    <livewire:wire-nav />
+    @vite(['resources/js/app.js', 'resources/css/app.css', 'resources/css/torchlight.css'])
 
-    <body
+    <title>
+      PE Vermeulen - Software Developer
+    </title>
+  </head>
+  <livewire:wire-nav />
+
+  <body
+    {{ $attributes }}
     x-data="{
         tocExpanded: false,
         atTopOfPage: true,
         smallScreen: window.matchMedia('(max-width: 640px)').matches
     }"
-    {{ $attributes }}
+  >
+    <x-ascii />
+
+    {{ $slot }}
+
+    <svg
+      hidden
+      class="hidden"
     >
-        <x-ascii />
-
-        {{ $slot }}
-
-         <svg
-         hidden
-         class="hidden"
-         >
-            @stack('bladeicons')
-        </svg>
-    </body>
+      @stack('bladeicons')
+    </svg>
+  </body>
 </html>

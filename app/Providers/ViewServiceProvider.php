@@ -10,10 +10,10 @@ class ViewServiceProvider extends ServiceProvider
     {
         seo()
             ->withUrl()
-            ->site('PE Vermeulen - Software Engineer')
+            ->site('PE Vermeulen - Software Developer')
             ->tag('author', 'PE Vermeulen')
             ->title(
-                default: 'PE Vermeulen - Software Engineer',
+                default: 'PE Vermeulen - Software Developer',
                 modify: fn (string $title) => $title.' | PE Vermeulen'
             )
             ->description(default: "I am a software engineer and music lover. This is where I'll post whatever I'm interested in.")
