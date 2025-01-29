@@ -11,10 +11,10 @@ class PostController
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        if ($request->has('published')) {
+        if ($request->query('published')) {
             $posts = Post::whereNotNull('published_at')->get();
         } else {
-            $posts = Post::all();
+            $posts = Post::withoutGlobalScopes()->get();
         }
 
         return PostResource::collection($posts);
