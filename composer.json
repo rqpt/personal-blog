@@ -11,6 +11,7 @@
         "php": "^8.3",
         "archtechx/laravel-seo": "^0.10.1",
         "blade-ui-kit/blade-icons": "*",
+        "calebporzio/sushi": "^2.5",
         "embed/embed": "^4.4",
         "graham-campbell/markdown": "^15.2",
         "laravel/folio": "^1.1",

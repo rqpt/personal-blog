@@ -2927,7 +2927,8 @@ namespace PHPSTORM_META {
         registerArgumentsSet('routes', 
 'debugbar.openhandler','debugbar.clockwork','debugbar.assets.css','debugbar.assets.js','debugbar.cache.delete',
 'debugbar.queries.explain','sanctum.csrf-cookie','livewire.update',
-'livewire.upload-file','livewire.preview-file','laravel-folio',);
+'livewire.upload-file','livewire.preview-file','laravel-folio','posts.index','posts.store',
+'posts.show','posts.update','posts.destroy',);
         registerArgumentsSet('views', 
 'components.ascii','components.category-cards','components.code','components.details','components.draft-cards',
 'components.layout.app','components.livewire.wire-nav','components.theme-toggle','errors.404','pages.[Post]',
