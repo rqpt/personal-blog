@@ -33,7 +33,7 @@ class PostFactory extends Factory
     public function regular(): Factory
     {
         return $this->state(fn (array $attributes) => [
-            'type' => PostType::REGULAR,
+            'type' => PostType::LATEST,
         ]);
     }
 
@@ -179,9 +179,9 @@ class PostFactory extends Factory
             $markdown = $attributes['markdown'];
 
             $videos = [
-                "{$youtubeUrl}3co1Wo9sAc8&pp=ygULa2lkIGhlYWRidXQ%3D",
-                "{$youtubeUrl}UtfkrGRK8wA&pp=ygUOaG9sbHl3b29kIGJhYnk%3D",
-                "{$youtubeUrl}dQw4w9WgXcQ&pp=ygULcmljayBhc3RsZXk%3D",
+                "{$youtubeUrl}OQcSIRZYPgc",
+                "{$youtubeUrl}UtfkrGRK8wA",
+                "{$youtubeUrl}dQw4w9WgXcQ",
             ];
 
             for ($i = 0; $i < $count; $i++) {
