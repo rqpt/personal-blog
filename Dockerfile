@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:latest-php8.3-alpine
 
-ENV SERVER_NAME=pevermeulen.blog
+ENV SERVER_NAME=pevermeulen.com
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
