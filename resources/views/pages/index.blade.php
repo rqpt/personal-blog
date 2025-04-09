@@ -73,8 +73,6 @@ render(function ($view) {
         heading="Promotional"
         :posts="$promotionalPosts"
       />
-
-      <x-draft-cards />
     </div>
   </main>
 </x-layout.app>
