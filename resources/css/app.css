@@ -23,6 +23,10 @@
     background: var(--thumbBG);
 }
 
+body {
+    overflow-x: hidden;
+}
+
 @supports (scrollbar-color: red blue) {
     * {
         scrollbar-color: var(--scrollbarBG) transparent;
