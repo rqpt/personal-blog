@@ -11,11 +11,12 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
+            $table->tinyInteger('type')->default(0);
             $table->longText('html');
             $table->longText('markdown');
             $table->json('frontmatter');
             $table->tinyInteger('contains_code');
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }
