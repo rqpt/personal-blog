@@ -18,14 +18,6 @@ render(function ($view) {
       <ul>
       </ul>
       <ul>
-        <li>
-          <input
-            type="search"
-            name="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-        </li>
         <li
           x-data="{ clicked: false }"
           :aria-busy="clicked"
