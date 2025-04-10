@@ -31,7 +31,6 @@ class TableOfContentsAlpineAttributeExtension implements ExtensionInterface
         $tableOfContents?->data->set('attributes/x-bind', 'toc');
         $tableOfContents?->data->set('attributes/x-collapse', 'true');
         $tableOfContents?->data->set('attributes/x-cloak', 'true');
-        $tableOfContents?->data->set('attributes/x-trap', 'tocExpanded');
         $tableOfContents?->data->set('attributes/x-show', 'tocExpanded');
         $tableOfContents?->data->set('attributes/@click', 'tocExpanded = false');
 
