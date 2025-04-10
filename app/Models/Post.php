@@ -36,7 +36,7 @@ class Post extends Model
     {
         /** @param Builder<\App\Models\Post> $builder */
         static::addGlobalScope('published', function (Builder $builder) {
-            $builder->limit(6)->orderBy('updated_at', 'desc');
+            $builder->orderBy('updated_at', 'desc');
         });
     }
 
