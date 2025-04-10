@@ -21,6 +21,8 @@ class ComposePostMarkdown
 
         $defaultBody ??= <<<'EOD'
         ---
+        author: PE Vermeulen
+        title:
         description:
         tags:
             -
