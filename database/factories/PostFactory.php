@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\PostType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Support\Arr;
@@ -15,34 +14,9 @@ class PostFactory extends Factory
     {
         return [
             'title' => fake()->sentence(4),
-            'type' => fake()->randomElement(PostType::cases()),
             'markdown' => $this->getFrontMatter()."\n\n".fake()->paragraphs(asText: true),
             'published_at' => now(),
         ];
-    }
-
-    /** @return Factory<\App\Models\Post>  */
-    public function regular(): Factory
-    {
-        return $this->state(fn (array $attributes) => [
-            'type' => PostType::LATEST,
-        ]);
-    }
-
-    /** @return Factory<\App\Models\Post>  */
-    public function promotional(): Factory
-    {
-        return $this->state(fn (array $attributes) => [
-            'type' => PostType::PROMOTIONAL,
-        ]);
-    }
-
-    /** @return Factory<\App\Models\Post>  */
-    public function pinned(): Factory
-    {
-        return $this->state(fn (array $attributes) => [
-            'type' => PostType::PINNED,
-        ]);
     }
 
     /** @return Factory<\App\Models\Post>  */

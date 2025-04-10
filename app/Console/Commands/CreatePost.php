@@ -3,15 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Console\ComposePostMarkdown;
-use App\Enums\PostType;
 use App\Models\Post;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\outro;
-use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
 class CreatePost extends Command
@@ -36,18 +33,10 @@ class CreatePost extends Command
             $bodyTmpFilename,
         );
 
-        $typeSelect = select(
-            label: 'What type of post is this?',
-            options: PostType::asFormOptions(),
-            default: PostType::LATEST->asString(),
-        );
-
-        $type = PostType::fromString($typeSelect);
-
         $published_at = now();
 
         $post = Post::create(
-            compact('title', 'type', 'markdown', 'published_at'),
+            compact('title', 'markdown', 'published_at'),
         );
 
         outro("We've successfully published a post! 🍾");

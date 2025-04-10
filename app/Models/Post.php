@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\PostFeature;
-use App\Enums\PostType;
 use App\Observers\PostObserver;
 use App\ValueObjects\Frontmatter;
 use DateTimeInterface;
@@ -24,7 +23,6 @@ class Post extends Model
     use HasFactory;
 
     protected $casts = [
-        'type' => PostType::class,
         'frontmatter' => Frontmatter::class,
     ];
 
@@ -38,7 +36,7 @@ class Post extends Model
     {
         /** @param Builder<\App\Models\Post> $builder */
         static::addGlobalScope('published', function (Builder $builder) {
-            $builder->orderBy('updated_at', 'desc');
+            $builder->limit(6)->orderBy('updated_at', 'desc');
         });
     }
 
@@ -75,29 +73,10 @@ class Post extends Model
         $query->select([
             'id',
             'title',
-            'type',
             'frontmatter',
             'published_at',
             'updated_at',
         ]);
-    }
-
-    /** @param Builder<\App\Models\Post> $query */
-    public function scopeRegular(Builder $query): void
-    {
-        $query->metaInfo()->whereType(PostType::LATEST);
-    }
-
-    /** @param Builder<\App\Models\Post> $query */
-    public function scopePinned(Builder $query): void
-    {
-        $query->metaInfo()->whereType(PostType::PINNED);
-    }
-
-    /** @param Builder<\App\Models\Post>  $query */
-    public function scopePromotional(Builder $query): void
-    {
-        $query->metaInfo()->whereType(PostType::PROMOTIONAL);
     }
 
     public function url(): string

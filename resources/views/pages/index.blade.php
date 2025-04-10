@@ -1,18 +1,13 @@
 <?php
 
 use App\Models\Post;
-use App\Enums\PostType;
 
 use function Laravel\Folio\render;
 
 render(function ($view) {
-    $posts = Post::metaInfo()->get()->groupBy('type');
+    $posts = Post::metaInfo()->get();
 
-    $latestPosts = $posts->get(PostType::LATEST->value, collect());
-    $pinnedPosts = $posts->get(PostType::PINNED->value, collect());
-    $promotionalPosts = $posts->get(PostType::PROMOTIONAL->value, collect());
-
-    return $view->with(compact('latestPosts', 'pinnedPosts', 'promotionalPosts'));
+    return $view->with(compact('posts'));
 });
 
 ?>
@@ -25,10 +20,10 @@ render(function ($view) {
       <ul>
         <li>
           <input
-          type="search"
-          name="search"
-          placeholder="Search"
-          aria-label="Search"
+            type="search"
+            name="search"
+            placeholder="Search"
+            aria-label="Search"
           />
         </li>
         <li
@@ -69,21 +64,59 @@ render(function ($view) {
       PE Vermeulen - Software Developer
     </h1>
 
-    <div id="categories">
-      <x-category-cards
-        heading="Pinned"
-        :posts="$pinnedPosts"
-      />
+    @if ($posts->count() > 0)
+      <section id="posts">
+        @foreach ($posts as $post)
+          @php $linkRef = "link-{$loop->iteration}"; @endphp
 
-      <x-category-cards
-        heading="Latest"
-        :posts="$latestPosts"
-      />
+          <article
+            x-data="{
+                clicked: false,
+                focused: false,
+            }"
+            @mouseenter="focused = true"
+            @mouseleave="focused = false"
+          >
+            <a
+              id="{{ $linkRef }}"
+              x-ref="{{ $linkRef }}"
+              :aria-busy="clicked"
+              :aria-label="clicked && 'Please wait...'"
+              @click.capture="clicked = true"
+              @keydown.capture.enter="clicked = true; localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+              @mouseenter="$el.focus(); localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+              @mouseenter.debounce="localStorage.setItem('lastFocusedLink', '{{ $linkRef }}')"
+              wire:navigate
+              href="/{{ $post->urlSlug() }}"
+            >
+              <hgroup x-show="!clicked">
+                <h3>
+                  {{ $post->title }}
+                </h3>
 
-      <x-category-cards
-        heading="Promotional"
-        :posts="$promotionalPosts"
-      />
-    </div>
+                <p
+                  class="mobile-hidden"
+                  x-show="focused"
+                  x-collapse
+                  x-cloak
+                >
+                  <small>
+                    {{ $post->frontmatter->description }}
+                  </small>
+                </p>
+              </hgroup>
+            </a>
+
+            <footer>
+              <small>
+                <em>
+                  {{ $post->timestamps() }}
+                </em>
+              </small>
+            </footer>
+          </article>
+        @endforeach
+      </section>
+    @endif
   </main>
 </x-layout.app>

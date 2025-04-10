@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Console\ComposePostMarkdown;
-use App\Enums\PostType;
 use App\Models\Post;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
@@ -14,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function Laravel\Prompts\form;
 use function Laravel\Prompts\outro;
 use function Laravel\Prompts\search;
-use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
 class UpdatePost extends Command implements PromptsForMissingInput
@@ -22,7 +20,6 @@ class UpdatePost extends Command implements PromptsForMissingInput
     protected $signature = 'post:update
     {post}
     {--e|edit}
-    {--t|type}
     {--r|rename}';
 
     protected $description = 'Update a post';
@@ -55,20 +52,6 @@ class UpdatePost extends Command implements PromptsForMissingInput
             $updateValues['title'] = $newPostTitle;
 
             outro("We've successfully renamed a post!");
-        }
-
-        if ($this->option('type')) {
-            $typeSelect = select(
-                label: 'What type of post is this?',
-                options: PostType::asFormOptions(),
-                default: PostType::LATEST->asString(),
-            );
-
-            $newPostType = PostType::fromString($typeSelect);
-
-            $updateValues['type'] = $newPostType;
-
-            outro("We've successfully changed the post's type!");
         }
 
         $post->update($updateValues);
@@ -106,10 +89,6 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 label: 'Edit the body of the post?',
                 default: $this->option('edit'),
                 name: 'edit',
-            )->confirm(
-                label: "Modify the post's type?",
-                default: false,
-                name: 'type',
             )
             ->submit();
 
