@@ -70,21 +70,34 @@ class Post extends Model
     }
 
     /** @param Builder<\App\Models\Post> $query */
+    public function scopeMetaInfo(Builder $query): void
+    {
+        $query->select([
+            'id',
+            'title',
+            'type',
+            'frontmatter',
+            'published_at',
+            'updated_at',
+        ]);
+    }
+
+    /** @param Builder<\App\Models\Post> $query */
     public function scopeRegular(Builder $query): void
     {
-        $query->whereType(PostType::LATEST);
+        $query->metaInfo()->whereType(PostType::LATEST);
     }
 
     /** @param Builder<\App\Models\Post> $query */
     public function scopePinned(Builder $query): void
     {
-        $query->whereType(PostType::PINNED);
+        $query->metaInfo()->whereType(PostType::PINNED);
     }
 
     /** @param Builder<\App\Models\Post>  $query */
     public function scopePromotional(Builder $query): void
     {
-        $query->whereType(PostType::PROMOTIONAL);
+        $query->metaInfo()->whereType(PostType::PROMOTIONAL);
     }
 
     public function url(): string

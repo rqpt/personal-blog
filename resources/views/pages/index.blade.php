@@ -1,13 +1,16 @@
 <?php
 
 use App\Models\Post;
+use App\Enums\PostType;
 
 use function Laravel\Folio\render;
 
 render(function ($view) {
-    $latestPosts = Post::regular()->get();
-    $pinnedPosts = Post::pinned()->get();
-    $promotionalPosts = Post::promotional()->get();
+    $posts = Post::metaInfo()->get()->groupBy('type');
+
+    $latestPosts = $posts->get(PostType::LATEST->value, collect());
+    $pinnedPosts = $posts->get(PostType::PINNED->value, collect());
+    $promotionalPosts = $posts->get(PostType::PROMOTIONAL->value, collect());
 
     return $view->with(compact('latestPosts', 'pinnedPosts', 'promotionalPosts'));
 });
@@ -20,6 +23,14 @@ render(function ($view) {
       <ul>
       </ul>
       <ul>
+        <li>
+          <input
+          type="search"
+          name="search"
+          placeholder="Search"
+          aria-label="Search"
+          />
+        </li>
         <li
           x-data="{ clicked: false }"
           :aria-busy="clicked"
