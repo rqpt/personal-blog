@@ -82,9 +82,9 @@ render(function ($view) {
               href="/{{ $post->urlSlug() }}"
             >
               <hgroup x-show="!clicked">
-                <h3>
+                <h2>
                   {{ $post->title }}
-                </h3>
+                </h2>
 
                 <p
                   class="mobile-hidden"
