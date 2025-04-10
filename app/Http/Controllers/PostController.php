@@ -9,15 +9,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PostController
 {
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
-        if ($request->query('published')) {
-            $posts = Post::whereNotNull('published_at')->get();
-        } else {
-            $posts = Post::withoutGlobalScopes()->get();
-        }
-
-        return PostResource::collection($posts);
+        return PostResource::collection(Post::all());
     }
 
     public function show(Post $post): PostResource
@@ -30,19 +24,13 @@ class PostController
         $request->validate([
             'title' => ['required', 'unique:posts,title'],
             'body' => ['required'],
-            'published' => 'bool',
         ]);
 
-        $updateValues = [
+        $post = Post::create([
             'title' => $request->title,
             'markdown' => $request->body,
-        ];
-
-        if ($request->published) {
-            $updateValues['published_at'] = now();
-        }
-
-        $post = Post::create($updateValues);
+            'published_at' => now(),
+        ]);
 
         return new PostResource($post);
     }
@@ -57,10 +45,6 @@ class PostController
 
         if ($request->has('body')) {
             $updateValues['markdown'] = $request->body;
-        }
-
-        if ($request->has('published') && $request->published) {
-            $updateValues['published_at'] = now();
         }
 
         $post->update($updateValues);

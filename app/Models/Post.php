@@ -38,9 +38,7 @@ class Post extends Model
     {
         /** @param Builder<\App\Models\Post> $builder */
         static::addGlobalScope('published', function (Builder $builder) {
-            $builder->whereNotNull('published_at')
-                ->orderBy('updated_at', 'desc')
-                ->limit(3);
+            $builder->orderBy('updated_at', 'desc');
         });
     }
 
@@ -71,12 +69,6 @@ class Post extends Model
         return $this->formatTimestamp();
     }
 
-    public function scopeThreeMostRecent(Builder $query): void
-    {
-        $query->orderBy('updated_at', 'desc')
-            ->limit(3);
-    }
-
     /** @param Builder<\App\Models\Post> $query */
     public function scopeRegular(Builder $query): void
     {
@@ -93,11 +85,6 @@ class Post extends Model
     public function scopePromotional(Builder $query): void
     {
         $query->whereType(PostType::PROMOTIONAL);
-    }
-
-    public static function drafts(): Builder
-    {
-        return self::withoutGlobalScopes()->whereNull('published_at');
     }
 
     public function url(): string

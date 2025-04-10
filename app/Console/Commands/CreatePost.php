@@ -44,22 +44,13 @@ class CreatePost extends Command
 
         $type = PostType::fromString($typeSelect);
 
-        $post = Post::create(compact('title', 'type', 'markdown'));
+        $published_at = now();
 
-        outro("Nicely done! You've successfully created a draft post.");
-
-        $publishNow = confirm(
-            label: 'Would you like to publish the post now?',
-            yes: 'Sure, why not?',
-            no: 'No, maybe later.',
-            default: true,
+        $post = Post::create(
+            compact('title', 'type', 'markdown', 'published_at'),
         );
 
-        if ($publishNow) {
-            $post->updateQuietly(['published_at' => now()]);
-
-            outro("We've successfully published the post! 🍾");
-            outro("You can access it at {$post->url()}");
-        }
+        outro("We've successfully published a post! 🍾");
+        outro("You can access it at {$post->url()}");
     }
 }

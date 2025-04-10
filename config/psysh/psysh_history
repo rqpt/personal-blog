@@ -174,3 +174,8 @@ App\134Models\134User::first()->tokens->delete();
 App\134Models\134User::first()->tokens()->delete();
 $token\040=\040App\134Models\134User::first()->createToken('main');
 exit
+Post::factory(1)->create();
+Post::factory(1)->create();
+Post::factory(1)->create();
+Post::count();
+exit

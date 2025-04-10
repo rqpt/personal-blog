@@ -23,8 +23,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
     {post}
     {--e|edit}
     {--t|type}
-    {--r|rename}
-    {--p|published}';
+    {--r|rename}';
 
     protected $description = 'Update a post';
 
@@ -35,16 +34,6 @@ class UpdatePost extends Command implements PromptsForMissingInput
         $post = Post::withoutGlobalScopes()->where('title', $postTitle)->sole();
 
         $bodyTmpFilename = Str::slug($post->title).'.md';
-
-        if ($this->option('published')) {
-            $updateValues = [
-                'published_at' => $post->published_at ??= now(),
-            ];
-        } else {
-            $updateValues = [
-                'published_at' => null,
-            ];
-        }
 
         if ($this->option('edit')) {
             $updateValues['markdown'] = ComposePostMarkdown::handle(
@@ -84,9 +73,7 @@ class UpdatePost extends Command implements PromptsForMissingInput
 
         $post->update($updateValues);
 
-        if ($post->published_at) {
-            outro("You can access it at {$post->url()}");
-        }
+        outro("You can access it at {$post->url()}");
     }
 
     /** @return array<string, mixed>  */
@@ -123,12 +110,6 @@ class UpdatePost extends Command implements PromptsForMissingInput
                 label: "Modify the post's type?",
                 default: false,
                 name: 'type',
-            )
-            ->confirm(
-                label: 'Change the published/draft status?',
-                yes: 'Publish',
-                no: 'Draft',
-                name: 'published',
             )
             ->submit();
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->longText('markdown');
             $table->json('frontmatter');
             $table->tinyInteger('contains_code');
-            $table->timestamp('published_at')->nullable();
+            $table->timestamp('published_at');
             $table->timestamps();
         });
     }

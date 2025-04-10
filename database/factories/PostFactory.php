@@ -22,14 +22,6 @@ class PostFactory extends Factory
     }
 
     /** @return Factory<\App\Models\Post>  */
-    public function draft(): Factory
-    {
-        return $this->state(fn (array $attributes) => [
-            'published_at' => null,
-        ]);
-    }
-
-    /** @return Factory<\App\Models\Post>  */
     public function regular(): Factory
     {
         return $this->state(fn (array $attributes) => [
