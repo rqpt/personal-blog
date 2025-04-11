@@ -11,6 +11,9 @@ class Tag extends Model
 {
     use MassPrunable;
 
+    /** @var bool */
+    public $timestamps = false;
+
     /** @return BelongsToMany<\App\Models\Post> */
     public function posts(): BelongsToMany
     {

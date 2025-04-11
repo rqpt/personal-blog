@@ -1,13 +1,16 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Tag;
 
 use function Laravel\Folio\render;
 
 render(function ($view) {
     $posts = Post::metaInfo()->get();
 
-    return $view->with(compact('posts'));
+    $tags = $posts->extractUniqueTags();
+
+    return $view->with(compact('posts', 'tags'));
 });
 
 ?>
@@ -18,6 +21,24 @@ render(function ($view) {
       <ul>
       </ul>
       <ul>
+        <li>
+          <select
+            name="favorite-cuisine"
+            aria-label="Filter by tag..."
+            required
+          >
+            <option
+              selected
+              disabled
+              value=""
+            >
+              Filter by tag...
+            </option>
+            @foreach ($tags as $tag)
+              <option value="{{ $tag }}">{{ $tag }}</option>
+            @endforeach
+          </select>
+        </li>
         <li
           x-data="{ clicked: false }"
           :aria-busy="clicked"
