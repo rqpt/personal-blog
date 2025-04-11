@@ -182,3 +182,5 @@ exit
 Post::factory(1)->create();
 Post::factory(1)->withBody()->create();
 exit
+Post::factory(1)->withBody()->create();
+exit

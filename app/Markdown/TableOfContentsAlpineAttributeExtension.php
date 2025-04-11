@@ -32,7 +32,6 @@ class TableOfContentsAlpineAttributeExtension implements ExtensionInterface
         $tableOfContents?->data->set('attributes/x-collapse', 'true');
         $tableOfContents?->data->set('attributes/x-cloak', 'true');
         $tableOfContents?->data->set('attributes/x-show', 'tocExpanded');
-        $tableOfContents?->data->set('attributes/@click', 'tocExpanded = false');
 
         if ($tableOfContents) {
             $links = (new Query)
