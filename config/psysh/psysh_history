@@ -184,3 +184,13 @@ Post::factory(1)->withBody()->create();
 exit
 Post::factory(1)->withBody()->create();
 exit
+Post::truncate();
+Tag::truncate();
+exit
+Post::factory(1)->withBody()->create();
+Tag::all();
+Tag::first()->posts;
+Post::first()->tags;
+exit
+Post::factory(2)->withBody()->create();
+exit
